@@ -1,0 +1,21 @@
+{
+  "num_cses": 40,
+  "seed": 42,
+  "v1_precision": 0.7188,
+  "v1_recall": 0.9583,
+  "v1_f1": 0.8214,
+  "v2_spearman": 0.7638,
+  "v2_ndcg10": 0.8572,
+  "v2_top10_recall": 0.8,
+  "v3_lift_vs_random": 1.83,
+  "v4_false_positive_rate": 0.0,
+  "v7_explainability_coverage": 100.0,
+  "records_processed": 2300,
+  "runtime_seconds": 5.33,
+  "ledger_verified": true,
+  "ledger_blocks": 80,
+  "tp": 23,
+  "fn": 1,
+  "fp": 9,
+  "tn": 7
+}

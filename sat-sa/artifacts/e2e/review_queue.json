@@ -1,0 +1,416 @@
+[
+  {
+    "finding_id": "FG-83E62A3306F3",
+    "signal_code": "ES-01",
+    "finding_title": "42 of 122 critical/high cases at CSE-001 were closed without escalation (34% mis",
+    "severity": 0.5163934426229508,
+    "record_id": "CSE-001-CASE-0AB1FD05",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.516
+  },
+  {
+    "finding_id": "FG-9F1C575C813F",
+    "signal_code": "ES-01",
+    "finding_title": "18 of 66 critical/high cases at CSE-002 were closed without escalation (27% miss",
+    "severity": 0.40909090909090906,
+    "record_id": "CSE-002-CASE-ABC6034F",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.368
+  },
+  {
+    "finding_id": "FG-BA630F5BDEA8",
+    "signal_code": "OD-01",
+    "finding_title": "203 closures at CSE-002 (49%) fall in the 85-100% SLA window (expected \u224815% unde",
+    "severity": 1.0,
+    "record_id": "CSE-002-ALR-BE40D4D1",
+    "sampling_rationale": "High priority anomaly detected in stratum all_severities",
+    "priority_score": 1.0
+  },
+  {
+    "finding_id": "FG-ABED32024FE3",
+    "signal_code": "ES-01",
+    "finding_title": "90 of 222 critical/high cases at CSE-003 were closed without escalation (41% mis",
+    "severity": 0.6081081081081081,
+    "record_id": "CSE-003-CASE-3482E22E",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.608
+  },
+  {
+    "finding_id": "FG-31C05376F9DD",
+    "signal_code": "ES-01",
+    "finding_title": "91 of 384 critical/high cases at CSE-004 were closed without escalation (24% mis",
+    "severity": 0.35546875,
+    "record_id": "CSE-004-CASE-511CC910",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.355
+  },
+  {
+    "finding_id": "FG-3AB8E93ABE67",
+    "signal_code": "ES-01",
+    "finding_title": "15 of 38 critical/high cases at CSE-005 were closed without escalation (39% miss",
+    "severity": 0.5921052631578947,
+    "record_id": "CSE-005-CASE-A2FA2C16",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.444
+  },
+  {
+    "finding_id": "FG-AC2FC9B641B0",
+    "signal_code": "OD-01",
+    "finding_title": "165 closures at CSE-005 (56%) fall in the 85-100% SLA window (expected \u224815% unde",
+    "severity": 1.0,
+    "record_id": "CSE-005-ALR-91AD29E2",
+    "sampling_rationale": "High priority anomaly detected in stratum all_severities",
+    "priority_score": 1.0
+  },
+  {
+    "finding_id": "FG-61DB177918B0",
+    "signal_code": "IN-02",
+    "finding_title": "35% of investigation notes at CSE-005 are copy-paste templates (42/120). Most co",
+    "severity": 0.45499999999999996,
+    "record_id": "CSE-005-CASE-DB4002A2",
+    "sampling_rationale": "High priority anomaly detected in stratum all_cases",
+    "priority_score": 0.455
+  },
+  {
+    "finding_id": "FG-B8ED3EADEBFD",
+    "signal_code": "ES-01",
+    "finding_title": "71 of 181 critical/high cases at CSE-007 were closed without escalation (39% mis",
+    "severity": 0.5883977900552486,
+    "record_id": "CSE-007-CASE-31734E2B",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.588
+  },
+  {
+    "finding_id": "FG-7E188F91F037",
+    "signal_code": "OD-01",
+    "finding_title": "539 closures at CSE-007 (47%) fall in the 85-100% SLA window (expected \u224815% unde",
+    "severity": 1.0,
+    "record_id": "CSE-007-ALR-BDA9D6BF",
+    "sampling_rationale": "High priority anomaly detected in stratum all_severities",
+    "priority_score": 1.0
+  },
+  {
+    "finding_id": "FG-BC7E8F2FB317",
+    "signal_code": "ES-01",
+    "finding_title": "130 of 502 critical/high cases at CSE-008 were closed without escalation (26% mi",
+    "severity": 0.3884462151394422,
+    "record_id": "CSE-008-CASE-CA1C0CC8",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.388
+  },
+  {
+    "finding_id": "FG-AB8794BE0F28",
+    "signal_code": "SO-01",
+    "finding_title": "Analyst ANALYST-001 at CSE-008 closes 95% of all alerts (2771/2907); expected \u22487",
+    "severity": 1.0,
+    "record_id": "CSE-008-ALR-6C14FB36",
+    "sampling_rationale": "High priority anomaly detected in stratum all_analysts",
+    "priority_score": 1.0
+  },
+  {
+    "finding_id": "FG-B4B0B7514BE7",
+    "signal_code": "IN-02",
+    "finding_title": "14% of investigation notes at CSE-008 are copy-paste templates (166/1174). Most ",
+    "severity": 0.1838160136286201,
+    "record_id": "CSE-008-CASE-585EC53D",
+    "sampling_rationale": "High priority anomaly detected in stratum all_cases",
+    "priority_score": 0.184
+  },
+  {
+    "finding_id": "FG-3669F571098F",
+    "signal_code": "ES-01",
+    "finding_title": "162 of 437 critical/high cases at CSE-009 were closed without escalation (37% mi",
+    "severity": 0.5560640732265447,
+    "record_id": "CSE-009-CASE-EAC1E40E",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.556
+  },
+  {
+    "finding_id": "FG-5915139450F4",
+    "signal_code": "SO-01",
+    "finding_title": "Analyst ANALYST-001 at CSE-009 closes 78% of all alerts (2147/2763); expected \u22485",
+    "severity": 0.9324647122692725,
+    "record_id": "CSE-009-ALR-954EAB71",
+    "sampling_rationale": "High priority anomaly detected in stratum all_analysts",
+    "priority_score": 0.932
+  },
+  {
+    "finding_id": "FG-6771828C13A6",
+    "signal_code": "ES-01",
+    "finding_title": "62 of 224 critical/high cases at CSE-010 were closed without escalation (28% mis",
+    "severity": 0.41517857142857145,
+    "record_id": "CSE-010-CASE-AEE7EB3F",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.415
+  },
+  {
+    "finding_id": "FG-4AB99210FED7",
+    "signal_code": "ES-01",
+    "finding_title": "160 of 390 critical/high cases at CSE-011 were closed without escalation (41% mi",
+    "severity": 0.6153846153846154,
+    "record_id": "CSE-011-CASE-EB8FA93D",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.615
+  },
+  {
+    "finding_id": "FG-2713789B0E03",
+    "signal_code": "IN-01",
+    "finding_title": "Critical cases at CSE-011 have median close time of 0.2h (peer expected \u22482.0h); ",
+    "severity": 0.5681146715277778,
+    "record_id": "CSE-011-ALR-C56D5DA2",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL",
+    "priority_score": 0.568
+  },
+  {
+    "finding_id": "FG-E1958B44E8CD",
+    "signal_code": "ES-01",
+    "finding_title": "10 of 29 critical/high cases at CSE-012 were closed without escalation (34% miss",
+    "severity": 0.5172413793103449,
+    "record_id": "CSE-012-CASE-78D4C609",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.259
+  },
+  {
+    "finding_id": "FG-797F439E854D",
+    "signal_code": "ES-01",
+    "finding_title": "56 of 230 critical/high cases at CSE-013 were closed without escalation (24% mis",
+    "severity": 0.3652173913043478,
+    "record_id": "CSE-013-CASE-48E38737",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.365
+  },
+  {
+    "finding_id": "FG-AADD1998548B",
+    "signal_code": "ES-01",
+    "finding_title": "64 of 315 critical/high cases at CSE-014 were closed without escalation (20% mis",
+    "severity": 0.3047619047619048,
+    "record_id": "CSE-014-CASE-DD492978",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.305
+  },
+  {
+    "finding_id": "FG-D791F8408401",
+    "signal_code": "ES-01",
+    "finding_title": "47 of 194 critical/high cases at CSE-015 were closed without escalation (24% mis",
+    "severity": 0.3634020618556701,
+    "record_id": "CSE-015-CASE-A2BD7DAE",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.363
+  },
+  {
+    "finding_id": "FG-01C8479B34C4",
+    "signal_code": "ES-01",
+    "finding_title": "21 of 91 critical/high cases at CSE-017 were closed without escalation (23% miss",
+    "severity": 0.34615384615384615,
+    "record_id": "CSE-017-CASE-674B7B42",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.346
+  },
+  {
+    "finding_id": "FG-99E5479C9B82",
+    "signal_code": "OD-01",
+    "finding_title": "384 closures at CSE-017 (80%) fall in the 85-100% SLA window (expected \u224815% unde",
+    "severity": 1.0,
+    "record_id": "CSE-017-ALR-9A94A460",
+    "sampling_rationale": "High priority anomaly detected in stratum all_severities",
+    "priority_score": 1.0
+  },
+  {
+    "finding_id": "FG-FD3C829448B1",
+    "signal_code": "ES-01",
+    "finding_title": "52 of 254 critical/high cases at CSE-020 were closed without escalation (20% mis",
+    "severity": 0.30708661417322836,
+    "record_id": "CSE-020-CASE-0CF0DBFC",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.307
+  },
+  {
+    "finding_id": "FG-13177C198EC9",
+    "signal_code": "ES-01",
+    "finding_title": "37 of 183 critical/high cases at CSE-022 were closed without escalation (20% mis",
+    "severity": 0.30327868852459017,
+    "record_id": "CSE-022-CASE-B84BA6DE",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.303
+  },
+  {
+    "finding_id": "FG-7FFD261C77C3",
+    "signal_code": "SO-01",
+    "finding_title": "Analyst ANALYST-001 at CSE-022 closes 77% of all alerts (898/1165); expected \u224814",
+    "severity": 0.9249785407725322,
+    "record_id": "CSE-022-ALR-C978C303",
+    "sampling_rationale": "High priority anomaly detected in stratum all_analysts",
+    "priority_score": 0.925
+  },
+  {
+    "finding_id": "FG-8DA583747817",
+    "signal_code": "OD-01",
+    "finding_title": "927 closures at CSE-022 (80%) fall in the 85-100% SLA window (expected \u224815% unde",
+    "severity": 1.0,
+    "record_id": "CSE-022-ALR-53C0831F",
+    "sampling_rationale": "High priority anomaly detected in stratum all_severities",
+    "priority_score": 1.0
+  },
+  {
+    "finding_id": "FG-C2BB526BBCD2",
+    "signal_code": "ES-01",
+    "finding_title": "53 of 159 critical/high cases at CSE-023 were closed without escalation (33% mis",
+    "severity": 0.5,
+    "record_id": "CSE-023-CASE-623A1383",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.5
+  },
+  {
+    "finding_id": "FG-B44066A2F8B5",
+    "signal_code": "IN-01",
+    "finding_title": "Critical cases at CSE-024 have median close time of 0.3h (peer expected \u22482.0h); ",
+    "severity": 0.5,
+    "record_id": "CSE-024-ALR-8A364442",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL",
+    "priority_score": 0.5
+  },
+  {
+    "finding_id": "FG-EB33E399E8E2",
+    "signal_code": "ES-01",
+    "finding_title": "25 of 100 critical/high cases at CSE-026 were closed without escalation (25% mis",
+    "severity": 0.375,
+    "record_id": "CSE-026-CASE-520F2BB2",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.375
+  },
+  {
+    "finding_id": "FG-1E3B7E9512DB",
+    "signal_code": "ES-01",
+    "finding_title": "62 of 232 critical/high cases at CSE-028 were closed without escalation (27% mis",
+    "severity": 0.40086206896551724,
+    "record_id": "CSE-028-CASE-1E36A326",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.401
+  },
+  {
+    "finding_id": "FG-9E52489D0BE6",
+    "signal_code": "ES-01",
+    "finding_title": "72 of 293 critical/high cases at CSE-030 were closed without escalation (25% mis",
+    "severity": 0.36860068259385664,
+    "record_id": "CSE-030-CASE-8E6A2A3D",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.369
+  },
+  {
+    "finding_id": "FG-C43F32278664",
+    "signal_code": "ES-01",
+    "finding_title": "112 of 323 critical/high cases at CSE-031 were closed without escalation (35% mi",
+    "severity": 0.5201238390092879,
+    "record_id": "CSE-031-CASE-B020999A",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.52
+  },
+  {
+    "finding_id": "FG-4A7A2A21062D",
+    "signal_code": "IN-01",
+    "finding_title": "Critical cases at CSE-032 have median close time of 0.2h (peer expected \u22482.0h); ",
+    "severity": 0.5395832618055556,
+    "record_id": "CSE-032-ALR-E502D83A",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL",
+    "priority_score": 0.54
+  },
+  {
+    "finding_id": "FG-A981A1A9C39F",
+    "signal_code": "OD-01",
+    "finding_title": "743 closures at CSE-032 (50%) fall in the 85-100% SLA window (expected \u224815% unde",
+    "severity": 1.0,
+    "record_id": "CSE-032-ALR-EDCF7917",
+    "sampling_rationale": "High priority anomaly detected in stratum all_severities",
+    "priority_score": 1.0
+  },
+  {
+    "finding_id": "FG-ECF570844F58",
+    "signal_code": "IN-02",
+    "finding_title": "16% of investigation notes at CSE-032 are copy-paste templates (96/591). Most co",
+    "severity": 0.21116751269035533,
+    "record_id": "CSE-032-CASE-0D2E009B",
+    "sampling_rationale": "High priority anomaly detected in stratum all_cases",
+    "priority_score": 0.211
+  },
+  {
+    "finding_id": "FG-EA557ADDC73E",
+    "signal_code": "ES-01",
+    "finding_title": "49 of 206 critical/high cases at CSE-033 were closed without escalation (24% mis",
+    "severity": 0.3567961165048544,
+    "record_id": "CSE-033-CASE-B1A039A8",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.357
+  },
+  {
+    "finding_id": "FG-EC6B5D4A3494",
+    "signal_code": "ES-01",
+    "finding_title": "140 of 418 critical/high cases at CSE-034 were closed without escalation (33% mi",
+    "severity": 0.5023923444976077,
+    "record_id": "CSE-034-CASE-38E8FD5C",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.502
+  },
+  {
+    "finding_id": "FG-8E148BC09108",
+    "signal_code": "ES-01",
+    "finding_title": "140 of 456 critical/high cases at CSE-035 were closed without escalation (31% mi",
+    "severity": 0.4605263157894737,
+    "record_id": "CSE-035-CASE-81786E9B",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.461
+  },
+  {
+    "finding_id": "FG-04B4A40E778F",
+    "signal_code": "IN-01",
+    "finding_title": "Critical cases at CSE-036 have median close time of 0.3h (peer expected \u22482.0h); ",
+    "severity": 0.5,
+    "record_id": "CSE-036-ALR-4DC0EE36",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL",
+    "priority_score": 0.5
+  },
+  {
+    "finding_id": "FG-1B3CDCC1F77A",
+    "signal_code": "ES-01",
+    "finding_title": "157 of 519 critical/high cases at CSE-037 were closed without escalation (30% mi",
+    "severity": 0.453757225433526,
+    "record_id": "CSE-037-CASE-D6BE5857",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.454
+  },
+  {
+    "finding_id": "FG-000EAA7E7089",
+    "signal_code": "OD-01",
+    "finding_title": "2351 closures at CSE-037 (79%) fall in the 85-100% SLA window (expected \u224815% und",
+    "severity": 1.0,
+    "record_id": "CSE-037-ALR-6AA2CC6D",
+    "sampling_rationale": "High priority anomaly detected in stratum all_severities",
+    "priority_score": 1.0
+  },
+  {
+    "finding_id": "FG-D0E4F68E79C6",
+    "signal_code": "ES-01",
+    "finding_title": "34 of 156 critical/high cases at CSE-038 were closed without escalation (22% mis",
+    "severity": 0.3269230769230769,
+    "record_id": "CSE-038-CASE-1D0DC538",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.327
+  },
+  {
+    "finding_id": "FG-2C6FA9F5E40D",
+    "signal_code": "IN-02",
+    "finding_title": "25% of investigation notes at CSE-039 are copy-paste templates (280/1135). Most ",
+    "severity": 0.320704845814978,
+    "record_id": "CSE-039-CASE-6DBE32D2",
+    "sampling_rationale": "High priority anomaly detected in stratum all_cases",
+    "priority_score": 0.321
+  },
+  {
+    "finding_id": "FG-CD6AB13E4119",
+    "signal_code": "ES-01",
+    "finding_title": "111 of 502 critical/high cases at CSE-040 were closed without escalation (22% mi",
+    "severity": 0.33167330677290835,
+    "record_id": "CSE-040-CASE-C45F0EF7",
+    "sampling_rationale": "High priority anomaly detected in stratum severity=CRITICAL+HIGH",
+    "priority_score": 0.332
+  }
+]
