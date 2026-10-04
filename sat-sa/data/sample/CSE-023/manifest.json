@@ -1,0 +1,33 @@
+{
+  "cse_id": "CSE-023",
+  "period": "2026-Q1",
+  "files": [
+    {
+      "name": "alerts.parquet",
+      "rows": 874,
+      "sha256": "d681120c03f7a34172553e116e25bd21d32194adf703163ccfc54780f5185a9a"
+    },
+    {
+      "name": "cases.parquet",
+      "rows": 360,
+      "sha256": "04232d04e41b296c3d704f0e6759351ac29d8c003da0dec4be949f104db5637c"
+    },
+    {
+      "name": "escalations.parquet",
+      "rows": 106,
+      "sha256": "240f52a018a973e2dd86b20f8adb12fc2ca5bd73ee6f12f24310c6a4f72369f9"
+    },
+    {
+      "name": "assets.parquet",
+      "rows": 145,
+      "sha256": "f3f73db9eb8967d9bc6a7e5f44056576b308f1a039157a9f377e3cc451db50e5"
+    },
+    {
+      "name": "telemetry_summary.parquet",
+      "rows": 26460,
+      "sha256": "b6544df052b629d512609f19fd178bfe612794a3ba3b04207cee77ac4d52341b"
+    }
+  ],
+  "merkle_root": "419f33dab211c489f642e7faee34b007f802bbce8f63cfe92c63519c35e92382",
+  "submitted_at": "2026-10-03T14:28:27.697730+00:00"
+}

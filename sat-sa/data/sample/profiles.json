@@ -1,0 +1,662 @@
+[
+  {
+    "cse_id": "CSE-001",
+    "sector": "Banking",
+    "n_assets": 116,
+    "maturity": 0.654,
+    "n_analysts": 3,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F6",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-002",
+    "sector": "Telecom",
+    "n_assets": 65,
+    "maturity": 0.648,
+    "n_analysts": 2,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F7",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F6",
+        "dose": "moderate"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-003",
+    "sector": "Energy",
+    "n_assets": 213,
+    "maturity": 0.514,
+    "n_analysts": 5,
+    "shift_model": "office_hours",
+    "failure_scenarios": [
+      {
+        "scenario": "F1",
+        "dose": "severe"
+      },
+      {
+        "scenario": "F2",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-004",
+    "sector": "Healthcare",
+    "n_assets": 414,
+    "maturity": 0.724,
+    "n_analysts": 14,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": true,
+    "lookalike_type": "auto_closure_low_sev"
+  },
+  {
+    "cse_id": "CSE-005",
+    "sector": "Government",
+    "n_assets": 52,
+    "maturity": 0.826,
+    "n_analysts": 2,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F6",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F2",
+        "dose": "severe"
+      },
+      {
+        "scenario": "F5",
+        "dose": "severe"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-006",
+    "sector": "Defence",
+    "n_assets": 485,
+    "maturity": 0.776,
+    "n_analysts": 18,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-007",
+    "sector": "IT_Services",
+    "n_assets": 195,
+    "maturity": 0.706,
+    "n_analysts": 6,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F6",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F1",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F2",
+        "dose": "moderate"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-008",
+    "sector": "Transport",
+    "n_assets": 484,
+    "maturity": 0.584,
+    "n_analysts": 14,
+    "shift_model": "office_hours",
+    "failure_scenarios": [
+      {
+        "scenario": "F7",
+        "dose": "severe"
+      },
+      {
+        "scenario": "F3",
+        "dose": "severe"
+      },
+      {
+        "scenario": "F5",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-009",
+    "sector": "Banking",
+    "n_assets": 471,
+    "maturity": 0.845,
+    "n_analysts": 19,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F2",
+        "dose": "severe"
+      },
+      {
+        "scenario": "F7",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F3",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-010",
+    "sector": "Telecom",
+    "n_assets": 229,
+    "maturity": 0.75,
+    "n_analysts": 8,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F2",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-011",
+    "sector": "Energy",
+    "n_assets": 406,
+    "maturity": 0.723,
+    "n_analysts": 14,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F7",
+        "dose": "mild"
+      },
+      {
+        "scenario": "F1",
+        "dose": "severe"
+      },
+      {
+        "scenario": "F2",
+        "dose": "severe"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-012",
+    "sector": "Healthcare",
+    "n_assets": 23,
+    "maturity": 0.929,
+    "n_analysts": 2,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F2",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-013",
+    "sector": "Government",
+    "n_assets": 231,
+    "maturity": 0.736,
+    "n_analysts": 8,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": true,
+    "lookalike_type": "auto_closure_low_sev"
+  },
+  {
+    "cse_id": "CSE-014",
+    "sector": "Defence",
+    "n_assets": 340,
+    "maturity": 0.848,
+    "n_analysts": 14,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-015",
+    "sector": "IT_Services",
+    "n_assets": 186,
+    "maturity": 0.675,
+    "n_analysts": 6,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-016",
+    "sector": "Transport",
+    "n_assets": 229,
+    "maturity": 0.931,
+    "n_analysts": 10,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F7",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-017",
+    "sector": "Banking",
+    "n_assets": 80,
+    "maturity": 0.614,
+    "n_analysts": 2,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F6",
+        "dose": "severe"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-018",
+    "sector": "Telecom",
+    "n_assets": 287,
+    "maturity": 0.794,
+    "n_analysts": 11,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-019",
+    "sector": "Energy",
+    "n_assets": "14",
+    "maturity": 0.735,
+    "n_analysts": 13,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": true,
+    "lookalike_type": "small_entity"
+  },
+  {
+    "cse_id": "CSE-020",
+    "sector": "Healthcare",
+    "n_assets": 241,
+    "maturity": 0.611,
+    "n_analysts": 7,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": true,
+    "lookalike_type": "auto_closure_low_sev"
+  },
+  {
+    "cse_id": "CSE-021",
+    "sector": "Government",
+    "n_assets": 311,
+    "maturity": 0.842,
+    "n_analysts": 13,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": true,
+    "lookalike_type": "maintenance_window"
+  },
+  {
+    "cse_id": "CSE-022",
+    "sector": "Defence",
+    "n_assets": 193,
+    "maturity": 0.762,
+    "n_analysts": 7,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F6",
+        "dose": "severe"
+      },
+      {
+        "scenario": "F3",
+        "dose": "mild"
+      },
+      {
+        "scenario": "F7",
+        "dose": "moderate"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-023",
+    "sector": "IT_Services",
+    "n_assets": 145,
+    "maturity": 0.428,
+    "n_analysts": 3,
+    "shift_model": "office_hours",
+    "failure_scenarios": [
+      {
+        "scenario": "F6",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-024",
+    "sector": "Transport",
+    "n_assets": 364,
+    "maturity": 0.803,
+    "n_analysts": 14,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F5",
+        "dose": "mild"
+      },
+      {
+        "scenario": "F1",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F3",
+        "dose": "severe"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-025",
+    "sector": "Banking",
+    "n_assets": 282,
+    "maturity": 0.746,
+    "n_analysts": 10,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-026",
+    "sector": "Telecom",
+    "n_assets": 104,
+    "maturity": 0.671,
+    "n_analysts": 3,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F5",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F2",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-027",
+    "sector": "Energy",
+    "n_assets": 383,
+    "maturity": 0.774,
+    "n_analysts": 14,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": true,
+    "lookalike_type": "maintenance_window"
+  },
+  {
+    "cse_id": "CSE-028",
+    "sector": "Healthcare",
+    "n_assets": 219,
+    "maturity": 0.633,
+    "n_analysts": 6,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-029",
+    "sector": "Government",
+    "n_assets": 495,
+    "maturity": 0.899,
+    "n_analysts": 22,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-030",
+    "sector": "Defence",
+    "n_assets": 298,
+    "maturity": 0.62,
+    "n_analysts": 9,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-031",
+    "sector": "IT_Services",
+    "n_assets": 342,
+    "maturity": 0.483,
+    "n_analysts": 8,
+    "shift_model": "office_hours",
+    "failure_scenarios": [],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-032",
+    "sector": "Transport",
+    "n_assets": 255,
+    "maturity": 0.974,
+    "n_analysts": 12,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F5",
+        "dose": "mild"
+      },
+      {
+        "scenario": "F6",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F1",
+        "dose": "severe"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-033",
+    "sector": "Banking",
+    "n_assets": 194,
+    "maturity": 0.758,
+    "n_analysts": 7,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F5",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-034",
+    "sector": "Telecom",
+    "n_assets": 416,
+    "maturity": 0.884,
+    "n_analysts": 18,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F2",
+        "dose": "moderate"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-035",
+    "sector": "Energy",
+    "n_assets": 470,
+    "maturity": 0.642,
+    "n_analysts": 15,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F2",
+        "dose": "mild"
+      },
+      {
+        "scenario": "F3",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F5",
+        "dose": "mild"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-036",
+    "sector": "Healthcare",
+    "n_assets": 388,
+    "maturity": 0.927,
+    "n_analysts": 17,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F1",
+        "dose": "moderate"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-037",
+    "sector": "Government",
+    "n_assets": 482,
+    "maturity": 0.8,
+    "n_analysts": 19,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F2",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F3",
+        "dose": "severe"
+      },
+      {
+        "scenario": "F6",
+        "dose": "severe"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-038",
+    "sector": "Defence",
+    "n_assets": 172,
+    "maturity": 0.826,
+    "n_analysts": 7,
+    "shift_model": "24x7",
+    "failure_scenarios": [],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-039",
+    "sector": "IT_Services",
+    "n_assets": 485,
+    "maturity": 0.747,
+    "n_analysts": 18,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F3",
+        "dose": "moderate"
+      },
+      {
+        "scenario": "F1",
+        "dose": "mild"
+      },
+      {
+        "scenario": "F5",
+        "dose": "moderate"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  },
+  {
+    "cse_id": "CSE-040",
+    "sector": "Transport",
+    "n_assets": 496,
+    "maturity": 0.729,
+    "n_analysts": 18,
+    "shift_model": "24x7",
+    "failure_scenarios": [
+      {
+        "scenario": "F3",
+        "dose": "severe"
+      }
+    ],
+    "is_benign_lookalike": false,
+    "lookalike_type": null
+  }
+]
