@@ -15,6 +15,8 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
+import random
 import time
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Set
@@ -73,10 +75,15 @@ class OpenF1Client:
         race_control_interval: float = 3.0,
         weather_interval: float = 10.0,
         interval_interval: float = 5.0,
+        mock_mode: bool = False,
+        api_token: Optional[str] = None,
     ):
         self.session_key = session_key
         self.target_driver = target_driver.upper()
+        self.mock_mode = mock_mode
+        self.api_token = api_token or os.environ.get("OPENF1_TOKEN") or os.environ.get("OPENF1_API_KEY")
         self._client: Optional[httpx.AsyncClient] = None
+        self._mock_lap_num = 1
 
         # Poll intervals
         self.car_data_interval = car_data_interval
@@ -115,13 +122,23 @@ class OpenF1Client:
         self._tasks: List[asyncio.Task] = []
 
     async def start(self):
-        """Start all polling loops."""
+        """Start all polling loops or simulated generation loops."""
+        self._running = True
+
+        if self.mock_mode:
+            self._start_mock_mode()
+            return
+
+        headers = {}
+        if self.api_token:
+            headers["Authorization"] = f"Bearer {self.api_token}"
+
         self._client = httpx.AsyncClient(
             base_url=OPENF1_BASE,
+            headers=headers,
             timeout=httpx.Timeout(15.0, connect=10.0),
             follow_redirects=True,
         )
-        self._running = True
 
         # First, fetch driver list (one-time)
         await self._fetch_drivers()
@@ -139,7 +156,7 @@ class OpenF1Client:
         logger.info("OpenF1 client started — polling %d endpoints for session %d", len(self._tasks), self.session_key)
 
     async def stop(self):
-        """Gracefully stop all polling."""
+        """Gracefully stop all polling or mock generation."""
         self._running = False
         for task in self._tasks:
             task.cancel()
@@ -160,12 +177,259 @@ class OpenF1Client:
                 logger.error("[%s] Unexpected error: %s", name, e, exc_info=True)
             await asyncio.sleep(interval)
 
+    # ─── Mock Mode Simulation ─────────────────────────────────────
+
+    def _start_mock_mode(self):
+        """Initialize mock driver state and launch synthetic simulation tasks."""
+        logger.info("[MOCK] Initializing CALIBRE Mock Race Generator (session %d, target: %s)", self.session_key, self.target_driver)
+        grid = [
+            {"number": "1", "code": "VER", "full_name": "Max Verstappen", "team": "Red Bull Racing"},
+            {"number": "4", "code": "NOR", "full_name": "Lando Norris", "team": "McLaren"},
+            {"number": "16", "code": "LEC", "full_name": "Charles Leclerc", "team": "Ferrari"},
+            {"number": "81", "code": "PIA", "full_name": "Oscar Piastri", "team": "McLaren"},
+            {"number": "44", "code": "HAM", "full_name": "Lewis Hamilton", "team": "Ferrari"},
+            {"number": "63", "code": "RUS", "full_name": "George Russell", "team": "Mercedes"},
+            {"number": "55", "code": "SAI", "full_name": "Carlos Sainz", "team": "Williams"},
+            {"number": "14", "code": "ALO", "full_name": "Fernando Alonso", "team": "Aston Martin"},
+            {"number": "10", "code": "GAS", "full_name": "Pierre Gasly", "team": "Alpine"},
+            {"number": "23", "code": "ALB", "full_name": "Alexander Albon", "team": "Williams"},
+        ]
+        for d in grid:
+            num = d["number"]
+            code = d["code"]
+            self.driver_number_to_code[num] = code
+            self.drivers[num] = d
+
+        # Ensure target driver exists
+        codes = [d["code"] for d in grid]
+        if self.target_driver not in codes:
+            self.driver_number_to_code["99"] = self.target_driver
+            self.drivers["99"] = {
+                "number": "99",
+                "code": self.target_driver,
+                "full_name": f"Driver {self.target_driver}",
+                "team": "CALIBRE Team",
+            }
+            codes.insert(0, self.target_driver)
+
+        for pos, code in enumerate(codes, start=1):
+            self.latest_positions[code] = pos
+            self.latest_intervals[code] = round((pos - 1) * 1.85, 2)
+            self.latest_stints[code] = {
+                "stint_number": 1,
+                "compound": "MEDIUM",
+                "tyre_age_at_start": 0,
+                "lap_start": 1,
+                "lap_end": None,
+            }
+
+        self.latest_weather = {
+            "air_temp_c": 29.5,
+            "track_temp_c": 41.2,
+            "humidity_pct": 48.0,
+            "pressure_mbar": 1013.2,
+            "wind_speed_kph": 6.5,
+            "wind_direction_deg": 190.0,
+            "rainfall": False,
+            "ts": time.time(),
+        }
+
+        # Cadence for fast feedback in mock mode
+        car_interval = min(self.car_data_interval, 1.5)
+        lap_interval = min(self.lap_interval, 4.0)
+
+        self._mock_lap_num = 1
+        self._tasks = [
+            asyncio.create_task(self._mock_car_data_loop(car_interval)),
+            asyncio.create_task(self._mock_lap_loop(lap_interval)),
+            asyncio.create_task(self._mock_race_control_loop()),
+        ]
+        logger.info("Mock Race Generator active — running %d simulation tasks", len(self._tasks))
+
+    async def _mock_car_data_loop(self, interval: float):
+        """Simulate high-frequency car telemetry samples."""
+        sample_count = 0
+        while self._running:
+            sample_count += 1
+            now = time.time()
+            code = self.target_driver
+
+            # Dynamic telemetry pattern: cornering vs straight
+            phase = (sample_count % 16) / 16.0
+            if phase < 0.35:
+                speed = 145.0 + random.uniform(-8, 12)
+                throttle = 20.0
+                brake = 80.0
+                gear = 3
+                rpm = 9500
+                drs = False
+            elif phase < 0.65:
+                speed = 225.0 + random.uniform(-10, 15)
+                throttle = 85.0
+                brake = 0.0
+                gear = 5
+                rpm = 11200
+                drs = False
+            else:
+                speed = 312.0 + random.uniform(-4, 8)
+                throttle = 100.0
+                brake = 0.0
+                gear = 8
+                rpm = 11900
+                drs = True
+
+            # Trigger an intentional telemetry spike at sample 35 for ErrorSignalAgent
+            if sample_count == 35:
+                speed = 430.0
+
+            event = TelemetryEvent(
+                timestamp=now,
+                session=SessionType.RACE,
+                driver=code,
+                lap=self._mock_lap_num,
+                speed_kph=float(speed),
+                throttle_pct=float(throttle),
+                brake_pct=float(brake),
+                gear=int(gear),
+                rpm=int(rpm),
+                drs=bool(drs),
+            )
+
+            raw_sample = {
+                "driver_number": "1",
+                "speed": speed,
+                "throttle": throttle,
+                "brake": brake,
+                "n_gear": gear,
+                "rpm": rpm,
+                "drs": 12 if drs else 0,
+            }
+
+            try:
+                self.telemetry_queue.put_nowait({
+                    "type": "TELEMETRY",
+                    "driver": code,
+                    "data": event.model_dump(),
+                    "raw": raw_sample,
+                    "ts": now,
+                })
+            except asyncio.QueueFull:
+                pass
+
+            await asyncio.sleep(interval)
+
+    async def _mock_lap_loop(self, interval: float):
+        """Simulate lap completions to drive strategy & line analysis."""
+        while self._running:
+            await asyncio.sleep(interval)
+            lap_idx = self._mock_lap_num
+            self._mock_lap_num += 1
+
+            for code, pos in list(self.latest_positions.items())[:6]:
+                s1 = round(28.1 + random.uniform(-0.3, 0.4), 3)
+                s2 = round(30.2 + random.uniform(-0.4, 0.5), 3)
+                s3 = round(29.8 + random.uniform(-0.3, 0.4), 3)
+                lap_time = round(s1 + s2 + s3, 3)
+
+                stint = self.latest_stints.get(code, {})
+                compound_str = stint.get("compound", "MEDIUM")
+                compound = COMPOUND_MAP.get(compound_str, TyreCompound.MEDIUM)
+                tyre_age = lap_idx
+
+                lap_data = LapData(
+                    lap_number=lap_idx,
+                    driver=code,
+                    lap_time_s=lap_time,
+                    s1_time_s=s1,
+                    s2_time_s=s2,
+                    s3_time_s=s3,
+                    compound=compound,
+                    tyre_age_laps=tyre_age,
+                    is_valid=True,
+                    is_pit_in_lap=False,
+                    is_pit_out_lap=False,
+                )
+                self.latest_laps[code] = lap_data
+
+                try:
+                    self.lap_queue.put_nowait({
+                        "type": "LAP_COMPLETED",
+                        "driver": code,
+                        "data": lap_data.model_dump(),
+                        "ts": time.time(),
+                    })
+                except asyncio.QueueFull:
+                    pass
+
+    async def _mock_race_control_loop(self):
+        """Simulate occasional track status notices."""
+        await asyncio.sleep(25.0)
+        if not self._running:
+            return
+        old_status = self.track_status
+        self.track_status = TrackStatus.YELLOW
+        try:
+            self.event_queue.put_nowait({
+                "type": "TRACK_STATUS_CHANGE",
+                "old": old_status.value,
+                "new": TrackStatus.YELLOW.value,
+                "message": "YELLOW FLAG IN SECTOR 2 - HAZARD REPORTED",
+                "ts": time.time(),
+            })
+        except asyncio.QueueFull:
+            pass
+
+        await asyncio.sleep(12.0)
+        if not self._running:
+            return
+        self.track_status = TrackStatus.GREEN
+        try:
+            self.event_queue.put_nowait({
+                "type": "TRACK_STATUS_CHANGE",
+                "old": TrackStatus.YELLOW.value,
+                "new": TrackStatus.GREEN.value,
+                "message": "TRACK CLEAR - GREEN FLAG",
+                "ts": time.time(),
+            })
+        except asyncio.QueueFull:
+            pass
+
     # ─── Fetchers ─────────────────────────────────────────────────
 
     async def _fetch_drivers(self):
         """One-time: fetch driver list for this session."""
-        resp = await self._client.get(f"/drivers?session_key={self.session_key}")
-        resp.raise_for_status()
+        try:
+            resp = await self._client.get(f"/drivers?session_key={self.session_key}")
+            resp.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == 401:
+                detail = ""
+                try:
+                    detail = e.response.json().get("detail", "")
+                except Exception:
+                    detail = e.response.text
+                err_msg = (
+                    f"\n{'=' * 65}\n"
+                    f"[AUTH REQUIRED] OpenF1 API Authentication Required (HTTP 401)\n"
+                    f"{'=' * 65}\n"
+                    f"Detail: {detail or 'Live F1 session in progress or authentication required.'}\n\n"
+                    f"Why this happens:\n"
+                    f"  During live Formula 1 sessions, OpenF1 restricts free public API access\n"
+                    f"  (including historical sessions) to authenticated users until the session concludes.\n\n"
+                    f"Options to continue:\n"
+                    f"  1. Run in Mock/Simulation mode (no OpenF1 API needed):\n"
+                    f"     python -m calibre.live.race_day --mock --driver {self.target_driver}\n\n"
+                    f"  2. Pass your OpenF1 access token:\n"
+                    f"     python -m calibre.live.race_day --api-token <TOKEN> --driver {self.target_driver}\n"
+                    f"     (or set $env:OPENF1_TOKEN=\"<TOKEN>\")\n\n"
+                    f"  3. Run the offline scenario replay engine:\n"
+                    f"     python calibre/scripts/replay_race.py --scenario synthetic-undercut\n\n"
+                    f"  4. Wait until the live F1 session concludes and public access resumes.\n"
+                    f"{'=' * 65}\n"
+                )
+                logger.error(err_msg)
+                raise PermissionError(err_msg) from e
+            raise
         data = resp.json()
         for d in data:
             num = str(d.get("driver_number", ""))

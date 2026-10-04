@@ -43,7 +43,28 @@ pip install -r calibre/requirements.txt
 python calibre/scripts/replay_race.py --scenario synthetic-undercut --speed 10 --laps 5
 ```
 
-#### 2. Running the Full Stack (React Dashboard + FastAPI Backend)
+#### 2. Live Race Day Intelligence Engine (`calibre.live.race_day`)
+Run real-time multi-agent race intelligence (telemetry quality monitoring, racing line sector tracking, tyre degradation modeling, and live JSONL session logging):
+
+- **Mock / Simulation Mode (Recommended when testing offline or without an API key):**
+  ```powershell
+  # On Windows PowerShell:
+  $env:PYTHONPATH="E:\CALIBER;E:\CALIBER\calibre"; python -m calibre.live.race_day --mock --driver VER --laps 56
+  # On Linux/macOS:
+  PYTHONPATH=".:calibre" python -m calibre.live.race_day --mock --driver VER --laps 56
+  ```
+
+- **OpenF1 Live Mode:**
+  > **Note on OpenF1 401 Unauthorized:** During active Formula 1 race sessions, OpenF1 restricts free public API access across all endpoints to reduce load. To run during live F1 sessions, pass an OpenF1 bearer access token:
+  ```powershell
+  # On Windows PowerShell:
+  $env:PYTHONPATH="E:\CALIBER;E:\CALIBER\calibre"; python -m calibre.live.race_day --session-key 11731 --driver VER --api-token "YOUR_TOKEN"
+  # Or export the environment variable:
+  $env:OPENF1_TOKEN="YOUR_TOKEN"
+  python -m calibre.live.race_day --session-key 11731 --driver VER
+  ```
+
+#### 3. Running the Full Stack (React Dashboard + FastAPI Backend)
 
 **Terminal 1 — Backend API:**
 ```bash

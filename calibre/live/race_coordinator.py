@@ -41,15 +41,20 @@ class RaceCoordinator:
         target_driver: str = "VER",
         total_laps: int = 56,
         log_dir: str = "data/race_logs",
+        mock_mode: bool = False,
+        api_token: Optional[str] = None,
     ):
         self.session_key = session_key
         self.target_driver = target_driver.upper()
         self.total_laps = total_laps
+        self.mock_mode = mock_mode
 
         # Initialize all components
         self.client = OpenF1Client(
             session_key=session_key,
             target_driver=target_driver,
+            mock_mode=mock_mode,
+            api_token=api_token,
         )
         self.error_agent = ErrorSignalAgent()
         self.line_agent = LineAgent()

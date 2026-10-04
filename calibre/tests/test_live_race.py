@@ -110,3 +110,29 @@ async def test_race_coordinator_initialization(tmp_path):
     assert state["target_driver"] == "VER"
     assert state["status"] == "INITIALIZING"
     assert coordinator._running is False
+
+
+@pytest.mark.asyncio
+async def test_openf1_client_mock_mode():
+    client = OpenF1Client(session_key=11731, target_driver="VER", mock_mode=True)
+    assert client.mock_mode is True
+    await client.start()
+
+    # Allow mock generation loops to tick
+    await asyncio.sleep(0.5)
+
+    assert len(client.drivers) > 0
+    assert "1" in client.drivers
+    assert client.drivers["1"]["code"] == "VER"
+    assert client.get_driver_position("VER") == 1
+    assert client.get_driver_compound("VER") == TyreCompound.MEDIUM
+    assert client.telemetry_queue.qsize() > 0
+
+    await client.stop()
+    assert client._running is False
+
+
+@pytest.mark.asyncio
+async def test_openf1_client_token():
+    client = OpenF1Client(session_key=11731, target_driver="VER", api_token="test_token_123")
+    assert client.api_token == "test_token_123"
