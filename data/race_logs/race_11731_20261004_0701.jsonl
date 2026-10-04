@@ -1,0 +1,2 @@
+{"ts": 1791097305.8265028, "iso": "2026-10-04T07:01:45.826503+00:00", "driver": "SYSTEM", "type": "COORDINATOR_START", "data": {"session_key": 11731, "target_driver": "VER", "total_laps": 56}}
+{"ts": 1791097307.0827749, "iso": "2026-10-04T07:01:47.082777+00:00", "driver": "SYSTEM", "type": "COORDINATOR_STOP", "data": {"laps_processed": 0, "telemetry_samples": 0, "error_signals": 0, "strategy_evaluations": 0}}
