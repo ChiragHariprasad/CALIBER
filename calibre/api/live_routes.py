@@ -150,6 +150,69 @@ async def get_full_snapshot():
     return coord.get_live_state()
 
 
+@live_router.get("/verdicts")
+async def get_live_verdicts():
+    """Returns pit lane speed limit verdicts and integrity monitoring stats."""
+    coord = _require_coordinator()
+    return {
+        "stats": coord.get_pit_monitor_stats(),
+        "recent_verdicts": coord.get_recent_verdicts(30),
+    }
+
+
+@live_router.get("/radio")
+async def get_live_radio():
+    """Returns recent tactical driver radio communications."""
+    coord = _require_coordinator()
+    return {
+        "target_driver": coord.target_driver,
+        "messages": coord.get_recent_radio_messages(30),
+    }
+
+
+@live_router.get("/sources")
+async def get_live_sources():
+    """Returns health and status of all multi-point data sources."""
+    coord = _require_coordinator()
+    return coord.get_aggregator_health()
+
+
+@live_router.get("/mode")
+async def get_operating_mode():
+    """Returns the current operating mode and transition history."""
+    coord = _require_coordinator()
+    return coord.mode_controller.to_dict()
+
+
+class ModeTransitionRequest(BaseModel):
+    mode: str
+    reason: str
+    scenario: Optional[str] = None
+
+
+@live_router.post("/mode")
+async def switch_operating_mode(req: ModeTransitionRequest):
+    """Explicitly switch the operating mode."""
+    coord = _require_coordinator()
+    try:
+        from calibre.live.operating_mode import OperatingMode
+        new_mode = OperatingMode(req.mode.upper())
+        state = coord.mode_controller.transition_to(
+            new_mode,
+            reason=req.reason,
+            scenario=req.scenario,
+        )
+        coord.live_state["operating_mode"] = new_mode.value
+        return {
+            "success": True,
+            "mode": state.mode.value,
+            "feed_status": state.feed_status.value,
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+
 # ─── WebSocket ────────────────────────────────────────────────
 
 

@@ -219,12 +219,15 @@ class TyreStrategyAgent:
 
     def get_strategy_summary(self) -> Dict[str, Any]:
         """Returns current strategy state summary."""
+        observed = list(self.observed_deg.get(self.target_driver, []))
+        avg_deg = round(sum(observed[-5:]) / len(observed[-5:]), 4) if observed else None
         return {
             "current_decision": self.current_decision.model_dump() if self.current_decision else None,
             "candidates": [c.model_dump() for c in self.current_candidates],
             "evolution_count": len(self.strategy_evolution),
             "last_evaluation_lap": self.strategy_evolution[-1]["lap"] if self.strategy_evolution else 0,
             "opponent_pit_predictions": self.predict_opponent_pits(),
+            "observed_deg_s_per_lap": avg_deg,
         }
 
     def _track_degradation(self, driver: str, lap_time: float, compound: TyreCompound, tyre_age: int):

@@ -273,6 +273,7 @@ class ErrorSignalAgent:
         signal = {
             "signal_id": f"ERR-{self._signal_count:04d}",
             "signal_type": signal_type,
+            "type": signal_type,
             "driver": driver,
             "severity": severity,
             "details": details,
