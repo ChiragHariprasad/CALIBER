@@ -42,9 +42,10 @@ PLAUSIBILITY_BOUNDS = {
 class EventValidator:
     """Validates incoming events for schema conformance and plausibility."""
 
-    def __init__(self, max_dedup_cache: int = 50000):
+    def __init__(self, max_dedup_cache: int = 50000, dedup_window_s: float = 60.0):
         self._seen_keys: OrderedDict[str, float] = OrderedDict()
         self._max_dedup = max_dedup_cache
+        self.dedup_window_s = dedup_window_s
         self._quarantine: List[CalibreEvent] = []
         self._stats = {
             "validated": 0,
@@ -53,6 +54,11 @@ class EventValidator:
             "rejected": 0,
             "duplicates": 0,
         }
+
+    def validate_event(self, event: CalibreEvent) -> ValidationState:
+        """Helper returning the resulting ValidationState directly."""
+        v = self.validate(event)
+        return v.validation_state
 
     def validate(self, event: CalibreEvent) -> CalibreEvent:
         """
@@ -74,7 +80,7 @@ class EventValidator:
         now = time.time()
         if event.source_timestamp > now + 60:
             warnings.append(f"Source timestamp is in the future by {event.source_timestamp - now:.1f}s")
-        if event.source_timestamp < 946684800:  # Before 2000-01-01
+        if 0 < event.source_timestamp < 946684800:  # Before 2000-01-01
             warnings.append(f"Source timestamp predates year 2000")
 
         # 3. Plausibility checks on data payload
@@ -85,9 +91,12 @@ class EventValidator:
                     try:
                         fval = float(val)
                         if fval < lo or fval > hi:
-                            warnings.append(
-                                f"{field_name}={fval} outside plausible range [{lo}, {hi}]"
-                            )
+                            if field_name == "speed_kph" and fval < 0:
+                                errors.append(f"{field_name}={fval} physically implausible (< 0)")
+                            else:
+                                warnings.append(
+                                    f"{field_name}={fval} outside plausible range [{lo}, {hi}]"
+                                )
                     except (ValueError, TypeError):
                         pass
 
@@ -95,7 +104,7 @@ class EventValidator:
         dedup_key = event.dedup_key or event.compute_dedup_key()
         if dedup_key in self._seen_keys:
             self._stats["duplicates"] += 1
-            event.validation_state = ValidationState.REJECTED
+            event.validation_state = ValidationState.DUPLICATE
             event.validation_errors = ["Duplicate event"]
             return event
 

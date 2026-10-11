@@ -13,9 +13,14 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from storage.database import get_session
-from storage.models import IntegrityAlertRecord, VerdictRecord
-from streaming.processor import StreamProcessor, get_metrics
+try:
+    from calibre.storage.database import get_session
+    from calibre.storage.models import IntegrityAlertRecord, VerdictRecord
+    from calibre.streaming.processor import StreamProcessor, get_metrics
+except ImportError:
+    from storage.database import get_session
+    from storage.models import IntegrityAlertRecord, VerdictRecord
+    from streaming.processor import StreamProcessor, get_metrics
 
 logger = logging.getLogger(__name__)
 

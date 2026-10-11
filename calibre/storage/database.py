@@ -24,32 +24,52 @@ class Base(DeclarativeBase):
 
 
 # ── Async engine (for API / stream processor) ──────────────────────────
-async_engine = create_async_engine(
-    settings.database_url,
-    echo=False,
-    pool_size=5,
-    max_overflow=10,
-)
+db_url = settings.database_url
+if db_url.startswith("postgresql://"):
+    db_url = db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+try:
+    async_engine = create_async_engine(
+        db_url,
+        echo=False,
+        pool_size=5,
+        max_overflow=10,
+    )
+except Exception as ex:
+    logger.warning("Could not initialize PostgreSQL async engine (%s). Using sqlite fallback.", ex)
+    try:
+        async_engine = create_async_engine("sqlite+aiosqlite:///:memory:", echo=False)
+    except Exception:
+        async_engine = None
 
 AsyncSessionLocal = async_sessionmaker(
     async_engine,
     class_=AsyncSession,
     expire_on_commit=False,
-)
+) if async_engine else None
 
 
 async def get_session() -> AsyncSession:
     """FastAPI dependency – yields an async session."""
-    async with AsyncSessionLocal() as session:
-        yield session
+    if AsyncSessionLocal:
+        async with AsyncSessionLocal() as session:
+            yield session
+    else:
+        yield None
 
 
 # ── Sync engine (for migrations / CLI scripts) ─────────────────────────
-sync_engine = create_engine(settings.database_url_sync, echo=False)
+try:
+    sync_engine = create_engine(settings.database_url_sync, echo=False)
+except Exception:
+    sync_engine = None
+
 
 
 async def init_db() -> None:
     """Create all tables (idempotent)."""
+    if async_engine is None:
+        return
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Database tables created / verified.")

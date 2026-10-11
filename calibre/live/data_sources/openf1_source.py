@@ -189,10 +189,17 @@ class OpenF1Source(DataSource):
             try:
                 await fetcher()
             except httpx.HTTPStatusError as e:
-                self._record_error(f"[{name}] HTTP {e.response.status_code}")
-                if e.response.status_code == 401:
+                if e.response.status_code == 429:
+                    self._set_status(SourceStatus.DEGRADED)
+                    self._record_error(f"[{name}] OpenF1 rate-limited (HTTP 429) — backing off 8s")
+                    await asyncio.sleep(8.0)
+                    continue
+                elif e.response.status_code == 401:
+                    self._record_error(f"[{name}] HTTP 401 (Auth required)")
                     self._set_status(SourceStatus.FAILED)
                     return
+                else:
+                    self._record_error(f"[{name}] HTTP {e.response.status_code}")
             except Exception as e:
                 self._record_error(f"[{name}] {e}")
             await asyncio.sleep(self.poll_interval)

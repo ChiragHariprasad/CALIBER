@@ -258,6 +258,8 @@ class TyreStrategyAgent:
         opponents: List[OpponentState],
     ) -> RaceState:
         """Build a RaceState from live data."""
+        if weather is None:
+            weather = WeatherState()
         # Use observed degradation if available, else model
         observed = list(self.observed_deg.get(self.target_driver, []))
         if observed:

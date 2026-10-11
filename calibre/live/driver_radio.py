@@ -186,15 +186,26 @@ class DriverRadioEngine:
         lap_number: int = 0,
     ) -> RadioMessage:
         """Directives for SC / VSC conditions."""
-        if "VSC" in track_status:
+        status_upper = track_status.upper()
+        if "VSC" in status_upper:
             text = f"Virtual Safety Car deployed. Maintain positive delta. Target delta is +{delta_target_s:.1f}s."
             priority = RadioPriority.CRITICAL
-        elif "SAFETY" in track_status or track_status == "SC":
+        elif "SAFETY" in status_upper or status_upper == "SC":
             text = "Safety Car deployed. Keep delta positive. Watch for cars slowing on pit entry."
             priority = RadioPriority.CRITICAL
-        else:
+        elif "RED" in status_upper:
+            text = "Red flag! Red flag! Session suspended. Box at pit lane speed, line up in fast lane."
+            priority = RadioPriority.CRITICAL
+        elif "YELLOW" in status_upper:
+            text = "Yellow flag! Hazard on track, no overtaking, maintain delta."
+            priority = RadioPriority.HIGH
+        elif "GREEN" in status_upper or "CLEAR" in status_upper:
             text = "Green flag! Track clear, race back on. Deploy mode 2."
             priority = RadioPriority.HIGH
+        else:
+            text = f"Track status {track_status}. Monitor dash display."
+            priority = RadioPriority.MEDIUM
+
 
         msg = RadioMessage(
             message_id=self._next_id("DELTA"),
@@ -260,8 +271,14 @@ class DriverRadioEngine:
         return f"RAD-{prefix}-{self._counter:04d}"
 
     def _record(self, msg: RadioMessage) -> None:
+        now = time.time()
+        last_ts = self._last_message_ts.get(msg.message, 0.0)
+        if now - last_ts < 8.0:
+            return  # Suppress duplicate radio chatter within 8 seconds
+        self._last_message_ts[msg.message] = now
         self._history.append(msg)
         logger.info("[%s -> %s] (%s) %s", msg.sender, msg.target_driver, msg.priority.value, msg.message)
 
     def get_recent_messages(self, limit: int = 15) -> List[Dict[str, Any]]:
         return [m.to_dict() for m in self._history[-limit:]]
+

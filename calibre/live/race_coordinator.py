@@ -94,9 +94,9 @@ class RaceCoordinator:
                 session_key=session_key,
                 target_driver=target_driver,
                 enable_insights_stream=True,
-                enable_openf1=True,
-                enable_jolpica=True,
-                enable_mock_fallback=mock_mode,
+                enable_openf1=not mock_mode,
+                enable_jolpica=not mock_mode,
+                enable_mock_fallback=True,
                 operating_mode=self.mode_controller.current_mode.value,
             )
 
@@ -434,16 +434,19 @@ class RaceCoordinator:
                 item = await asyncio.wait_for(self.client.event_queue.get(), timeout=1.0)
                 event_type = item.get("type", "UNKNOWN")
                 new_status = item.get("new", "GREEN")
-                self.live_state["track_status"] = new_status
+                old_status = item.get("old", "")
                 self._log_event("RACE", event_type, item)
 
                 if event_type == "TRACK_STATUS_CHANGE":
-                    radio_msg = self.radio_engine.generate_safety_car_directive(
-                        track_status=new_status,
-                        lap_number=self.live_state["current_lap"],
-                    )
-                    self.live_state["last_radio_message"] = radio_msg.to_dict()
-                    await self._broadcast_ws({"type": "RADIO_MESSAGE", "data": radio_msg.to_dict()})
+                    if old_status != new_status:
+                        self.live_state["track_status"] = new_status
+                        radio_msg = self.radio_engine.generate_safety_car_directive(
+                            track_status=new_status,
+                            lap_number=self.live_state["current_lap"],
+                        )
+                        self.live_state["last_radio_message"] = radio_msg.to_dict()
+                        await self._broadcast_ws({"type": "RADIO_MESSAGE", "data": radio_msg.to_dict()})
+
 
                     weather = self.client.get_weather_state()
                     opponents = self.client.build_opponents(self.target_driver)

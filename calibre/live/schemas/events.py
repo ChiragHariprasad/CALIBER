@@ -63,6 +63,7 @@ class ValidationState(str, enum.Enum):
     WARNING = "WARNING"          # Passed validation with concerns
     QUARANTINED = "QUARANTINED"  # Failed validation, held for review
     REJECTED = "REJECTED"       # Failed validation, not processed
+    DUPLICATE = "DUPLICATE"     # Duplicate event detected
 
 
 class DataQuality(str, enum.Enum):
