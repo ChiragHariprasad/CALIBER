@@ -1,1 +1,0 @@
-"""CALIBRE — Live Schemas Package."""
