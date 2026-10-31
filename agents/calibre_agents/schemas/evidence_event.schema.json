@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://calibre.local/schemas/evidence_event.schema.json",
+  "title": "CALIBRE Evidence Event",
+  "type": "object",
+  "required": [
+    "event_id", "schema_version", "agent_id", "agent_version",
+    "event_type", "provider", "feed", "source_record_id",
+    "time_semantics", "scope", "evidence", "findings",
+    "provenance", "emitted_at"
+  ],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "schema_version": {"type": "string"},
+    "agent_id": {"type": "string"},
+    "agent_version": {"type": "string"},
+    "event_type": {"type": "string"},
+    "provider": {"type": "string"},
+    "feed": {"type": "string"},
+    "source_record_id": {"type": "string"},
+    "source_timestamp": {},
+    "session_time_s": {"type": ["number", "null"]},
+    "time_semantics": {"type": "string"},
+    "scope": {"type": "object"},
+    "evidence": {"type": "object"},
+    "findings": {"type": "array", "items": {"type": "object"}},
+    "provenance": {"type": "object"},
+    "emitted_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}
