@@ -104,8 +104,7 @@ class LeafEvaluator:
 
             # Valid reference fact
             fact_grade = IntegrityState(ref_fact.grade) if ref_fact.grade in IntegrityState._value2member_map_ else IntegrityState.HEALTHY
-            ref_time = anchor_time or t_eval
-            tl = ValidityTimeline([TimelineBreakpoint(ref_time, fact_grade)])
+            tl = ValidityTimeline([], default_state=fact_grade)
             admissible = list(role_spec.admissible_source_origins)
             ref_origins = list(ref_fact.origin_set)
             matched_ref_origins = [orig for orig in admissible if orig in ref_origins]
@@ -273,7 +272,7 @@ class LeafEvaluator:
             if hard_age_s is not None:
                 next_trans = add_seconds_to_iso(latest_atom_time, hard_age_s)
         elif soft_age_s is not None:
-            if role_spec.slots and role_spec.slots.trigger == "periodic":
+            if role_spec.slots and (role_spec.slots.trigger == "periodic" or role_spec.slots.max_obs_per_slot > 2):
                 start_slot = active_atoms[0].transport_event_time_utc if active_atoms else (anchor_time or t_eval)
                 next_trans = add_seconds_to_iso(start_slot, soft_age_s)
             else:

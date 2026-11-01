@@ -23,7 +23,12 @@ class TimelineBreakpoint:
 class ValidityTimeline:
     """A non-increasing step function representing state over time."""
 
-    def __init__(self, breakpoints: Sequence[TimelineBreakpoint | Dict[str, Any]]):
+    def __init__(
+        self,
+        breakpoints: Sequence[TimelineBreakpoint | Dict[str, Any]],
+        default_state: IntegrityState = IntegrityState.UNKNOWN,
+    ):
+        self._default_state = default_state
         self._breakpoints: List[TimelineBreakpoint] = []
         for bp in breakpoints:
             if isinstance(bp, TimelineBreakpoint):
@@ -43,7 +48,7 @@ class ValidityTimeline:
     def state_at(self, t: str) -> IntegrityState:
         """Evaluate the step function at timestamp t."""
         if not self._breakpoints:
-            return IntegrityState.UNKNOWN
+            return self._default_state
         current_state = self._breakpoints[0].state
         for bp in self._breakpoints:
             if bp.from_time <= t:

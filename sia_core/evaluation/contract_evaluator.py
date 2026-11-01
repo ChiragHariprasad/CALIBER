@@ -265,9 +265,24 @@ class ContractEvaluator:
             elif isinstance(node, AndNode):
                 child_evals = [evaluate_ast_node(c) for c in node.children]
                 child_states = [st for st, _ in child_evals]
-                child_tls = [tl for _, tl in child_evals]
                 composed_state = and_state(*child_states)
-                composed_tl = compose_pointwise("AND", child_tls)
+
+                # Non-reference evidence timelines define temporal step function breakpoints
+                evidence_evals = [
+                    (st, tl) for c, (st, tl) in zip(node.children, child_evals)
+                    if not (isinstance(c, RoleLeafNode) and ("reference" in c.role_name or "guard" in c.role_name or c.role_name in reference_facts))
+                ]
+                if evidence_evals:
+                    evidence_tls = [tl for _, tl in evidence_evals]
+                    base_tl = compose_pointwise("AND", evidence_tls)
+                    composed_bps = [
+                        TimelineBreakpoint(bp.from_time, and_state(bp.state, composed_state))
+                        for bp in base_tl.breakpoints
+                    ]
+                    composed_tl = ValidityTimeline(composed_bps)
+                else:
+                    child_tls = [tl for _, tl in child_evals]
+                    composed_tl = compose_pointwise("AND", child_tls)
                 return composed_state, composed_tl
             elif isinstance(node, OrNode):
                 child_evals = [evaluate_ast_node(c) for c in node.children]
