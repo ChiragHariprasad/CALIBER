@@ -391,6 +391,9 @@ class ContractEvaluator:
             elif "ENVELOPE_EVALUATED" in envelope_wit:
                 primary_binding_witness = envelope_wit
                 witness_set.append(envelope_wit)
+            elif "ENVELOPE_CAPPED" in envelope_wit:
+                primary_binding_witness = envelope_wit
+                witness_set.append(envelope_wit)
 
         late_wit: Optional[str] = None
         if previous_verdict and previous_verdict.get("integrity_state") == "DEGRADED":
