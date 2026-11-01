@@ -70,6 +70,46 @@ def cmd_stop_infra() -> int:
     return res.returncode
 
 
+def cmd_stop_all() -> int:
+    """Stop all running pipeline processes and Docker infrastructure in one command."""
+    print("\n" + "=" * 60)
+    print("CALIBRE PLATFORM — ONE-CLICK SHUTDOWN")
+    print("=" * 60)
+
+    # 1. Kill any active Python pipeline worker processes
+    print("\n[1/3] Terminating any active Python pipeline worker processes...")
+    current_pid = os.getpid()
+    if sys.platform == "win32":
+        try:
+            cmd = "wmic process where \"name='python.exe' and commandline like '%run_pipeline.py run%'\" call terminate"
+            subprocess.run(cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception:
+            pass
+    else:
+        try:
+            subprocess.run(["pkill", "-f", "run_pipeline.py run"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.run(["pkill", "-f", "run_pipeline.py test"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception:
+            pass
+    print("      Active Python workers stopped.")
+
+    # 2. Docker compose down
+    print("\n[2/3] Stopping Docker infrastructure (Kafka, Zookeeper, Flink)...")
+    subprocess.run(["docker", "compose", "down", "--remove-orphans"], cwd=str(BASE_DIR))
+
+    # 3. Clean up any leftover Calibre containers
+    print("\n[3/3] Verifying clean shutdown of all Calibre containers...")
+    containers = ["calibre-kafka", "calibre-zookeeper", "calibre-flink-jobmanager", "calibre-flink-taskmanager", "calibre-init-kafka"]
+    for c in containers:
+        subprocess.run(["docker", "rm", "-f", c], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    print("\n" + "=" * 60)
+    print("SUCCESS: All CALIBRE pipeline services, Docker containers,")
+    print("and streaming workers have been completely stopped.")
+    print("=" * 60 + "\n")
+    return 0
+
+
 def cmd_status() -> int:
     """Check status of containers, Kafka topics, Flink cluster, and persistence database."""
     print("\n" + "=" * 60)
@@ -148,8 +188,17 @@ def cmd_test() -> int:
     """Execute end-to-end integration test suite."""
     print("\n[CALIBRE] Running End-to-End Pipeline Integration Test Suite...\n")
     env = os.environ.copy()
-    env["PYTHONPATH"] = f"{BASE_DIR};{BASE_DIR / 'agents'}"
+    env["PYTHONPATH"] = f"{BASE_DIR}{os.pathsep}{BASE_DIR / 'agents'}"
     res = subprocess.run([sys.executable, "-m", "pytest", "tests/test_e2e_pipeline.py", "-v", "-s"], cwd=str(BASE_DIR), env=env)
+    return res.returncode
+
+
+def cmd_test_flink() -> int:
+    """Execute Apache Flink streaming verification test suite."""
+    print("\n[CALIBRE] Running Apache Flink Streaming Verification Test Suite...\n")
+    env = os.environ.copy()
+    env["PYTHONPATH"] = f"{BASE_DIR}{os.pathsep}{BASE_DIR / 'agents'}"
+    res = subprocess.run([sys.executable, "-m", "pytest", "tests/test_flink_streaming.py", "-v", "-s"], cwd=str(BASE_DIR), env=env)
     return res.returncode
 
 
@@ -240,9 +289,11 @@ def main() -> int:
 
     subparsers.add_parser("start", help="Start Docker infrastructure (Kafka, Flink, Zookeeper)")
     subparsers.add_parser("stop", help="Stop Docker infrastructure")
+    subparsers.add_parser("stop-all", help="Stop all running Python pipeline processes and Docker infrastructure")
     subparsers.add_parser("status", help="Check containers, Kafka broker, Flink, and database status")
     subparsers.add_parser("topics", help="List all Kafka topics on the broker")
     subparsers.add_parser("test", help="Run End-to-End integration test suite")
+    subparsers.add_parser("test-flink", help="Run Apache Flink streaming verification suite")
     subparsers.add_parser("run", help="Run streaming services interactively")
 
     mock_parser = subparsers.add_parser("produce-mock", help="Inject a deterministic mock event")
@@ -263,12 +314,16 @@ def main() -> int:
         return cmd_start_infra()
     elif args.command == "stop":
         return cmd_stop_infra()
+    elif args.command == "stop-all":
+        return cmd_stop_all()
     elif args.command == "status":
         return cmd_status()
     elif args.command == "topics":
         return cmd_topics()
     elif args.command == "test":
         return cmd_test()
+    elif args.command == "test-flink":
+        return cmd_test_flink()
     elif args.command == "produce-mock":
         return cmd_produce_mock(event_type=args.type, correlation_id=args.corr)
     elif args.command == "replay-log":

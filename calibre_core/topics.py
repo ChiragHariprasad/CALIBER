@@ -68,6 +68,7 @@ def all_standard_topics() -> list[str]:
     return [
         f"{TOPIC_RAW_PREFIX}.pitwall.all",
         f"{TOPIC_RAW_PREFIX}.tracinginsights.all",
+        f"{TOPIC_RAW_PREFIX}.tracinginsights.rcm",
         f"{TOPIC_RAW_PREFIX}.mock.telemetry",
         f"{TOPIC_RAW_PREFIX}.mock.rcm",
         f"{TOPIC_RAW_PREFIX}.mock.weather",

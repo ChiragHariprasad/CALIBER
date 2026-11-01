@@ -100,7 +100,13 @@ Executes the full automated pipeline verification (verifying all 11 assertions a
 python run_pipeline.py test
 ```
 
-### 4. Run Streaming Services Interactively
+### 4. Run Dedicated Apache Flink Streaming Tests
+Verifies Flink input ingestion from `calibre.evidence.*`, schema validation, multi-sink fan-out to database/dashboard/analytics, and DLQ routing:
+```bash
+python run_pipeline.py test-flink
+```
+
+### 5. Run Streaming Services Interactively
 Starts all 5 streaming services (Processors, Flink Core, Persistence, Dashboard, Analytics) listening to Kafka:
 ```bash
 python run_pipeline.py run
@@ -133,9 +139,17 @@ python run_pipeline.py query-db --corr my-trace-001
 python run_pipeline.py topics
 ```
 
-### 9. Stop Infrastructure
+### 9. Stop Everything in One Command
+Stops all running Python background streaming services, tears down all Docker containers (Kafka, Zookeeper, Flink), and releases network ports:
 ```bash
-python run_pipeline.py stop
+# In WSL / Linux:
+./stop_all.sh
+
+# Or cross-platform via CLI:
+python run_pipeline.py stop-all
+
+# Or in Windows CMD / PowerShell:
+stop_all.bat
 ```
 
 ---

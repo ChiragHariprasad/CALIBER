@@ -71,8 +71,18 @@ class ProcessorWorkerService:
         """Dedicated consumer thread per processor using independent consumer group."""
         group_id = f"{GROUP_PROCESSOR_PREFIX}{processor.domain}"
         
-        # Determine raw topics of interest
-        raw_topics = [t for t in all_standard_topics() if t.startswith("calibre.raw.")]
+        # Determine raw topics of interest (standard topics + dynamic broker discovery)
+        raw_topics_set = set(t for t in all_standard_topics() if t.startswith("calibre.raw."))
+        try:
+            from kafka.admin import KafkaAdminClient
+            admin = KafkaAdminClient(bootstrap_servers=self.bootstrap_servers or DEFAULT_BOOTSTRAP_SERVERS, client_id="calibre-processor-discovery")
+            for bt in admin.list_topics():
+                if bt.startswith("calibre.raw."):
+                    raw_topics_set.add(bt)
+            admin.close()
+        except Exception:
+            pass
+        raw_topics = sorted(list(raw_topics_set))
         
         consumer = CalibreConsumer(
             *raw_topics,

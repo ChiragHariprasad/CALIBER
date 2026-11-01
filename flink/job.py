@@ -133,7 +133,17 @@ class CalibreFlinkJob:
 
     def _stream_loop(self) -> None:
         """Continuous streaming consumption from calibre.evidence.* topics."""
-        evidence_topics = [t for t in all_standard_topics() if t.startswith(TOPIC_EVIDENCE_PREFIX)]
+        evidence_topics_set = set(t for t in all_standard_topics() if t.startswith(TOPIC_EVIDENCE_PREFIX))
+        try:
+            from kafka.admin import KafkaAdminClient
+            admin = KafkaAdminClient(bootstrap_servers=self.bootstrap_servers or DEFAULT_BOOTSTRAP_SERVERS, client_id="calibre-flink-discovery")
+            for bt in admin.list_topics():
+                if bt.startswith(TOPIC_EVIDENCE_PREFIX):
+                    evidence_topics_set.add(bt)
+            admin.close()
+        except Exception:
+            pass
+        evidence_topics = sorted(list(evidence_topics_set))
         
         consumer = CalibreConsumer(
             *evidence_topics,
