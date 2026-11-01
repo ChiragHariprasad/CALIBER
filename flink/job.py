@@ -187,25 +187,32 @@ class CalibreFlinkJob:
         session_id = scope.get("session_id") or scope.get("session_type", "session")
         run_id = data.get("run_id") or scope.get("run_id")
         session_instance_id = scope.get("session_instance_id") or (f"{session_id}#{run_id}" if run_id else session_id)
-        driver_id = str(scope.get("driver_number") or scope.get("driver_id", "1"))
         evidence = data.get("evidence", {})
         obs = evidence.get("observations", {}) if isinstance(evidence, dict) else {}
+        driver_id = str(scope.get("driver_number") or scope.get("driver_id") or evidence.get("driver_number") or evidence.get("driver_code") or "1")
         corr_id = data.get("correlation_id", "unknown")
 
-        # Extract value
+        # Extract value from observations or direct evidence fields
         val = 100.0
-        if "speed" in obs:
-            val = float(obs["speed"])
-        elif "lap_duration" in obs:
-            val = float(obs["lap_duration"])
-        elif "value" in obs:
-            try:
-                val = float(obs["value"])
-            except (ValueError, TypeError):
-                val = 100.0
+        val_source = obs if obs else (evidence if isinstance(evidence, dict) else {})
+        for field in ("lap_duration_s", "lap_duration", "speed", "air_temperature_c", "track_temperature_c", "lane_duration", "duration", "value"):
+            if field in val_source and val_source[field] is not None:
+                try:
+                    val = float(val_source[field])
+                    break
+                except (ValueError, TypeError):
+                    pass
 
         # Construct stream item
         atom_id = f"atom-{data.get('event_id', generate_uuid())}"
+        raw_source_val = data.get("time", {}).get("source_value")
+        if raw_source_val is None:
+            raw_source_val = data.get("produced_at_utc", transport_time)
+
+        is_utc = any(c in str(raw_source_val) for c in ("Z", "T", "+00:00", "-00:00", ":"))
+        prov = data.get("provenance", {})
+        provider_name = prov.get("provider") or data.get("session", {}).get("provider") or "PITWALL"
+
         stream_item = {
             "stream_item_type": "EVIDENCE_ATOM",
             "transport_event_time_utc": data.get("produced_at_utc", transport_time),
@@ -219,10 +226,10 @@ class CalibreFlinkJob:
                 "raw_event_ids": [data.get("event_id", "")],
                 "processor_family_id": data.get("producer", {}).get("processor_id", "generic_processor"),
                 "transform_version": data.get("producer", {}).get("processor_version", "1.0.0"),
-                "source_origin_set": [data.get("provenance", {}).get("provider", "MOCK")],
+                "source_origin_set": [provider_name],
                 "time": {
-                    "value": data.get("time", {}).get("source_value", 0.0),
-                    "class": "ABSOLUTE_UTC" if "Z" in str(data.get("time", {}).get("source_value", "")) else "SESSION_ELAPSED",
+                    "value": raw_source_val,
+                    "class": "ABSOLUTE_UTC" if is_utc else "SESSION_ELAPSED",
                 },
                 "quality_grade": "HEALTHY",
             },
@@ -247,6 +254,12 @@ class CalibreFlinkJob:
                     matched_role = r_name
                     break
                 elif "lap" in r_lower and ("timing" in dom_lower or "lap" in evt_lower):
+                    matched_role = r_name
+                    break
+                elif "weather" in r_lower and ("environment" in dom_lower or "weather" in evt_lower):
+                    matched_role = r_name
+                    break
+                elif "incident" in r_lower and ("incident" in dom_lower or "rcm" in evt_lower or "race_control" in evt_lower):
                     matched_role = r_name
                     break
                 elif "pit" in r_lower and ("timing" in dom_lower or "pit" in evt_lower):

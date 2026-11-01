@@ -32,7 +32,7 @@ class RaceTimingSessionAgent(BaseAgent):
     agent_id = "race_timing_and_session_evidence"
     agent_version = "0.1.0"
     handled_feeds = {
-        "session_laptimes", "laptimes", "timingdata", "timingstats",
+        "session_laptimes", "laptimes", "laps", "pit", "timingdata", "timingstats",
         "timingappdata", "driverlist", "sessioninfo", "session_info",
         "lapcount", "sessionstatus", "session_status", "drivers",
     }
@@ -43,7 +43,7 @@ class RaceTimingSessionAgent(BaseAgent):
         feed = record.feed
         row = record.payload
 
-        if feed in {"session_laptimes", "laptimes"}:
+        if feed in {"session_laptimes", "laptimes", "laps"}:
             return self._process_lap_record(record)
         if feed in {"timingdata", "timingstats", "timingappdata"}:
             return self._process_timing_lines(record)
@@ -57,8 +57,8 @@ class RaceTimingSessionAgent(BaseAgent):
 
     def _process_lap_record(self, record: SourceRecord) -> AgentOutput:
         row = record.payload
-        duration = as_number(row.get("time"))
-        sector_times = [as_number(row.get(key)) for key in ("s1", "s2", "s3")]
+        duration = as_number(row.get("time") or row.get("lap_duration"))
+        sector_times = [as_number(row.get(key) or row.get(f"duration_sector_{i+1}")) for i, key in enumerate(("s1", "s2", "s3"))]
         sector_sum = sum(x for x in sector_times if x is not None) if all(x is not None for x in sector_times) else None
         residual = (sector_sum - duration) if sector_sum is not None and duration is not None else None
         findings = []
@@ -82,8 +82,8 @@ class RaceTimingSessionAgent(BaseAgent):
 
         evidence = {
             "driver_code": row.get("drv"),
-            "driver_number": row.get("dNum"),
-            "lap_number": row.get("lap"),
+            "driver_number": row.get("dNum") or row.get("driver_number"),
+            "lap_number": row.get("lap") or row.get("lap_number"),
             "lap_duration_s": duration,
             "sector_1_s": sector_times[0],
             "sector_2_s": sector_times[1],

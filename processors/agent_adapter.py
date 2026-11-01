@@ -60,7 +60,7 @@ class AgentProcessorAdapter:
         if not self.subscribed_feeds:
             return True  # System integrity / catch-all agent
         feed_lower = envelope.feed.lower()
-        return any(subscribed in feed_lower for subscribed in self.subscribed_feeds)
+        return any(subscribed in feed_lower or feed_lower in subscribed for subscribed in self.subscribed_feeds)
 
     def process(self, envelope: RawSourceEnvelope) -> list[EvidenceEvent]:
         """Convert RawSourceEnvelope -> SourceRecord -> AgentOutput -> list[EvidenceEvent].
@@ -116,7 +116,7 @@ class AgentProcessorAdapter:
                         produced_at_utc=utc_now(),
                         source_refs=[envelope.event_id],
                         session=envelope.session,
-                        scope=ev_dict.get("scope", envelope.scope),
+                        scope={**(envelope.scope or {}), **(ev_dict.get("scope") or {})},
                         time={
                             "source_value": envelope.source_time.get("value"),
                             "source_semantics": envelope.source_time.get("semantics"),
@@ -193,7 +193,7 @@ def create_default_processors() -> list[AgentProcessorAdapter]:
                 domain="vehicle",
                 agent_instance=VehicleTwinSensorAgent(),
                 version="0.1.0",
-                subscribed_feeds={"telemetry", "tel"},
+                subscribed_feeds={"telemetry", "tel", "car_data", "location"},
             )
         )
         # 2. Incident & Track State Assurance
@@ -203,7 +203,7 @@ def create_default_processors() -> list[AgentProcessorAdapter]:
                 domain="incident",
                 agent_instance=IncidentTrackAgent(),
                 version="0.1.0",
-                subscribed_feeds={"rcm", "racecontrolmessages", "trackstatus"},
+                subscribed_feeds={"rcm", "racecontrolmessages", "trackstatus", "race_control"},
             )
         )
         # 3. Environmental Context Agent
@@ -213,7 +213,7 @@ def create_default_processors() -> list[AgentProcessorAdapter]:
                 domain="environment",
                 agent_instance=EnvironmentalContextAgent(),
                 version="0.1.0",
-                subscribed_feeds={"weather", "weatherdata"},
+                subscribed_feeds={"weather", "weatherdata", "weather_data"},
             )
         )
         # 4. Race Timing & Session Agent
@@ -224,9 +224,9 @@ def create_default_processors() -> list[AgentProcessorAdapter]:
                 agent_instance=RaceTimingSessionAgent(),
                 version="0.1.0",
                 subscribed_feeds={
-                    "session_laptimes", "laptimes", "session_info", "drivers",
+                    "session_laptimes", "laptimes", "laps", "pit", "session_info", "drivers",
                     "timingdata", "timingappdata", "timingstats", "driverlist",
-                    "lapcount", "sessionstatus", "timing",
+                    "lapcount", "sessionstatus", "timing", "intervals", "position",
                 },
             )
         )

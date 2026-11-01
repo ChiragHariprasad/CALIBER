@@ -44,14 +44,14 @@ class IncidentTrackAgent(BaseAgent):
 
     def _process_one(self, record: SourceRecord) -> AgentOutput:
         row = record.payload
-        message = str(row.get("msg") or row.get("Message") or row.get("MessageString") or "")
-        category = str(row.get("cat") or row.get("Category") or "").strip().lower()
+        message = str(row.get("msg") or row.get("Message") or row.get("MessageString") or row.get("message") or "")
+        category = str(row.get("cat") or row.get("Category") or row.get("category") or "").strip().lower()
         flag = str(row.get("flag") or row.get("Flag") or "").strip().upper()
         status = str(row.get("status") or row.get("Status") or "").strip().upper()
         scope = row.get("scope") or row.get("Scope")
         sector = row.get("sector") or row.get("Sector")
-        driver_no = row.get("dNum") or row.get("RacingNumber")
-        lap = row.get("lap") or row.get("Lap")
+        driver_no = row.get("dNum") or row.get("RacingNumber") or row.get("driver_number")
+        lap = row.get("lap") or row.get("Lap") or row.get("lap_number")
         text = " ".join([message, category, flag, status]).upper()
 
         event_kind = "track_state_update" if record.feed in {"trackstatus", "track_status"} else "race_control_message"
