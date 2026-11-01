@@ -1,0 +1,11 @@
+{
+  "id": "VEC-40",
+  "category": "floating_point",
+  "description": "IEEE 754 max safe integer (2^53-1) and max float",
+  "raw_input": {
+    "max_safe_int": 9007199254740991,
+    "max_float": 1.7976931348623157e+308
+  },
+  "canonical_jcs": "{\"max_float\":1.7976931348623157e+308,\"max_safe_int\":9007199254740991}",
+  "expected_sha256": "c93118b52b4ae77bcf62c0d63da5c7cc5f47ebcac99a8650a6555fa292ad8590"
+}

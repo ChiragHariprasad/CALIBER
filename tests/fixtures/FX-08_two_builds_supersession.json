@@ -1,0 +1,271 @@
+{
+  "schema_name": "calibre.golden_fixture",
+  "schema_version": "1.0",
+  "fixture_id": "FX-08",
+  "title": "Two Builds of Same Parser Family Trigger Supersession (Defect D-09)",
+  "description": "Parser version upgrade triggers supersession rather than corroboration.",
+  "category": "BOUNDARY",
+  "evaluation_phase": "PHASE_3A_MV_SIA",
+  "defect_reference": "D-09",
+  "invariant_tested": "Defect D-09: Supersession lineage replaces older atom without increasing processing depth.",
+  "target_contract": {
+    "contract_id": "pit_entry_speed_evidence",
+    "version": "1.0",
+    "epoch": 1,
+    "effective_from": "2026-01-01T00:00:00Z",
+    "decision_type": "speed_compliance",
+    "decision_scope": {
+      "scope_class": "DRIVER_LAP",
+      "scope_key_pattern": "{session_id}|{driver_id}|lap{lap_number}"
+    },
+    "formula": "AND(telemetry_speed, pit_threshold_reference)",
+    "roles": {
+      "telemetry_speed": {
+        "required": true,
+        "description": "Car wheel speed telemetry sample recorded at pit entry crossing",
+        "time_class_required": "LAP_RELATIVE",
+        "admissible_source_origins": [
+          "TRACINGINSIGHTS_TELEMETRY"
+        ],
+        "admissible_processing_origins": [
+          "telemetry_parser_family"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "kph",
+          "tolerance_eta": 1.0,
+          "calibration_ref": "CAL-CALIB-SPEED-001",
+          "honest_noise_epsilon_h": 0.2
+        },
+        "freshness": {
+          "soft_age_s": null,
+          "hard_age_s": null,
+          "latency_allowance_s": 2.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "pit_event",
+          "max_obs_per_slot": 1,
+          "deadline_s": 30.0,
+          "allowed_lateness_s": 60.0
+        }
+      },
+      "pit_threshold_reference": {
+        "required": true,
+        "description": "Sporting regulation pit lane speed limit configuration (e.g., 80.0 kph)",
+        "time_class_required": "LAP_RELATIVE",
+        "admissible_source_origins": [
+          "SPORTING_REGULATIONS"
+        ],
+        "admissible_processing_origins": [
+          "rules_parser_family"
+        ],
+        "agreement": {
+          "metric": "discrete_equality",
+          "unit": "kph",
+          "tolerance_eta": 0.0,
+          "calibration_ref": "FIA-REG-2026-F1",
+          "honest_noise_epsilon_h": 0.0
+        },
+        "freshness": {
+          "soft_age_s": null,
+          "hard_age_s": null,
+          "latency_allowance_s": 0.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "session_transition",
+          "max_obs_per_slot": 1,
+          "deadline_s": 1.0,
+          "allowed_lateness_s": 0.0
+        }
+      }
+    },
+    "simultaneity_window_s": 0.5,
+    "finality": {
+      "condition": "all_slots_closed_and_frontier_past_lateness"
+    },
+    "tie_break": "canonical_order",
+    "explanation": {
+      "template_id": "pit_entry_speed_evidence_v1"
+    },
+    "limitations": [
+      "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream",
+      "HISTORICAL_ONLY_LIVE_SPEED_F1TV_RESTRICTED"
+    ]
+  },
+  "input_stream": [
+    {
+      "step_index": 0,
+      "stream_item_type": "REFERENCE_FACT",
+      "transport_event_time_utc": "2026-11-01T14:10:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:10:00.000Z",
+      "data": {
+        "fact_id": "ref-pit-speed-limit",
+        "fact_type": "pit_threshold_reference",
+        "value": 80.0,
+        "time_class": "LAP_RELATIVE",
+        "grade": "HEALTHY"
+      }
+    },
+    {
+      "step_index": 1,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:10:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:10:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-speed-v10",
+        "raw_event_ids": [
+          "raw-speed-01"
+        ],
+        "processor_family_id": "telemetry_parser_family",
+        "transform_version": "1.0.0",
+        "role_id": "telemetry_speed",
+        "scope_key": "mexico-2026|VER|52",
+        "value": 79.8,
+        "unit": "kph",
+        "time": {
+          "value": 42.0,
+          "class": "LAP_RELATIVE",
+          "unit": "s"
+        },
+        "quality_grade": "HEALTHY",
+        "source_origin_set": [
+          "TRACINGINSIGHTS_TELEMETRY"
+        ],
+        "processing_origin_set": [
+          "telemetry_parser_family"
+        ]
+      }
+    },
+    {
+      "step_index": 2,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:10:05.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:10:05.000Z",
+      "data": {
+        "evidence_atom_id": "atom-speed-v11",
+        "supersedes_atom_id": "atom-speed-v10",
+        "raw_event_ids": [
+          "raw-speed-01"
+        ],
+        "processor_family_id": "telemetry_parser_family",
+        "transform_version": "1.1.0",
+        "role_id": "telemetry_speed",
+        "scope_key": "mexico-2026|VER|52",
+        "value": 79.9,
+        "unit": "kph",
+        "time": {
+          "value": 42.0,
+          "class": "LAP_RELATIVE",
+          "unit": "s"
+        },
+        "quality_grade": "HEALTHY",
+        "source_origin_set": [
+          "TRACINGINSIGHTS_TELEMETRY"
+        ],
+        "processing_origin_set": [
+          "telemetry_parser_family"
+        ]
+      }
+    }
+  ],
+  "evaluation_schedule": [
+    {
+      "eval_id": "FX-08-E1",
+      "after_step_index": 2,
+      "t_eval": "2026-11-01T14:10:10.000Z",
+      "clock_domain": "LIVE_UTC",
+      "decision_instance_id": "mexico-2026|VER|52|pit_entry_speed_evidence"
+    }
+  ],
+  "expected_verdicts": [
+    {
+      "eval_id": "FX-08-E1",
+      "schema_name": "calibre.integrity_assessment",
+      "schema_version": "2.0",
+      "decision_instance_id": "mexico-2026|VER|52|pit_entry_speed_evidence",
+      "contract": {
+        "id": "pit_entry_speed_evidence",
+        "version": "1.0",
+        "epoch": 1
+      },
+      "integrity_state": "HEALTHY",
+      "corroboration_profile_by_role": {
+        "telemetry_speed": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "atom-speed-v11"
+          ],
+          "origin_refs": [
+            "TRACINGINSIGHTS_TELEMETRY"
+          ]
+        },
+        "pit_threshold_reference": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "ref-pit-speed-limit"
+          ],
+          "origin_refs": [
+            "SPORTING_REGULATIONS"
+          ]
+        }
+      },
+      "validity_timeline": [
+        {
+          "from": "2026-11-01T14:10:05.000Z",
+          "state": "HEALTHY"
+        }
+      ],
+      "next_transition_at": null,
+      "lease_until": "2026-11-01T14:10:35.000Z",
+      "lease_clock_domain": "LIVE_UTC",
+      "resolution_maturity": "STATE_RESOLVED",
+      "finality_status": "OPEN",
+      "revision_number": 1,
+      "previous_verdict_hash": null,
+      "knowledge_frontier": {
+        "watermark": "2026-11-01T14:10:05.000Z",
+        "run_clock": "2026-11-01T14:10:10.000Z"
+      },
+      "primary_binding_witness": "SUPERSEDED_ATOM: original=atom-speed-v10, superseded_by=atom-speed-v11",
+      "witness_set": [
+        "SUPERSEDED_ATOM: original=atom-speed-v10, superseded_by=atom-speed-v11",
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream",
+        "HISTORICAL_ONLY_LIVE_SPEED_F1TV_RESTRICTED"
+      ],
+      "limiting_children": [],
+      "alternatives": [],
+      "diagnosis_result": "NONE",
+      "limitations": [
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream",
+        "HISTORICAL_ONLY_LIVE_SPEED_F1TV_RESTRICTED"
+      ],
+      "decision_maturity": "PROVISIONAL",
+      "verdict_hash": "bebc34571987bd10c6fafe61a024a29ab8e4e4dc133570235e68a25760d21553"
+    }
+  ]
+}

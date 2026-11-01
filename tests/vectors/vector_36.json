@@ -1,0 +1,10 @@
+{
+  "id": "VEC-36",
+  "category": "floating_point",
+  "description": "Large float at 10^20 formats as 21-digit decimal",
+  "raw_input": {
+    "large": 1e+20
+  },
+  "canonical_jcs": "{\"large\":100000000000000000000}",
+  "expected_sha256": "fb3e43ae3685e727dbc9219028731ec408ac78591b79c0135bca7bb9f465b8e1"
+}

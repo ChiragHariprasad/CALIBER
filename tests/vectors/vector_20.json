@@ -1,0 +1,10 @@
+{
+  "id": "VEC-20",
+  "category": "unicode_escaping",
+  "description": "Mixed ASCII, control characters, and Unicode",
+  "raw_input": {
+    "mixed": "Test\u0000\t\"\\/é😀"
+  },
+  "canonical_jcs": "{\"mixed\":\"Test\\u0000\\t\\\"\\\\/é😀\"}",
+  "expected_sha256": "b17b4877ce9f6835b4a76b06a9f7c7bff44b2a4ce6aa02d137f8a79cafe81406"
+}

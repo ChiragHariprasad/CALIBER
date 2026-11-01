@@ -1,0 +1,20 @@
+{
+  "id": "VEC-51",
+  "category": "domain_payloads",
+  "description": "evidence_atom_id with reference atom dependency",
+  "raw_input": {
+    "normalized_value_hash": "6ec62955f13d80bf4a4aa89617d5c8eef8dc0387b92bb590214c77ea4d1567bc",
+    "processor_family_id": "timing_parser_family",
+    "raw_event_ids": [
+      "f8490a618d35099b22a00c7e2b1ea2095f00a501e74f88e999c09c2a39626e2a"
+    ],
+    "reference_atom_ids": [
+      "628a7ee4bbf255ef4fb84e8574492bf22d713c71ea407fa71c4c9e42258ea281"
+    ],
+    "role_id": "telemetry_sample",
+    "scope_key": "session_11731|VER|52|sample_120",
+    "transform_version": "1.0.0"
+  },
+  "canonical_jcs": "{\"normalized_value_hash\":\"6ec62955f13d80bf4a4aa89617d5c8eef8dc0387b92bb590214c77ea4d1567bc\",\"processor_family_id\":\"timing_parser_family\",\"raw_event_ids\":[\"f8490a618d35099b22a00c7e2b1ea2095f00a501e74f88e999c09c2a39626e2a\"],\"reference_atom_ids\":[\"628a7ee4bbf255ef4fb84e8574492bf22d713c71ea407fa71c4c9e42258ea281\"],\"role_id\":\"telemetry_sample\",\"scope_key\":\"session_11731|VER|52|sample_120\",\"transform_version\":\"1.0.0\"}",
+  "expected_sha256": "5ef6d405617c6b269c4a86bda6d97102c450e670b539d26aea73e008485cc2ad"
+}

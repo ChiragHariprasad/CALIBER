@@ -1,0 +1,23 @@
+{
+  "id": "VEC-47",
+  "category": "domain_payloads",
+  "description": "raw_event_id canonical object (Pitwall TimingData)",
+  "raw_input": {
+    "feed": "TimingData",
+    "payload_sha256": "47a3e785d03ec1c54b2857037f394c8b21c70e28f325d254b1f415392e2760df",
+    "provider": "PITWALL_F1",
+    "scope": {
+      "driver_id": "VER",
+      "lap": 52
+    },
+    "session_id": "session_11731",
+    "source_record_key": "session_11731_lap_52_VER",
+    "source_time": {
+      "semantics": "SESSION_ELAPSED",
+      "unit": "s",
+      "value": 84.1234
+    }
+  },
+  "canonical_jcs": "{\"feed\":\"TimingData\",\"payload_sha256\":\"47a3e785d03ec1c54b2857037f394c8b21c70e28f325d254b1f415392e2760df\",\"provider\":\"PITWALL_F1\",\"scope\":{\"driver_id\":\"VER\",\"lap\":52},\"session_id\":\"session_11731\",\"source_record_key\":\"session_11731_lap_52_VER\",\"source_time\":{\"semantics\":\"SESSION_ELAPSED\",\"unit\":\"s\",\"value\":84.1234}}",
+  "expected_sha256": "6f9e399cab9ec9bccfd62a9b5d117d7ac2e3a7757da6222e2298976879f90304"
+}

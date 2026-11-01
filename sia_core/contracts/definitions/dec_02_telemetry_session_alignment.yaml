@@ -1,0 +1,81 @@
+contract_id: telemetry_session_alignment
+version: "1.0"
+epoch: 1
+effective_from: "2026-01-01T00:00:00Z"
+decision_type: telemetry_alignment
+decision_scope:
+  scope_class: DRIVER_LAP
+  scope_key_pattern: "{session_id}|{driver_id}|lap{lap_number}"
+formula: "AND(telemetry_sample, lap_start_reference)"
+roles:
+  telemetry_sample:
+    required: true
+    description: "Car high-frequency telemetry sample containing lap-relative elapsed time"
+    time_class_required: LAP_RELATIVE
+    admissible_source_origins:
+      - TRACINGINSIGHTS_TELEMETRY
+    admissible_processing_origins:
+      - telemetry_parser_family
+    agreement:
+      metric: abs_diff
+      unit: s
+      tolerance_eta: 0.01
+      calibration_ref: CAL-CALIB-TEL-001
+      honest_noise_epsilon_h: 0.001
+    freshness:
+      soft_age_s: null
+      hard_age_s: null
+      latency_allowance_s: 5.0
+    corroboration:
+      source: INFORMATIONAL
+      processing: INFORMATIONAL
+      source_min_depth: 0
+      processing_min_depth: 0
+    fault_model:
+      source_fault_budget: 0
+      processing_fault_budget: 0
+    slots:
+      trigger: lap_completed
+      max_obs_per_slot: 1000
+      deadline_s: 30.0
+      allowed_lateness_s: 60.0
+  lap_start_reference:
+    required: true
+    description: "Lap start session time reference fact (lST) required for conversion"
+    time_class_required: SESSION_ELAPSED
+    admissible_source_origins:
+      - TRACINGINSIGHTS_LAPS
+    admissible_processing_origins:
+      - timing_parser_family
+    agreement:
+      metric: abs_diff
+      unit: s
+      tolerance_eta: 0.05
+      calibration_ref: CAL-CALIB-TIMING-001
+      honest_noise_epsilon_h: 0.005
+    freshness:
+      soft_age_s: null
+      hard_age_s: null
+      latency_allowance_s: 2.0
+    corroboration:
+      source: INFORMATIONAL
+      processing: INFORMATIONAL
+      source_min_depth: 0
+      processing_min_depth: 0
+    fault_model:
+      source_fault_budget: 0
+      processing_fault_budget: 0
+    slots:
+      trigger: lap_completed
+      max_obs_per_slot: 1
+      deadline_s: 30.0
+      allowed_lateness_s: 60.0
+simultaneity_window_s: 0.5
+finality:
+  condition: all_slots_closed_and_frontier_past_lateness
+tie_break: canonical_order
+explanation:
+  template_id: telemetry_session_alignment_v1
+limitations:
+  - "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+  - "TELEMETRY_SAMPLE_INTERPOLATED_ORIGIN"

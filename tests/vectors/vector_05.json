@@ -1,0 +1,11 @@
+{
+  "id": "VEC-05",
+  "category": "key_ordering",
+  "description": "UTF-16 code unit vs code point (BMP U+FFFF vs Supp U+10000)",
+  "raw_input": {
+    "￿": 1,
+    "𐀀": 2
+  },
+  "canonical_jcs": "{\"𐀀\":2,\"￿\":1}",
+  "expected_sha256": "72406deb9e8efdb3b2d8b80c26ebd8d609a5338250baa8308cab44bbe7506499"
+}

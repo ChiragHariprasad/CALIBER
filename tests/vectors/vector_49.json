@@ -1,0 +1,23 @@
+{
+  "id": "VEC-49",
+  "category": "domain_payloads",
+  "description": "raw_event_id acquisition-bound fallback object",
+  "raw_input": {
+    "feed": "RaceControlMessages",
+    "payload_sha256": "d98fb87f7422f4625b172a3920cbe0aee50a1dfd9a6ca587e954ff206aeb73f0",
+    "provider": "PITWALL_F1",
+    "received_at_utc": "2026-10-31T23:15:00.123456Z",
+    "scope": {
+      "scope_class": "SESSION"
+    },
+    "session_id": "session_11731",
+    "source_record_key": null,
+    "source_time": {
+      "semantics": "RECEIPT_TIME_ONLY",
+      "unit": "utc",
+      "value": null
+    }
+  },
+  "canonical_jcs": "{\"feed\":\"RaceControlMessages\",\"payload_sha256\":\"d98fb87f7422f4625b172a3920cbe0aee50a1dfd9a6ca587e954ff206aeb73f0\",\"provider\":\"PITWALL_F1\",\"received_at_utc\":\"2026-10-31T23:15:00.123456Z\",\"scope\":{\"scope_class\":\"SESSION\"},\"session_id\":\"session_11731\",\"source_record_key\":null,\"source_time\":{\"semantics\":\"RECEIPT_TIME_ONLY\",\"unit\":\"utc\",\"value\":null}}",
+  "expected_sha256": "ec43d436f6af7f337ed84b7417b184e5812016735fe5b4df2a447ed16307aeb6"
+}

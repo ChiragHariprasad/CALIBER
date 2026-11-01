@@ -1,0 +1,213 @@
+{
+  "schema_name": "calibre.golden_fixture",
+  "schema_version": "1.0",
+  "fixture_id": "FX-11",
+  "title": "Unique-Intersection Diagnosis Isolation (Intersection = {A} => Exclude A, Remaining HEALTHY)",
+  "description": "Theorem G4-I & G4-V fault exclusion when intersection is uniquely {A}, remaining atoms validate to HEALTHY.",
+  "category": "ADVERSARIAL",
+  "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+  "defect_reference": null,
+  "invariant_tested": "Theorems G4-I & G4-V: Sound fault isolation and value validity under triangle inequality.",
+  "target_contract": {
+    "contract_id": "synthetic_quad_sensor_timing",
+    "version": "1.0",
+    "epoch": 1,
+    "effective_from": "2026-01-01T00:00:00Z",
+    "decision_type": "synthetic_testing",
+    "decision_scope": {
+      "scope_class": "DRIVER_LAP",
+      "scope_key_pattern": "{session_id}|{scope_key}"
+    },
+    "formula": "sector_timing",
+    "roles": {
+      "sector_timing": {
+        "required": true,
+        "description": "Quad-sensor sector timing with budget f=1",
+        "time_class_required": "SESSION_ELAPSED",
+        "admissible_source_origins": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "admissible_processing_origins": [
+          "timing_parser"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "s",
+          "tolerance_eta": 0.05,
+          "calibration_ref": "SYN-SECTOR-01",
+          "honest_noise_epsilon_h": 0.01
+        },
+        "freshness": {
+          "soft_age_s": 5.0,
+          "hard_age_s": 15.0,
+          "latency_allowance_s": 1.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 1,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "event_driven",
+          "max_obs_per_slot": 4,
+          "deadline_s": 5.0,
+          "allowed_lateness_s": 10.0
+        }
+      }
+    },
+    "simultaneity_window_s": 1.0,
+    "finality": {
+      "condition": "all_slots_closed_and_frontier_past_lateness"
+    },
+    "tie_break": "canonical_order",
+    "explanation": {
+      "template_id": "synthetic_quad_sensor_timing_v1"
+    },
+    "limitations": [
+      "SYNTHETIC_DATASET_FIXTURE_ONLY"
+    ]
+  },
+  "input_stream": [
+    {
+      "step_index": 0,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:40:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:40:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-A",
+        "role_id": "sector_timing",
+        "value": 25.5,
+        "unit": "s",
+        "source_origin_set": [
+          "A"
+        ]
+      }
+    },
+    {
+      "step_index": 1,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:40:00.010Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:40:00.010Z",
+      "data": {
+        "evidence_atom_id": "atom-B",
+        "role_id": "sector_timing",
+        "value": 25.01,
+        "unit": "s",
+        "source_origin_set": [
+          "B"
+        ]
+      }
+    },
+    {
+      "step_index": 2,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:40:00.020Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:40:00.020Z",
+      "data": {
+        "evidence_atom_id": "atom-C",
+        "role_id": "sector_timing",
+        "value": 25.015,
+        "unit": "s",
+        "source_origin_set": [
+          "C"
+        ]
+      }
+    },
+    {
+      "step_index": 3,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:40:00.030Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:40:00.030Z",
+      "data": {
+        "evidence_atom_id": "atom-D",
+        "role_id": "sector_timing",
+        "value": 25.02,
+        "unit": "s",
+        "source_origin_set": [
+          "D"
+        ]
+      }
+    }
+  ],
+  "evaluation_schedule": [
+    {
+      "eval_id": "FX-11-E1",
+      "after_step_index": 3,
+      "t_eval": "2026-11-01T14:40:01.000Z",
+      "clock_domain": "LIVE_UTC",
+      "decision_instance_id": "mexico-2026|VER|52|synthetic_quad_sensor_timing"
+    }
+  ],
+  "expected_verdicts": [
+    {
+      "eval_id": "FX-11-E1",
+      "schema_name": "calibre.integrity_assessment",
+      "schema_version": "2.0",
+      "decision_instance_id": "mexico-2026|VER|52|synthetic_quad_sensor_timing",
+      "contract": {
+        "id": "synthetic_quad_sensor_timing",
+        "version": "1.0",
+        "epoch": 1
+      },
+      "integrity_state": "HEALTHY",
+      "corroboration_profile_by_role": {
+        "sector_timing": {
+          "source_depth": 2,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "atom-B",
+            "atom-C",
+            "atom-D"
+          ],
+          "origin_refs": [
+            "B",
+            "C",
+            "D"
+          ]
+        }
+      },
+      "validity_timeline": [
+        {
+          "from": "2026-11-01T14:40:00.030Z",
+          "state": "HEALTHY"
+        }
+      ],
+      "next_transition_at": "2026-11-01T14:40:05.000Z",
+      "lease_until": "2026-11-01T14:40:05.000Z",
+      "lease_clock_domain": "LIVE_UTC",
+      "resolution_maturity": "STATE_RESOLVED",
+      "finality_status": "OPEN",
+      "revision_number": 1,
+      "previous_verdict_hash": null,
+      "knowledge_frontier": {
+        "watermark": "2026-11-01T14:40:00.030Z",
+        "run_clock": "2026-11-01T14:40:01.000Z"
+      },
+      "primary_binding_witness": "EXCLUDED_FAULTY_ORIGIN: origin=A, diagnosis={A}",
+      "witness_set": [
+        "EXCLUDED_FAULTY_ORIGIN: origin=A, diagnosis={A}",
+        "SUPPORT_SET_G4V_VALIDATED: size=3, f_budget=1"
+      ],
+      "limiting_children": [],
+      "alternatives": [],
+      "diagnosis_result": "EXCLUDED_FAULTS",
+      "limitations": [
+        "SYNTHETIC_DATASET_FIXTURE_ONLY"
+      ],
+      "decision_maturity": "PROVISIONAL",
+      "verdict_hash": "a217fc069e39e5e4367f26cda3f0b0f12adcf6135f6299056f301438700207f0"
+    }
+  ]
+}

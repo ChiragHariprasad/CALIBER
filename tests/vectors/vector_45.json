@@ -1,0 +1,11 @@
+{
+  "id": "VEC-45",
+  "category": "quantization",
+  "description": "Negative timing delta quantized to 10^-4 s",
+  "raw_input": {
+    "raw": -0.054321,
+    "quantized": -0.0543
+  },
+  "canonical_jcs": "{\"quantized\":-0.0543,\"raw\":-0.054321}",
+  "expected_sha256": "c729a0a49b67b966ad132ff7f8cb308752086db6c250bf85efe64d7fb19d856c"
+}

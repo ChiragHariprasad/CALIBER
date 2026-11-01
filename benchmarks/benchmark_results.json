@@ -1,0 +1,22 @@
+{
+  "throughput_and_latency": {
+    "iterations": 2000,
+    "total_time_s": 0.3413,
+    "throughput_ops_per_sec": 5859.2,
+    "latency_p50_us": 155.75,
+    "latency_p95_us": 253.5,
+    "latency_p99_us": 377.6
+  },
+  "memory_sizing": {
+    "instances_created": 500,
+    "total_allocated_kb": 1560.04,
+    "bytes_per_decision_instance": 3195.0
+  },
+  "hypothesis_h1": {
+    "trials": 1000,
+    "baseline_false_healthy_pct": 33.4,
+    "sia_false_healthy_pct": 0.0,
+    "hypothesis_h1_confirmed": true,
+    "summary": "SIA eliminates 100% of false-HEALTHY verdicts caused by correlated upstreams and data divergence that escape naive freshness baselines."
+  }
+}

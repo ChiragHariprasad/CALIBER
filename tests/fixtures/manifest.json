@@ -1,0 +1,243 @@
+[
+  {
+    "fixture_id": "FX-01",
+    "file_name": "FX-01_missing_evidence.json",
+    "title": "Mandatory Evidence Slot Deadline Expiry (UNKNOWN to DEGRADED Transition)",
+    "category": "BOUNDARY",
+    "evaluation_phase": "PHASE_3A_MV_SIA",
+    "defect_reference": "D-05",
+    "target_contract_id": "lap_time_consistency",
+    "expected_verdict_hashes": [
+      "00dbb61092b5f1db05d1d9844b7d4f9bd8de5dfbeba5d5c2019530b67435216a"
+    ]
+  },
+  {
+    "fixture_id": "FX-02",
+    "file_name": "FX-02_stale_evidence.json",
+    "title": "Stale Evidence Aging (Soft Age Step to SUSPECT, Timeline Step to DEGRADED)",
+    "category": "BOUNDARY",
+    "evaluation_phase": "PHASE_3A_MV_SIA",
+    "defect_reference": "D-04",
+    "target_contract_id": "race_control_incident_timing",
+    "expected_verdict_hashes": [
+      "888474dfab70cb0dea4fca530b2895ff65bb8f35df3e03c4d972a102711dd241"
+    ]
+  },
+  {
+    "fixture_id": "FX-03",
+    "file_name": "FX-03_hard_expired_evidence.json",
+    "title": "Hard Expired Evidence Atom (Exclusion from Support Set, Retained as Audit Witness)",
+    "category": "BOUNDARY",
+    "evaluation_phase": "PHASE_3A_MV_SIA",
+    "defect_reference": null,
+    "target_contract_id": "weather_strategy_advisory",
+    "expected_verdict_hashes": [
+      "606db26c968dac8219b37304a05f76c228a1268364e0d0192abaabbb474a733e"
+    ]
+  },
+  {
+    "fixture_id": "FX-04",
+    "file_name": "FX-04_ambiguous_time_conversion.json",
+    "title": "Ambiguous Time Conversion (Missing Reference Fact lST => Fail-Closed UNKNOWN)",
+    "category": "BOUNDARY",
+    "evaluation_phase": "PHASE_3A_MV_SIA",
+    "defect_reference": null,
+    "target_contract_id": "telemetry_session_alignment",
+    "expected_verdict_hashes": [
+      "3f1f8688caa1bb4fa38544cce9cb932976a8f483e73c7225aa372cdcbe422f8b"
+    ]
+  },
+  {
+    "fixture_id": "FX-05",
+    "file_name": "FX-05_invalid_reference_fact.json",
+    "title": "Invalid Reference Fact (Corrupted t0_date Syntax => Fail-Closed UNKNOWN)",
+    "category": "ADVERSARIAL",
+    "evaluation_phase": "PHASE_3A_MV_SIA",
+    "defect_reference": null,
+    "target_contract_id": "race_control_incident_timing",
+    "expected_verdict_hashes": [
+      "3e075f6c88b0856bb126d8cd13655b1ad621c93c1d8ba925d1adf25ad97e109b"
+    ]
+  },
+  {
+    "fixture_id": "FX-06",
+    "file_name": "FX-06_correlated_providers.json",
+    "title": "Correlated Providers (Shared FOM Upstream => kappa_src = 0 with Limitation Witness)",
+    "category": "NORMAL",
+    "evaluation_phase": "PHASE_3A_MV_SIA",
+    "defect_reference": "D-15",
+    "target_contract_id": "pit_lane_timing_evidence",
+    "expected_verdict_hashes": [
+      "4a4100e6f8340864d2d35bfc15537841e8b0d0d81087da0d824c18315fcd00d5"
+    ]
+  },
+  {
+    "fixture_id": "FX-07",
+    "file_name": "FX-07_duplicated_processors.json",
+    "title": "Duplicated Processors Deduplication (kappa_proc = 0)",
+    "category": "NORMAL",
+    "evaluation_phase": "PHASE_3A_MV_SIA",
+    "defect_reference": null,
+    "target_contract_id": "lap_time_consistency",
+    "expected_verdict_hashes": [
+      "0def3583e266ead82cfcda4c7104ff80e8e0157b90a94a4e598f7beb2f5ce7ad"
+    ]
+  },
+  {
+    "fixture_id": "FX-08",
+    "file_name": "FX-08_two_builds_supersession.json",
+    "title": "Two Builds of Same Parser Family Trigger Supersession (Defect D-09)",
+    "category": "BOUNDARY",
+    "evaluation_phase": "PHASE_3A_MV_SIA",
+    "defect_reference": "D-09",
+    "target_contract_id": "pit_entry_speed_evidence",
+    "expected_verdict_hashes": [
+      "bebc34571987bd10c6fafe61a024a29ab8e4e4dc133570235e68a25760d21553"
+    ]
+  },
+  {
+    "fixture_id": "FX-09",
+    "file_name": "FX-09_two_disagreeing_sources.json",
+    "title": "Two Independent Disagreeing Sources (|v1 - v2| > eta => SUSPECT)",
+    "category": "ADVERSARIAL",
+    "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+    "defect_reference": null,
+    "target_contract_id": "synthetic_dual_speed_sensor",
+    "expected_verdict_hashes": [
+      "3d1f637a861d72b21c8b4008b6e3fd36f20137b570c34513d5e64e7c528841eb"
+    ]
+  },
+  {
+    "fixture_id": "FX-10",
+    "file_name": "FX-10_star_graph_ambiguous_diagnosis.json",
+    "title": "Star-Graph Ambiguous Diagnosis (Intersection = Empty => DIAGNOSIS_AMBIGUOUS, Exclude Nothing)",
+    "category": "ADVERSARIAL",
+    "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+    "defect_reference": "D-01",
+    "target_contract_id": "synthetic_tri_sensor_temp",
+    "expected_verdict_hashes": [
+      "7e0b876072f826724aa0d1ae810a1909b7edf4e53e94e4df7a483c4734bd88bd"
+    ]
+  },
+  {
+    "fixture_id": "FX-11",
+    "file_name": "FX-11_unique_intersection_diagnosis.json",
+    "title": "Unique-Intersection Diagnosis Isolation (Intersection = {A} => Exclude A, Remaining HEALTHY)",
+    "category": "ADVERSARIAL",
+    "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+    "defect_reference": null,
+    "target_contract_id": "synthetic_quad_sensor_timing",
+    "expected_verdict_hashes": [
+      "a217fc069e39e5e4367f26cda3f0b0f12adcf6135f6299056f301438700207f0"
+    ]
+  },
+  {
+    "fixture_id": "FX-12",
+    "file_name": "FX-12_pending_origins_envelope.json",
+    "title": "Pending Origins & Abstract Completion Bounds (Defect D-03, Obligation P4)",
+    "category": "NORMAL",
+    "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+    "defect_reference": "D-03",
+    "target_contract_id": "pit_lane_timing_evidence",
+    "expected_verdict_hashes": [
+      "2e2da737de9ce8328cdf29dda7c32a9d09f743186c0465f9b867b7a080a52a25"
+    ]
+  },
+  {
+    "fixture_id": "FX-13",
+    "file_name": "FX-13_sound_early_collapse.json",
+    "title": "Sound Early Collapse Prior to Slot Deadline (Obligation P5)",
+    "category": "BOUNDARY",
+    "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+    "defect_reference": null,
+    "target_contract_id": "synthetic_weather_redundant",
+    "expected_verdict_hashes": [
+      "33e1ca81c6cefcdd518b6c662eb76e9cf3c3dd6435fdc40e2cd216df6dd2fb9f"
+    ]
+  },
+  {
+    "fixture_id": "FX-14",
+    "file_name": "FX-14_late_revision.json",
+    "title": "Late Revision Within Allowed Lateness Window (Revision Linked H1 -> H2)",
+    "category": "NORMAL",
+    "evaluation_phase": "PHASE_3A_MV_SIA",
+    "defect_reference": "D-08",
+    "target_contract_id": "lap_time_consistency",
+    "expected_verdict_hashes": [
+      "00dbb61092b5f1db05d1d9844b7d4f9bd8de5dfbeba5d5c2019530b67435216a",
+      "c75977a962633ffdb0dcbcec883eea03ac3c4ff8f0b6353033c568bec038d545"
+    ]
+  },
+  {
+    "fixture_id": "FX-15",
+    "file_name": "FX-15_post_finality_violation.json",
+    "title": "Post-Finality Atom Arrival Quarantined (Invariant G11)",
+    "category": "ADVERSARIAL",
+    "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+    "defect_reference": null,
+    "target_contract_id": "lap_time_consistency",
+    "expected_verdict_hashes": [
+      "631f28d492355f11ae80ddc972719b0e4108056272611bf284e6dafa552f1c0a"
+    ]
+  },
+  {
+    "fixture_id": "FX-16",
+    "file_name": "FX-16_stationary_watermark_expiry.json",
+    "title": "Stationary Watermark Expiry via RunClockTick Facts (Defect D-06)",
+    "category": "BOUNDARY",
+    "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+    "defect_reference": "D-06",
+    "target_contract_id": "source_integrity_assessment",
+    "expected_verdict_hashes": [
+      "d024120ca9bc45a9ab3a1463a4dfec00808e901aa5829276084ef27194437904"
+    ]
+  },
+  {
+    "fixture_id": "FX-17",
+    "file_name": "FX-17_replay_virtual_clock_leases.json",
+    "title": "Replay with Virtual Clock Leases (Defect D-07)",
+    "category": "BOUNDARY",
+    "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+    "defect_reference": "D-07",
+    "target_contract_id": "lap_time_consistency",
+    "expected_verdict_hashes": [
+      "2e9ddfee6b07ec9bc317f479fc80b53c6c2fa968acacef5476321c5b1d034532"
+    ]
+  },
+  {
+    "fixture_id": "FX-18",
+    "file_name": "FX-18_incompatible_fact_interpretations.json",
+    "title": "Incompatible Fact Interpretations & Scope Locality (Invariant G2)",
+    "category": "BOUNDARY",
+    "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+    "defect_reference": null,
+    "target_contract_id": "pit_lane_timing_evidence",
+    "expected_verdict_hashes": [
+      "7601fc9ed10b174526d7cbb6044d127ae6fc4ee0127b24c81a6204d7afb9d275"
+    ]
+  },
+  {
+    "fixture_id": "FX-19",
+    "file_name": "FX-19_overflow_with_conflicting_atom.json",
+    "title": "Candidate Atom Overflow with Conflict (Cap M_max = 10 => Fail-Closed <= UNKNOWN)",
+    "category": "ADVERSARIAL",
+    "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+    "defect_reference": "D-18",
+    "target_contract_id": "synthetic_multi_sensor_overflow",
+    "expected_verdict_hashes": [
+      "c92da11e64c12ffc169e42ae0bf24bd5b41cb7915436b8dd26407c5a8c92db45"
+    ]
+  },
+  {
+    "fixture_id": "FX-20",
+    "file_name": "FX-20_cross_language_conformance.json",
+    "title": "Cross-Language RFC 8785 JCS Serialization & Hash Invariant (Defect D-13)",
+    "category": "NORMAL",
+    "evaluation_phase": "PHASE_3A_MV_SIA",
+    "defect_reference": "D-13",
+    "target_contract_id": "lap_time_consistency",
+    "expected_verdict_hashes": [
+      "3bb456a41c784ff0c0f2845d4c1cb59ed84ecde8811ff9d2721d4d9e2109f278"
+    ]
+  }
+]

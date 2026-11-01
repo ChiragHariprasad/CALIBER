@@ -1,0 +1,11 @@
+{
+  "id": "VEC-46",
+  "category": "quantization",
+  "description": "Banker's rounding half-to-even boundary",
+  "raw_input": {
+    "even_case": 1.0,
+    "odd_case": 1.0002
+  },
+  "canonical_jcs": "{\"even_case\":1,\"odd_case\":1.0002}",
+  "expected_sha256": "39c03478d76f94b91b46040ca9bdb093ae3717d332c3ecca3dd2890ade2eec0f"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "VEC-06",
+  "category": "key_ordering",
+  "description": "Supplementary characters ordering (U+10000 vs U+10001)",
+  "raw_input": {
+    "𐀁": 2,
+    "𐀀": 1
+  },
+  "canonical_jcs": "{\"𐀀\":1,\"𐀁\":2}",
+  "expected_sha256": "ee0fb6bbd20f7d78d35ac484ac9241c9fd125a8094f40eb3940c5bb89918b6aa"
+}

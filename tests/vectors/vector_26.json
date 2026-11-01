@@ -1,0 +1,13 @@
+{
+  "id": "VEC-26",
+  "category": "empty_and_primitives",
+  "description": "Compound object with empty primitives and collections",
+  "raw_input": {
+    "a": {},
+    "b": [],
+    "c": "",
+    "d": null
+  },
+  "canonical_jcs": "{\"a\":{},\"b\":[],\"c\":\"\",\"d\":null}",
+  "expected_sha256": "e8a89bdf5f4e49c4ffaeea83b01cc9e7bf86d79d4d2b2adbb354c81109364fdc"
+}

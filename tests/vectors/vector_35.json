@@ -1,0 +1,10 @@
+{
+  "id": "VEC-35",
+  "category": "floating_point",
+  "description": "Small float at 10^-7 uses scientific notation",
+  "raw_input": {
+    "small": 1e-07
+  },
+  "canonical_jcs": "{\"small\":1e-7}",
+  "expected_sha256": "eab71f0599648ef0fd925fca469c78e7aab062861bcb11ff037454b97f43720d"
+}

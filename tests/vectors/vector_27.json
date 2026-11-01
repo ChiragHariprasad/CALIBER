@@ -1,0 +1,16 @@
+{
+  "id": "VEC-27",
+  "category": "empty_and_primitives",
+  "description": "Deeply nested empty structures",
+  "raw_input": [
+    [
+      [],
+      {}
+    ],
+    {
+      "nested": []
+    }
+  ],
+  "canonical_jcs": "[[[],{}],{\"nested\":[]}]",
+  "expected_sha256": "6a9032c1957230d36d61557ac63ce310acd63cd6f6a737d7ee8598dd76dee308"
+}

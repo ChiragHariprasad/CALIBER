@@ -1,0 +1,11 @@
+{
+  "id": "VEC-25",
+  "category": "empty_and_primitives",
+  "description": "Boolean true and false",
+  "raw_input": {
+    "flag_false": false,
+    "flag_true": true
+  },
+  "canonical_jcs": "{\"flag_false\":false,\"flag_true\":true}",
+  "expected_sha256": "bd5bf6b6280ac829bd3b3158f6a189b375f74d0cb8dd91517554c082127906ab"
+}

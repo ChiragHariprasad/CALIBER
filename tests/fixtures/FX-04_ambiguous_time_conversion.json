@@ -1,0 +1,222 @@
+{
+  "schema_name": "calibre.golden_fixture",
+  "schema_version": "1.0",
+  "fixture_id": "FX-04",
+  "title": "Ambiguous Time Conversion (Missing Reference Fact lST => Fail-Closed UNKNOWN)",
+  "description": "Missing lST reference fact prevents converting LAP_RELATIVE telemetry to SESSION_ELAPSED time.",
+  "category": "BOUNDARY",
+  "evaluation_phase": "PHASE_3A_MV_SIA",
+  "defect_reference": null,
+  "invariant_tested": "Invariant G10: No fabricated converted time facts.",
+  "target_contract": {
+    "contract_id": "telemetry_session_alignment",
+    "version": "1.0",
+    "epoch": 1,
+    "effective_from": "2026-01-01T00:00:00Z",
+    "decision_type": "telemetry_alignment",
+    "decision_scope": {
+      "scope_class": "DRIVER_LAP",
+      "scope_key_pattern": "{session_id}|{driver_id}|lap{lap_number}"
+    },
+    "formula": "AND(telemetry_sample, lap_start_reference)",
+    "roles": {
+      "telemetry_sample": {
+        "required": true,
+        "description": "Car high-frequency telemetry sample containing lap-relative elapsed time",
+        "time_class_required": "LAP_RELATIVE",
+        "admissible_source_origins": [
+          "TRACINGINSIGHTS_TELEMETRY"
+        ],
+        "admissible_processing_origins": [
+          "telemetry_parser_family"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "s",
+          "tolerance_eta": 0.01,
+          "calibration_ref": "CAL-CALIB-TEL-001",
+          "honest_noise_epsilon_h": 0.001
+        },
+        "freshness": {
+          "soft_age_s": null,
+          "hard_age_s": null,
+          "latency_allowance_s": 5.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "lap_completed",
+          "max_obs_per_slot": 1000,
+          "deadline_s": 30.0,
+          "allowed_lateness_s": 60.0
+        }
+      },
+      "lap_start_reference": {
+        "required": true,
+        "description": "Lap start session time reference fact (lST) required for conversion",
+        "time_class_required": "SESSION_ELAPSED",
+        "admissible_source_origins": [
+          "TRACINGINSIGHTS_LAPS"
+        ],
+        "admissible_processing_origins": [
+          "timing_parser_family"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "s",
+          "tolerance_eta": 0.05,
+          "calibration_ref": "CAL-CALIB-TIMING-001",
+          "honest_noise_epsilon_h": 0.005
+        },
+        "freshness": {
+          "soft_age_s": null,
+          "hard_age_s": null,
+          "latency_allowance_s": 2.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "lap_completed",
+          "max_obs_per_slot": 1,
+          "deadline_s": 30.0,
+          "allowed_lateness_s": 60.0
+        }
+      }
+    },
+    "simultaneity_window_s": 0.5,
+    "finality": {
+      "condition": "all_slots_closed_and_frontier_past_lateness"
+    },
+    "tie_break": "canonical_order",
+    "explanation": {
+      "template_id": "telemetry_session_alignment_v1"
+    },
+    "limitations": [
+      "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream",
+      "TELEMETRY_SAMPLE_INTERPOLATED_ORIGIN"
+    ]
+  },
+  "input_stream": [
+    {
+      "step_index": 0,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:10:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:10:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-tel-42150",
+        "raw_event_ids": [
+          "raw-tel-01"
+        ],
+        "processor_family_id": "telemetry_parser_family",
+        "transform_version": "1.0.0",
+        "role_id": "telemetry_sample",
+        "scope_key": "mexico-2026|VER|52",
+        "value": 42.15,
+        "unit": "s",
+        "time": {
+          "value": 42.15,
+          "class": "LAP_RELATIVE",
+          "unit": "s"
+        },
+        "quality_grade": "HEALTHY",
+        "source_origin_set": [
+          "TRACINGINSIGHTS_TELEMETRY"
+        ],
+        "processing_origin_set": [
+          "telemetry_parser_family"
+        ]
+      }
+    }
+  ],
+  "evaluation_schedule": [
+    {
+      "eval_id": "FX-04-E1",
+      "after_step_index": 0,
+      "t_eval": "2026-11-01T14:10:05.000Z",
+      "clock_domain": "LIVE_UTC",
+      "decision_instance_id": "mexico-2026|VER|52|telemetry_session_alignment"
+    }
+  ],
+  "expected_verdicts": [
+    {
+      "eval_id": "FX-04-E1",
+      "schema_name": "calibre.integrity_assessment",
+      "schema_version": "2.0",
+      "decision_instance_id": "mexico-2026|VER|52|telemetry_session_alignment",
+      "contract": {
+        "id": "telemetry_session_alignment",
+        "version": "1.0",
+        "epoch": 1
+      },
+      "integrity_state": "UNKNOWN",
+      "corroboration_profile_by_role": {
+        "telemetry_sample": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "atom-tel-42150"
+          ],
+          "origin_refs": [
+            "TRACINGINSIGHTS_TELEMETRY"
+          ]
+        },
+        "lap_start_reference": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [],
+          "origin_refs": []
+        }
+      },
+      "validity_timeline": [
+        {
+          "from": "2026-11-01T14:10:05.000Z",
+          "state": "UNKNOWN"
+        }
+      ],
+      "next_transition_at": null,
+      "lease_until": "2026-11-01T14:10:35.000Z",
+      "lease_clock_domain": "LIVE_UTC",
+      "resolution_maturity": "OPEN",
+      "finality_status": "OPEN",
+      "revision_number": 1,
+      "previous_verdict_hash": null,
+      "knowledge_frontier": {
+        "watermark": "2026-11-01T14:10:00.000Z",
+        "run_clock": "2026-11-01T14:10:05.000Z"
+      },
+      "primary_binding_witness": "MISSING_REFERENCE_FACT: role=lap_start_reference, key=mexico-2026|VER|52",
+      "witness_set": [
+        "MISSING_REFERENCE_FACT: role=lap_start_reference, key=mexico-2026|VER|52",
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+      ],
+      "limiting_children": [
+        "lap_start_reference"
+      ],
+      "alternatives": [],
+      "diagnosis_result": "NONE",
+      "limitations": [
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream",
+        "TELEMETRY_SAMPLE_INTERPOLATED_ORIGIN"
+      ],
+      "decision_maturity": "PROVISIONAL",
+      "verdict_hash": "3f1f8688caa1bb4fa38544cce9cb932976a8f483e73c7225aa372cdcbe422f8b"
+    }
+  ]
+}

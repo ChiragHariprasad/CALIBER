@@ -1,0 +1,12 @@
+{
+  "id": "VEC-31",
+  "category": "floating_point",
+  "description": "Negative decimal numbers",
+  "raw_input": {
+    "neg_dec": -42.5,
+    "neg_frac": -0.005,
+    "neg_int": -1
+  },
+  "canonical_jcs": "{\"neg_dec\":-42.5,\"neg_frac\":-0.005,\"neg_int\":-1}",
+  "expected_sha256": "1f60abd0ff5729296291938780db8f32d3cc7c74ac2c18aeaa8aef6039457226"
+}

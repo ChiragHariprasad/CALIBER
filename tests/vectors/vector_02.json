@@ -1,0 +1,13 @@
+{
+  "id": "VEC-02",
+  "category": "key_ordering",
+  "description": "Prefix key sorting",
+  "raw_input": {
+    "aa": 1,
+    "a": 2,
+    "aaa": 3,
+    "ab": 4
+  },
+  "canonical_jcs": "{\"a\":2,\"aa\":1,\"aaa\":3,\"ab\":4}",
+  "expected_sha256": "7f53f5ff8ab7f59dd5a3442adebb801599286065e8083413c5bf7b63bdebb8c3"
+}

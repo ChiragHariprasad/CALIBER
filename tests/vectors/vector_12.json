@@ -1,0 +1,10 @@
+{
+  "id": "VEC-12",
+  "category": "unicode_escaping",
+  "description": "Unescaped forward slash in URL",
+  "raw_input": {
+    "url": "https://calibre.fia.com/f1/telemetry/v2"
+  },
+  "canonical_jcs": "{\"url\":\"https://calibre.fia.com/f1/telemetry/v2\"}",
+  "expected_sha256": "9d120ddcb4f97df39cacff4e9263538d1c5abfc76857d15508359c1884adbacb"
+}

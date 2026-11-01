@@ -1,0 +1,11 @@
+{
+  "id": "VEC-38",
+  "category": "floating_point",
+  "description": "High precision mathematical constants",
+  "raw_input": {
+    "e": 2.718281828459045,
+    "pi": 3.141592653589793
+  },
+  "canonical_jcs": "{\"e\":2.718281828459045,\"pi\":3.141592653589793}",
+  "expected_sha256": "4861483be7ca838d228860f83023dcb1cd0ad26cbb3091ecc62741e45f351f77"
+}

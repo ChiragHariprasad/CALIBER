@@ -1,0 +1,23 @@
+{
+  "id": "VEC-48",
+  "category": "domain_payloads",
+  "description": "raw_event_id canonical object (TracingInsights Laps)",
+  "raw_input": {
+    "feed": "session_laptimes",
+    "payload_sha256": "3cb49a4eccfa07cb2017df85db49692482e9b89736c0db92f70ddbdfcbeea7f3",
+    "provider": "TRACINGINSIGHTS",
+    "scope": {
+      "driver_id": "VER",
+      "lap": 52
+    },
+    "session_id": "USGP2025_R",
+    "source_record_key": "TI_USGP2025_R_VER_L52",
+    "source_time": {
+      "semantics": "SESSION_ELAPSED",
+      "unit": "s",
+      "value": 4892.456
+    }
+  },
+  "canonical_jcs": "{\"feed\":\"session_laptimes\",\"payload_sha256\":\"3cb49a4eccfa07cb2017df85db49692482e9b89736c0db92f70ddbdfcbeea7f3\",\"provider\":\"TRACINGINSIGHTS\",\"scope\":{\"driver_id\":\"VER\",\"lap\":52},\"session_id\":\"USGP2025_R\",\"source_record_key\":\"TI_USGP2025_R_VER_L52\",\"source_time\":{\"semantics\":\"SESSION_ELAPSED\",\"unit\":\"s\",\"value\":4892.456}}",
+  "expected_sha256": "0c17099c971c7deac5dfc60abc1bd2c2b1a8a83db7229949a2fc665ad089e819"
+}

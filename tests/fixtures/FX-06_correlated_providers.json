@@ -1,0 +1,252 @@
+{
+  "schema_name": "calibre.golden_fixture",
+  "schema_version": "1.0",
+  "fixture_id": "FX-06",
+  "title": "Correlated Providers (Shared FOM Upstream => kappa_src = 0 with Limitation Witness)",
+  "description": "Two distinct providers sharing upstream FOM timing evaluate to source depth 0 with D-15 limitation witness.",
+  "category": "NORMAL",
+  "evaluation_phase": "PHASE_3A_MV_SIA",
+  "defect_reference": "D-15",
+  "invariant_tested": "Invariant G7 & Defect D-15: Single upstream FOM timing origin grounding.",
+  "target_contract": {
+    "contract_id": "pit_lane_timing_evidence",
+    "version": "1.0",
+    "epoch": 1,
+    "effective_from": "2026-01-01T00:00:00Z",
+    "decision_type": "pit_timing",
+    "decision_scope": {
+      "scope_class": "DRIVER_LAP",
+      "scope_key_pattern": "{session_id}|{driver_id}|lap{lap_number}"
+    },
+    "formula": "AND(pit_entry, pit_exit)",
+    "roles": {
+      "pit_entry": {
+        "required": true,
+        "description": "Pit lane entry beam crossing detection and timestamp",
+        "time_class_required": "SESSION_ELAPSED",
+        "admissible_source_origins": [
+          "PITWALL_TIMINGDATA"
+        ],
+        "admissible_processing_origins": [
+          "timing_parser_family"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "s",
+          "tolerance_eta": 0.1,
+          "calibration_ref": "CAL-CALIB-PIT-001",
+          "honest_noise_epsilon_h": 0.01
+        },
+        "freshness": {
+          "soft_age_s": 45.0,
+          "hard_age_s": 120.0,
+          "latency_allowance_s": 3.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "pit_event",
+          "max_obs_per_slot": 1,
+          "deadline_s": 60.0,
+          "allowed_lateness_s": 120.0
+        }
+      },
+      "pit_exit": {
+        "required": true,
+        "description": "Pit lane exit beam crossing detection and timestamp",
+        "time_class_required": "SESSION_ELAPSED",
+        "admissible_source_origins": [
+          "PITWALL_TIMINGDATA"
+        ],
+        "admissible_processing_origins": [
+          "timing_parser_family"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "s",
+          "tolerance_eta": 0.1,
+          "calibration_ref": "CAL-CALIB-PIT-001",
+          "honest_noise_epsilon_h": 0.01
+        },
+        "freshness": {
+          "soft_age_s": 45.0,
+          "hard_age_s": 120.0,
+          "latency_allowance_s": 3.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "pit_event",
+          "max_obs_per_slot": 1,
+          "deadline_s": 60.0,
+          "allowed_lateness_s": 120.0
+        }
+      }
+    },
+    "simultaneity_window_s": 60.0,
+    "finality": {
+      "condition": "all_slots_closed_and_frontier_past_lateness"
+    },
+    "tie_break": "canonical_order",
+    "explanation": {
+      "template_id": "pit_lane_timing_evidence_v1"
+    },
+    "limitations": [
+      "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+    ]
+  },
+  "input_stream": [
+    {
+      "step_index": 0,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:15:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:15:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-pit-in-pw",
+        "raw_event_ids": [
+          "raw-pw-in"
+        ],
+        "processor_family_id": "timing_parser_family",
+        "transform_version": "1.0.0",
+        "role_id": "pit_entry",
+        "scope_key": "mexico-2026|VER|52",
+        "value": 5100.0,
+        "unit": "s",
+        "time": {
+          "value": 5100.0,
+          "class": "SESSION_ELAPSED",
+          "unit": "s"
+        },
+        "quality_grade": "HEALTHY",
+        "source_origin_set": [
+          "F1_LIVETIMING_UPSTREAM"
+        ],
+        "processing_origin_set": [
+          "timing_parser_family"
+        ]
+      }
+    },
+    {
+      "step_index": 1,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:15:20.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:15:20.000Z",
+      "data": {
+        "evidence_atom_id": "atom-pit-out-pw",
+        "raw_event_ids": [
+          "raw-pw-out"
+        ],
+        "processor_family_id": "timing_parser_family",
+        "transform_version": "1.0.0",
+        "role_id": "pit_exit",
+        "scope_key": "mexico-2026|VER|52",
+        "value": 5122.5,
+        "unit": "s",
+        "time": {
+          "value": 5122.5,
+          "class": "SESSION_ELAPSED",
+          "unit": "s"
+        },
+        "quality_grade": "HEALTHY",
+        "source_origin_set": [
+          "F1_LIVETIMING_UPSTREAM"
+        ],
+        "processing_origin_set": [
+          "timing_parser_family"
+        ]
+      }
+    }
+  ],
+  "evaluation_schedule": [
+    {
+      "eval_id": "FX-06-E1",
+      "after_step_index": 1,
+      "t_eval": "2026-11-01T14:15:25.000Z",
+      "clock_domain": "LIVE_UTC",
+      "decision_instance_id": "mexico-2026|VER|52|pit_lane_timing_evidence"
+    }
+  ],
+  "expected_verdicts": [
+    {
+      "eval_id": "FX-06-E1",
+      "schema_name": "calibre.integrity_assessment",
+      "schema_version": "2.0",
+      "decision_instance_id": "mexico-2026|VER|52|pit_lane_timing_evidence",
+      "contract": {
+        "id": "pit_lane_timing_evidence",
+        "version": "1.0",
+        "epoch": 1
+      },
+      "integrity_state": "HEALTHY",
+      "corroboration_profile_by_role": {
+        "pit_entry": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "atom-pit-in-pw"
+          ],
+          "origin_refs": [
+            "PITWALL_TIMINGDATA"
+          ]
+        },
+        "pit_exit": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "atom-pit-out-pw"
+          ],
+          "origin_refs": [
+            "PITWALL_TIMINGDATA"
+          ]
+        }
+      },
+      "validity_timeline": [
+        {
+          "from": "2026-11-01T14:15:20.000Z",
+          "state": "HEALTHY"
+        }
+      ],
+      "next_transition_at": "2026-11-01T14:16:05.000Z",
+      "lease_until": "2026-11-01T14:16:05.000Z",
+      "lease_clock_domain": "LIVE_UTC",
+      "resolution_maturity": "STATE_RESOLVED",
+      "finality_status": "OPEN",
+      "revision_number": 1,
+      "previous_verdict_hash": null,
+      "knowledge_frontier": {
+        "watermark": "2026-11-01T14:15:20.000Z",
+        "run_clock": "2026-11-01T14:15:25.000Z"
+      },
+      "primary_binding_witness": "MUTUAL_AGREEMENT_VALIDATED: roles=[pit_entry, pit_exit]",
+      "witness_set": [
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+      ],
+      "limiting_children": [],
+      "alternatives": [],
+      "diagnosis_result": "NONE",
+      "limitations": [
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+      ],
+      "decision_maturity": "PROVISIONAL",
+      "verdict_hash": "4a4100e6f8340864d2d35bfc15537841e8b0d0d81087da0d824c18315fcd00d5"
+    }
+  ]
+}

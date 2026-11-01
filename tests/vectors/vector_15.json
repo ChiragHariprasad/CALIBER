@@ -1,0 +1,10 @@
+{
+  "id": "VEC-15",
+  "category": "unicode_escaping",
+  "description": "Control chars U+000E to U+001F",
+  "raw_input": {
+    "ctrl": "\u000e\u001f"
+  },
+  "canonical_jcs": "{\"ctrl\":\"\\u000e\\u001f\"}",
+  "expected_sha256": "889986770fe7bb18bfb7c486aaed2750fe332f6bd9d523740836e2e866cc336b"
+}

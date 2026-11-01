@@ -1,0 +1,11 @@
+{
+  "id": "VEC-10",
+  "category": "key_ordering",
+  "description": "Empty string key alongside other keys",
+  "raw_input": {
+    "": "empty",
+    "a": "non-empty"
+  },
+  "canonical_jcs": "{\"\":\"empty\",\"a\":\"non-empty\"}",
+  "expected_sha256": "1d42e1492661738102564bf4e1eabb79ad1e8a46c2b082d05da5dbff036d11f9"
+}

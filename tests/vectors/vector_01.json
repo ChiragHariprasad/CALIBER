@@ -1,0 +1,11 @@
+{
+  "id": "VEC-01",
+  "category": "key_ordering",
+  "description": "Basic unordered keys",
+  "raw_input": {
+    "b": 2,
+    "a": 1
+  },
+  "canonical_jcs": "{\"a\":1,\"b\":2}",
+  "expected_sha256": "43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777"
+}

@@ -10,6 +10,12 @@ TOPIC_EVIDENCE_PREFIX = "calibre.evidence"
 # Specific Standard Topics per Contract
 TOPIC_CORE_BUNDLE = "calibre.core.bundle"
 TOPIC_CORE_INTEGRITY = "calibre.core.integrity"
+TOPIC_VERDICT_HISTORY = "calibre.core.verdict_history"
+
+# Guard & Control Topics per CAL-DOC-007
+TOPIC_GUARD_LIVENESS = "calibre.guard.liveness"
+TOPIC_GUARD_CLOCK = "calibre.guard.clock"
+TOPIC_CONFIG_CONTRACTS = "calibre.config.contracts"
 
 # Flink Downstream Output Topics
 TOPIC_OUT_DATABASE = "calibre.out.database"
@@ -21,8 +27,10 @@ TOPIC_ANALYTICS_METRICS = "calibre.analytics.metrics"
 TOPIC_ALERTS = "calibre.alerts"
 TOPIC_REVIEW_DISPOSITIONS = "calibre.review.dispositions"
 
-# Dead-Letter Topic
+# Dead-Letter & Side Output Topics
 TOPIC_DLQ = "calibre.dlq"
+TOPIC_SIDE_QUARANTINE = "calibre.side.quarantine"
+TOPIC_SIDE_OVERFLOW = "calibre.side.overflow"
 
 # Consumer Group IDs (Mandatory: independent processing services must NOT share a consumer group)
 GROUP_PROCESSOR_PREFIX = "calibre-agent-processor-"
@@ -81,6 +89,10 @@ def all_standard_topics() -> list[str]:
         f"{TOPIC_EVIDENCE_PREFIX}.system",
         TOPIC_CORE_BUNDLE,
         TOPIC_CORE_INTEGRITY,
+        TOPIC_VERDICT_HISTORY,
+        TOPIC_GUARD_LIVENESS,
+        TOPIC_GUARD_CLOCK,
+        TOPIC_CONFIG_CONTRACTS,
         TOPIC_OUT_DATABASE,
         TOPIC_OUT_DASHBOARD,
         TOPIC_OUT_ANALYTICS,
@@ -88,5 +100,7 @@ def all_standard_topics() -> list[str]:
         TOPIC_ALERTS,
         TOPIC_REVIEW_DISPOSITIONS,
         TOPIC_DLQ,
+        TOPIC_SIDE_QUARANTINE,
+        TOPIC_SIDE_OVERFLOW,
     ]
 

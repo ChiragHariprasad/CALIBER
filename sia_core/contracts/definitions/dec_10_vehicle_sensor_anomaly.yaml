@@ -1,0 +1,81 @@
+contract_id: vehicle_sensor_anomaly
+version: "1.0"
+epoch: 1
+effective_from: "2026-01-01T00:00:00Z"
+decision_type: sensor_validity
+decision_scope:
+  scope_class: DRIVER_LAP
+  scope_key_pattern: "{session_id}|{driver_id}|lap{lap_number}"
+formula: "AND(telemetry_sample, sensor_envelope)"
+roles:
+  telemetry_sample:
+    required: true
+    description: "Raw or interpolated throttle, RPM, and brake sensor telemetry sample"
+    time_class_required: LAP_RELATIVE
+    admissible_source_origins:
+      - TRACINGINSIGHTS_TELEMETRY
+    admissible_processing_origins:
+      - telemetry_parser_family
+    agreement:
+      metric: abs_diff
+      unit: rpm
+      tolerance_eta: 100.0
+      calibration_ref: CAL-CALIB-RPM-001
+      honest_noise_epsilon_h: 20.0
+    freshness:
+      soft_age_s: null
+      hard_age_s: null
+      latency_allowance_s: 2.0
+    corroboration:
+      source: INFORMATIONAL
+      processing: INFORMATIONAL
+      source_min_depth: 0
+      processing_min_depth: 0
+    fault_model:
+      source_fault_budget: 0
+      processing_fault_budget: 0
+    slots:
+      trigger: lap_completed
+      max_obs_per_slot: 500
+      deadline_s: 30.0
+      allowed_lateness_s: 60.0
+  sensor_envelope:
+    required: true
+    description: "Physical plausible boundary envelope bounds (RPM in [0, 15000], Throttle in [0, 100%])"
+    time_class_required: LAP_RELATIVE
+    admissible_source_origins:
+      - VEHICLE_PHYSICAL_MODEL
+    admissible_processing_origins:
+      - physics_parser_family
+    agreement:
+      metric: envelope_containment
+      unit: rpm
+      tolerance_eta: 0.0
+      calibration_ref: CAL-CALIB-ENVELOPE-001
+      honest_noise_epsilon_h: 0.0
+    freshness:
+      soft_age_s: null
+      hard_age_s: null
+      latency_allowance_s: 0.0
+    corroboration:
+      source: INFORMATIONAL
+      processing: INFORMATIONAL
+      source_min_depth: 0
+      processing_min_depth: 0
+    fault_model:
+      source_fault_budget: 0
+      processing_fault_budget: 0
+    slots:
+      trigger: session_transition
+      max_obs_per_slot: 1
+      deadline_s: 1.0
+      allowed_lateness_s: 0.0
+simultaneity_window_s: 0.2
+finality:
+  condition: all_slots_closed_and_frontier_past_lateness
+tie_break: canonical_order
+explanation:
+  template_id: vehicle_sensor_anomaly_v1
+limitations:
+  - "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+  - "DERIVED_INTERPOLATED_SENSOR_LIMITATION"

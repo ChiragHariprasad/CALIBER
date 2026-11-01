@@ -1,0 +1,11 @@
+{
+  "id": "VEC-44",
+  "category": "quantization",
+  "description": "Dimensionless ratio quantized to 10^-6",
+  "raw_input": {
+    "raw": 0.12345678,
+    "quantized": 0.123457
+  },
+  "canonical_jcs": "{\"quantized\":0.123457,\"raw\":0.12345678}",
+  "expected_sha256": "1029ed97742be8cfcc41cdfd29a03bf7e61af4e796e7e395c0ff9dccc7d632cb"
+}

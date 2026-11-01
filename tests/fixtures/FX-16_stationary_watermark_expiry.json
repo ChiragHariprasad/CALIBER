@@ -1,0 +1,233 @@
+{
+  "schema_name": "calibre.golden_fixture",
+  "schema_version": "1.0",
+  "fixture_id": "FX-16",
+  "title": "Stationary Watermark Expiry via RunClockTick Facts (Defect D-06)",
+  "description": "Feed silence causes stationary watermark; RunClockTick facts advance evaluation instant to trigger hard age expiry.",
+  "category": "BOUNDARY",
+  "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+  "defect_reference": "D-06",
+  "invariant_tested": "Defect D-06: Time as data (RunClockTick facts resolve stationary watermark stall).",
+  "target_contract": {
+    "contract_id": "source_integrity_assessment",
+    "version": "1.0",
+    "epoch": 1,
+    "effective_from": "2026-01-01T00:00:00Z",
+    "decision_type": "system_health",
+    "decision_scope": {
+      "scope_class": "SESSION",
+      "scope_key_pattern": "{session_id}"
+    },
+    "formula": "AND(guard_liveness, feed_telemetry)",
+    "roles": {
+      "guard_liveness": {
+        "required": true,
+        "description": "Durable supervisor guard fact tracking feed STALLED and RESUMED epochs",
+        "time_class_required": "ABSOLUTE_UTC",
+        "admissible_source_origins": [
+          "GUARD_SUPERVISOR"
+        ],
+        "admissible_processing_origins": [
+          "guard_parser_family"
+        ],
+        "agreement": {
+          "metric": "discrete_equality",
+          "unit": "enum",
+          "tolerance_eta": 0.0,
+          "calibration_ref": "CAL-CALIB-GUARD-001",
+          "honest_noise_epsilon_h": 0.0
+        },
+        "freshness": {
+          "soft_age_s": 5.0,
+          "hard_age_s": 15.0,
+          "latency_allowance_s": 1.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "event_driven",
+          "max_obs_per_slot": 1,
+          "deadline_s": 5.0,
+          "allowed_lateness_s": 10.0
+        }
+      },
+      "feed_telemetry": {
+        "required": true,
+        "description": "Raw feed connection heartbeat and packet gap counters",
+        "time_class_required": "ABSOLUTE_UTC",
+        "admissible_source_origins": [
+          "PITWALL_HEARTBEAT"
+        ],
+        "admissible_processing_origins": [
+          "network_parser_family"
+        ],
+        "agreement": {
+          "metric": "temporal_delta",
+          "unit": "s",
+          "tolerance_eta": 2.0,
+          "calibration_ref": "CAL-CALIB-NET-001",
+          "honest_noise_epsilon_h": 0.1
+        },
+        "freshness": {
+          "soft_age_s": 5.0,
+          "hard_age_s": 15.0,
+          "latency_allowance_s": 1.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "periodic",
+          "max_obs_per_slot": 1,
+          "deadline_s": 5.0,
+          "allowed_lateness_s": 10.0
+        }
+      }
+    },
+    "simultaneity_window_s": 2.0,
+    "finality": {
+      "condition": "all_slots_closed_and_frontier_past_lateness"
+    },
+    "tie_break": "canonical_order",
+    "explanation": {
+      "template_id": "source_integrity_assessment_v1"
+    },
+    "limitations": [
+      "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+    ]
+  },
+  "input_stream": [
+    {
+      "step_index": 0,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-feed-heartbeat",
+        "role_id": "feed_telemetry",
+        "value": 0,
+        "unit": "s",
+        "source_origin_set": [
+          "PITWALL_HEARTBEAT"
+        ]
+      }
+    },
+    {
+      "step_index": 1,
+      "stream_item_type": "REFERENCE_FACT",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "fact_id": "ref-guard-liveness",
+        "role_id": "guard_liveness",
+        "value": "RESUMED",
+        "grade": "HEALTHY",
+        "source_origin_set": [
+          "GUARD_SUPERVISOR"
+        ]
+      }
+    },
+    {
+      "step_index": 2,
+      "stream_item_type": "RUN_CLOCK_TICK",
+      "transport_event_time_utc": "2026-11-01T14:00:16.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "clock_domain": "LIVE_UTC",
+        "clock_utc": "2026-11-01T14:00:16.000Z",
+        "seq": 16
+      }
+    }
+  ],
+  "evaluation_schedule": [
+    {
+      "eval_id": "FX-16-E1",
+      "after_step_index": 2,
+      "t_eval": "2026-11-01T14:00:16.000Z",
+      "clock_domain": "LIVE_UTC",
+      "decision_instance_id": "mexico-2026|SESSION|source_integrity_assessment"
+    }
+  ],
+  "expected_verdicts": [
+    {
+      "eval_id": "FX-16-E1",
+      "schema_name": "calibre.integrity_assessment",
+      "schema_version": "2.0",
+      "decision_instance_id": "mexico-2026|SESSION|source_integrity_assessment",
+      "contract": {
+        "id": "source_integrity_assessment",
+        "version": "1.0",
+        "epoch": 1
+      },
+      "integrity_state": "DEGRADED",
+      "corroboration_profile_by_role": {
+        "feed_telemetry": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [],
+          "origin_refs": []
+        },
+        "guard_liveness": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "ref-guard-liveness"
+          ],
+          "origin_refs": [
+            "GUARD_SUPERVISOR"
+          ]
+        }
+      },
+      "validity_timeline": [
+        {
+          "from": "2026-11-01T14:00:15.000Z",
+          "state": "DEGRADED"
+        }
+      ],
+      "next_transition_at": null,
+      "lease_until": "2026-11-01T14:00:26.000Z",
+      "lease_clock_domain": "LIVE_UTC",
+      "resolution_maturity": "STATE_RESOLVED",
+      "finality_status": "OPEN",
+      "revision_number": 1,
+      "previous_verdict_hash": null,
+      "knowledge_frontier": {
+        "watermark": "2026-11-01T14:00:00.000Z",
+        "run_clock": "2026-11-01T14:00:16.000Z"
+      },
+      "primary_binding_witness": "HARD_AGE_EXCEEDED: role=feed_telemetry, age=16.0s, hard_age_s=15.0s",
+      "witness_set": [
+        "HARD_AGE_EXCEEDED: role=feed_telemetry, age=16.0s, hard_age_s=15.0s",
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+      ],
+      "limiting_children": [
+        "feed_telemetry"
+      ],
+      "alternatives": [],
+      "diagnosis_result": "NONE",
+      "limitations": [
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+      ],
+      "decision_maturity": "PROVISIONAL",
+      "verdict_hash": "d024120ca9bc45a9ab3a1463a4dfec00808e901aa5829276084ef27194437904"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "VEC-42",
+  "category": "quantization",
+  "description": "Timing seconds quantized to whole integer",
+  "raw_input": {
+    "raw": 84.00001,
+    "quantized": 84.0
+  },
+  "canonical_jcs": "{\"quantized\":84,\"raw\":84.00001}",
+  "expected_sha256": "dd03f8a3665aaefdc86522738c8b0d57a338a6c694f7d651fccc2668fc786103"
+}

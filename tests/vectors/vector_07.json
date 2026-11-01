@@ -1,0 +1,17 @@
+{
+  "id": "VEC-07",
+  "category": "key_ordering",
+  "description": "Deeply nested unordered keys",
+  "raw_input": {
+    "z": {
+      "b": 1,
+      "a": 2
+    },
+    "a": {
+      "d": 3,
+      "c": 4
+    }
+  },
+  "canonical_jcs": "{\"a\":{\"c\":4,\"d\":3},\"z\":{\"a\":2,\"b\":1}}",
+  "expected_sha256": "9064591e55912ef60aed6597e5b9110d6c3b5cd9990fd28831dc58d9f48d487e"
+}

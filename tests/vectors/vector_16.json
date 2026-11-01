@@ -1,0 +1,11 @@
+{
+  "id": "VEC-16",
+  "category": "unicode_escaping",
+  "description": "Accented Latin characters raw UTF-8",
+  "raw_input": {
+    "city": "São Paulo",
+    "driver": "Sergio Pérez"
+  },
+  "canonical_jcs": "{\"city\":\"São Paulo\",\"driver\":\"Sergio Pérez\"}",
+  "expected_sha256": "f571a84938b72590d44555418c8fae2353f60595e751bd8bcda14839dc0e2291"
+}

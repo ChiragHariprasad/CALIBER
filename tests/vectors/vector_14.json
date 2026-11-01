@@ -1,0 +1,10 @@
+{
+  "id": "VEC-14",
+  "category": "unicode_escaping",
+  "description": "Control chars U+0000 to U+0007",
+  "raw_input": {
+    "ctrl": "\u0000\u0001\u0007"
+  },
+  "canonical_jcs": "{\"ctrl\":\"\\u0000\\u0001\\u0007\"}",
+  "expected_sha256": "e6830ab8e8c0a866bce7a6c15c89ad714c766771959cf8a1ffc8809ea4a0cc6a"
+}

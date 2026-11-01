@@ -1,0 +1,12 @@
+{
+  "id": "VEC-09",
+  "category": "key_ordering",
+  "description": "Unicode accented keys",
+  "raw_input": {
+    "é": 1,
+    "e": 2,
+    "ê": 3
+  },
+  "canonical_jcs": "{\"e\":2,\"é\":1,\"ê\":3}",
+  "expected_sha256": "48a49c67ab323f4b03888ae2e262d234d630212a0c1775cab277619055fbb327"
+}

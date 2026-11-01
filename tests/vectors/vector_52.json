@@ -1,0 +1,14 @@
+{
+  "id": "VEC-52",
+  "category": "domain_payloads",
+  "description": "RunClockTick fact canonical representation",
+  "raw_input": {
+    "clock_domain": "LIVE_UTC",
+    "clock_utc": "2026-10-31T23:15:05.000Z",
+    "emitter_id": "calibre_supervisor_01",
+    "run_id": "live_session_11731_prod",
+    "seq": 420
+  },
+  "canonical_jcs": "{\"clock_domain\":\"LIVE_UTC\",\"clock_utc\":\"2026-10-31T23:15:05.000Z\",\"emitter_id\":\"calibre_supervisor_01\",\"run_id\":\"live_session_11731_prod\",\"seq\":420}",
+  "expected_sha256": "dda50892a0bffe5b8aafbc19a3dd3976cd91bd132b7b180565e4c5ce7b8a344a"
+}

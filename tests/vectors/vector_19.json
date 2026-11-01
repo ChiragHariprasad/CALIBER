@@ -1,0 +1,12 @@
+{
+  "id": "VEC-19",
+  "category": "unicode_escaping",
+  "description": "4-byte UTF-8 Emojis and surrogate pairs",
+  "raw_input": {
+    "car": "🏎️",
+    "flag": "🏁",
+    "trophy": "🏆"
+  },
+  "canonical_jcs": "{\"car\":\"🏎️\",\"flag\":\"🏁\",\"trophy\":\"🏆\"}",
+  "expected_sha256": "41641ee5f998d38bb6d5cf72df8a69b4a34f9f46a02042c6971a5ec54f64bdb0"
+}

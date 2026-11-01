@@ -1,0 +1,11 @@
+{
+  "id": "VEC-18",
+  "category": "unicode_escaping",
+  "description": "CJK 3-byte UTF-8 ideographs",
+  "raw_input": {
+    "circuit": "铃鹿赛道",
+    "grand_prix": "日本グランプリ"
+  },
+  "canonical_jcs": "{\"circuit\":\"铃鹿赛道\",\"grand_prix\":\"日本グランプリ\"}",
+  "expected_sha256": "3f087644b8e21f5b508059c3d0b2d61f7a11a5183f5740afb2b64683f597c080"
+}

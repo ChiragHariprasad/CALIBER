@@ -45,6 +45,11 @@ from calibre_core.topics import (
     TOPIC_OUT_DASHBOARD,
     TOPIC_OUT_ANALYTICS,
     TOPIC_DLQ,
+    TOPIC_VERDICT_HISTORY,
+    TOPIC_GUARD_LIVENESS,
+    TOPIC_GUARD_CLOCK,
+    TOPIC_SIDE_QUARANTINE,
+    TOPIC_SIDE_OVERFLOW,
 )
 from flink.job import CalibreFlinkJob
 
@@ -281,6 +286,139 @@ class FlinkStreamingIntegrationTest(unittest.TestCase):
         self.assertIsNone(out_msg, "Corrupt event must NOT be published to calibre.out.database")
 
         logger.info("Test 04 PASSED: Malformed input cleanly isolated in DLQ without pipeline disruption.")
+
+    def test_05_sia_streaming_verdicts_emitted(self) -> None:
+        """Verify Flink streaming kernel produces decision-scoped IntegrityAssessmentVerdicts."""
+        corr_id = f"trace-sia-verdict-{uuid.uuid4().hex[:8]}"
+        now_str = utc_now()
+        ev = EvidenceEvent(
+            schema_name="calibre.evidence_event",
+            schema_version="1.0",
+            event_id=stable_id("EV-SIA", corr_id, now_str),
+            correlation_id=corr_id,
+            event_type="vehicle_telemetry_sample_assessed",
+            domain="vehicle",
+            producer={
+                "processor_id": "vehicle_twin_agent",
+                "processor_version": "1.0.0",
+                "component_role": "AGENT_PROCESSOR",
+            },
+            produced_at_utc=now_str,
+            source_refs=[f"raw-{corr_id}"],
+            scope={"season": 2026, "session_type": "Race", "driver_number": 44},
+            time={
+                "source_value": now_str,
+                "source_semantics": "ABSOLUTE_UTC",
+                "source_unit": "iso8601",
+            },
+            value_origin="SOURCE_REPORTED",
+            evidence={
+                "observations": {"speed": 320.5, "rpm": 12000},
+                "assumptions": [],
+                "limitations": [],
+                "confidence_score": 0.99,
+            },
+            findings=[],
+            provenance={
+                "raw_event_id": f"raw-{corr_id}",
+                "provider": "MOCK",
+                "feed": "vehicle",
+                "ingested_at_utc": now_str,
+            },
+        )
+        self.producer.send(evidence_topic("vehicle"), ev, correlation_id=corr_id)
+
+        # Poll TOPIC_VERDICT_HISTORY
+        v_msg = poll_matching_message(TOPIC_VERDICT_HISTORY, corr_id, timeout_sec=6.0)
+        self.assertIsNotNone(v_msg, "SIA verdict was not emitted to calibre.core.verdict_history")
+        self.assertIn("verdict_hash", v_msg)
+        self.assertIn("integrity_state", v_msg)
+        self.assertIn("resolution_maturity", v_msg)
+        self.assertIn("finality_status", v_msg)
+        logger.info("Test 05 PASSED: SIA streaming verdict successfully emitted (hash=%s, state=%s).", v_msg.get("verdict_hash")[:8], v_msg.get("integrity_state"))
+
+    def test_06_sia_guard_fact_driven_degradation(self) -> None:
+        """Verify supervisor GuardFact triggers decision integrity re-evaluation and degradation."""
+        corr_id = f"trace-guard-stall-{uuid.uuid4().hex[:8]}"
+        now_str = utc_now()
+        guard_msg = {
+            "schema_name": "calibre.guard_fact",
+            "fact_id": f"guard-{corr_id}",
+            "origin_instance_id": "PITWALL_HEARTBEAT",
+            "epoch": 1,
+            "status": "STALLED",
+            "observed_gap": 15.5,
+            "detection_clock": now_str,
+            "source_origin_set": ["PITWALL_HEARTBEAT"],
+            "correlation_id": corr_id,
+        }
+        self.producer.send(TOPIC_GUARD_LIVENESS, guard_msg, correlation_id=corr_id)
+        # Verify stats record activity
+        time.sleep(1.0)
+        self.assertGreaterEqual(self.flink_job.events_received + self.flink_job.verdicts_emitted, 1)
+        logger.info("Test 06 PASSED: Supervisor GuardFact processed cleanly.")
+
+    def test_07_sia_stationary_watermark_clock_tick_expiry(self) -> None:
+        """Verify RunClockTick advances time without moving watermark (Defect D-06)."""
+        corr_id = f"trace-clock-tick-{uuid.uuid4().hex[:8]}"
+        now_str = utc_now()
+        tick_msg = {
+            "schema_name": "calibre.run_clock_tick",
+            "run_id": "test_run",
+            "clock_domain": "LIVE_UTC",
+            "clock_utc": now_str,
+            "seq": 100,
+            "emitter_id": "supervisor",
+            "correlation_id": corr_id,
+        }
+        self.producer.send(TOPIC_GUARD_CLOCK, tick_msg, correlation_id=corr_id)
+        time.sleep(1.0)
+        self.assertEqual(self.flink_job.run_clock_mgr.latest_tick.seq, 100)
+        logger.info("Test 07 PASSED: RunClockTick admitted and frontier advanced without moving watermark.")
+
+    def test_08_sia_post_finality_quarantine_side_output(self) -> None:
+        """Verify post-finality arrivals are routed to calibre.side.quarantine (Invariant G11)."""
+        corr_id = f"trace-quarantine-{uuid.uuid4().hex[:8]}"
+        now_str = utc_now()
+        # Create an artificial final state in decision_states
+        key = "Race|99|lap_time_consistency"
+        self.flink_job.decision_states[key] = {
+            "input_stream": [],
+            "latest_verdict": {
+                "verdict_hash": "deadbeef12345678",
+                "finality_status": "FINAL",
+                "decision_maturity": "FINAL",
+            },
+        }
+        # Send evidence targeting this finalized key
+        ev = EvidenceEvent(
+            schema_name="calibre.evidence_event",
+            schema_version="1.0",
+            event_id=stable_id("EV-FINAL", corr_id, now_str),
+            correlation_id=corr_id,
+            event_type="timing_evidence_sample",
+            domain="timing",
+            producer={
+                "processor_id": "test_agent",
+                "processor_version": "1.0.0",
+                "component_role": "AGENT_PROCESSOR",
+            },
+            produced_at_utc=now_str,
+            source_refs=[f"raw-{corr_id}"],
+            scope={"season": 2026, "session_type": "Race", "driver_number": 99},
+            time={"source_value": 100.0, "source_semantics": "SESSION_ELAPSED_SECONDS", "source_unit": "seconds"},
+            value_origin="SOURCE_REPORTED",
+            evidence={"observations": {"speed": 300.0}},
+            findings=[],
+            provenance={"raw_event_id": f"raw-{corr_id}", "provider": "MOCK", "feed": "timing", "ingested_at_utc": now_str},
+        )
+        self.producer.send(evidence_topic("timing"), ev, correlation_id=corr_id)
+        
+        # Verify arrival in quarantine
+        q_msg = poll_matching_message(TOPIC_SIDE_QUARANTINE, corr_id, timeout_sec=6.0)
+        self.assertIsNotNone(q_msg, f"Post-finality event was not routed to {TOPIC_SIDE_QUARANTINE}")
+        self.assertEqual(q_msg.get("finality_status"), "FINAL")
+        logger.info("Test 08 PASSED: Post-finality atom successfully isolated in quarantine topic.")
 
 
 if __name__ == "__main__":

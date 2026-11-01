@@ -1,0 +1,253 @@
+{
+  "schema_name": "calibre.golden_fixture",
+  "schema_version": "1.0",
+  "fixture_id": "FX-03",
+  "title": "Hard Expired Evidence Atom (Exclusion from Support Set, Retained as Audit Witness)",
+  "description": "Evidence atom exceeding hard age is excluded from active support sets and drops role to DEGRADED.",
+  "category": "BOUNDARY",
+  "evaluation_phase": "PHASE_3A_MV_SIA",
+  "defect_reference": null,
+  "invariant_tested": "CAL-DOC-007 §2.5.2: Hard age exclusion from support sets.",
+  "target_contract": {
+    "contract_id": "weather_strategy_advisory",
+    "version": "1.0",
+    "epoch": 1,
+    "effective_from": "2026-01-01T00:00:00Z",
+    "decision_type": "weather_strategy",
+    "decision_scope": {
+      "scope_class": "SESSION",
+      "scope_key_pattern": "{session_id}"
+    },
+    "formula": "AND(track_weather, air_weather)",
+    "roles": {
+      "track_weather": {
+        "required": true,
+        "description": "Track surface temperature sensor measurement",
+        "time_class_required": "ABSOLUTE_UTC",
+        "admissible_source_origins": [
+          "PITWALL_WEATHER",
+          "TRACINGINSIGHTS_WEATHER"
+        ],
+        "admissible_processing_origins": [
+          "weather_parser_family"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "celsius",
+          "tolerance_eta": 1.0,
+          "calibration_ref": "CAL-CALIB-WEATHER-001",
+          "honest_noise_epsilon_h": 0.2
+        },
+        "freshness": {
+          "soft_age_s": 60.0,
+          "hard_age_s": 180.0,
+          "latency_allowance_s": 5.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "periodic",
+          "max_obs_per_slot": 1,
+          "deadline_s": 60.0,
+          "allowed_lateness_s": 120.0
+        }
+      },
+      "air_weather": {
+        "required": true,
+        "description": "Ambient air temperature, pressure, and rainfall flag",
+        "time_class_required": "ABSOLUTE_UTC",
+        "admissible_source_origins": [
+          "PITWALL_WEATHER",
+          "TRACINGINSIGHTS_WEATHER"
+        ],
+        "admissible_processing_origins": [
+          "weather_parser_family"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "celsius",
+          "tolerance_eta": 0.5,
+          "calibration_ref": "CAL-CALIB-WEATHER-001",
+          "honest_noise_epsilon_h": 0.1
+        },
+        "freshness": {
+          "soft_age_s": 60.0,
+          "hard_age_s": 180.0,
+          "latency_allowance_s": 5.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "periodic",
+          "max_obs_per_slot": 1,
+          "deadline_s": 60.0,
+          "allowed_lateness_s": 120.0
+        }
+      }
+    },
+    "simultaneity_window_s": 30.0,
+    "finality": {
+      "condition": "all_slots_closed_and_frontier_past_lateness"
+    },
+    "tie_break": "canonical_order",
+    "explanation": {
+      "template_id": "weather_strategy_advisory_v1"
+    },
+    "limitations": [
+      "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+    ]
+  },
+  "input_stream": [
+    {
+      "step_index": 0,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-track-temp-01",
+        "raw_event_ids": [
+          "raw-w-01"
+        ],
+        "processor_family_id": "weather_parser_family",
+        "transform_version": "1.0.0",
+        "role_id": "track_weather",
+        "scope_key": "mexico-2026",
+        "value": 42.5,
+        "unit": "celsius",
+        "time": {
+          "value": "2026-11-01T14:00:00.000Z",
+          "class": "ABSOLUTE_UTC",
+          "unit": "iso8601"
+        },
+        "quality_grade": "HEALTHY",
+        "source_origin_set": [
+          "PITWALL_WEATHER"
+        ],
+        "processing_origin_set": [
+          "weather_parser_family"
+        ]
+      }
+    },
+    {
+      "step_index": 1,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:03:30.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:03:30.000Z",
+      "data": {
+        "evidence_atom_id": "atom-air-temp-01",
+        "raw_event_ids": [
+          "raw-w-02"
+        ],
+        "processor_family_id": "weather_parser_family",
+        "transform_version": "1.0.0",
+        "role_id": "air_weather",
+        "scope_key": "mexico-2026",
+        "value": 24.0,
+        "unit": "celsius",
+        "time": {
+          "value": "2026-11-01T14:03:30.000Z",
+          "class": "ABSOLUTE_UTC",
+          "unit": "iso8601"
+        },
+        "quality_grade": "HEALTHY",
+        "source_origin_set": [
+          "PITWALL_WEATHER"
+        ],
+        "processing_origin_set": [
+          "weather_parser_family"
+        ]
+      }
+    }
+  ],
+  "evaluation_schedule": [
+    {
+      "eval_id": "FX-03-E1",
+      "after_step_index": 1,
+      "t_eval": "2026-11-01T14:03:35.000Z",
+      "clock_domain": "LIVE_UTC",
+      "decision_instance_id": "mexico-2026|SESSION|weather_strategy_advisory"
+    }
+  ],
+  "expected_verdicts": [
+    {
+      "eval_id": "FX-03-E1",
+      "schema_name": "calibre.integrity_assessment",
+      "schema_version": "2.0",
+      "decision_instance_id": "mexico-2026|SESSION|weather_strategy_advisory",
+      "contract": {
+        "id": "weather_strategy_advisory",
+        "version": "1.0",
+        "epoch": 1
+      },
+      "integrity_state": "DEGRADED",
+      "corroboration_profile_by_role": {
+        "track_weather": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [],
+          "origin_refs": []
+        },
+        "air_weather": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "atom-air-temp-01"
+          ],
+          "origin_refs": [
+            "PITWALL_WEATHER"
+          ]
+        }
+      },
+      "validity_timeline": [
+        {
+          "from": "2026-11-01T14:03:00.000Z",
+          "state": "DEGRADED"
+        }
+      ],
+      "next_transition_at": null,
+      "lease_until": "2026-11-01T14:04:30.000Z",
+      "lease_clock_domain": "LIVE_UTC",
+      "resolution_maturity": "STATE_RESOLVED",
+      "finality_status": "OPEN",
+      "revision_number": 1,
+      "previous_verdict_hash": null,
+      "knowledge_frontier": {
+        "watermark": "2026-11-01T14:03:30.000Z",
+        "run_clock": "2026-11-01T14:03:35.000Z"
+      },
+      "primary_binding_witness": "HARD_AGE_EXCEEDED: role=track_weather, age=215.0s, hard_age_s=180.0s",
+      "witness_set": [
+        "HARD_AGE_EXCEEDED: role=track_weather, age=215.0s, hard_age_s=180.0s",
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+      ],
+      "limiting_children": [
+        "track_weather"
+      ],
+      "alternatives": [],
+      "diagnosis_result": "NONE",
+      "limitations": [
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+      ],
+      "decision_maturity": "PROVISIONAL",
+      "verdict_hash": "606db26c968dac8219b37304a05f76c228a1268364e0d0192abaabbb474a733e"
+    }
+  ]
+}

@@ -1,0 +1,236 @@
+{
+  "schema_name": "calibre.golden_fixture",
+  "schema_version": "1.0",
+  "fixture_id": "FX-15",
+  "title": "Post-Finality Atom Arrival Quarantined (Invariant G11)",
+  "description": "Atoms arriving after slot and lateness window have closed are quarantined in admission log.",
+  "category": "ADVERSARIAL",
+  "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+  "defect_reference": null,
+  "invariant_tested": "Invariant G11: Post-finality immutability.",
+  "target_contract": {
+    "contract_id": "lap_time_consistency",
+    "version": "1.0",
+    "epoch": 1,
+    "effective_from": "2026-01-01T00:00:00Z",
+    "decision_type": "timing_consistency",
+    "decision_scope": {
+      "scope_class": "DRIVER_LAP",
+      "scope_key_pattern": "{session_id}|{driver_id}|lap{lap_number}"
+    },
+    "formula": "AND(lap_record, lap_start_reference)",
+    "roles": {
+      "lap_record": {
+        "required": true,
+        "description": "Official lap duration and completion event from TracingInsights session laptimes",
+        "time_class_required": "SESSION_ELAPSED",
+        "admissible_source_origins": [
+          "TRACINGINSIGHTS_LAPS"
+        ],
+        "admissible_processing_origins": [
+          "timing_parser_family"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "s",
+          "tolerance_eta": 0.05,
+          "calibration_ref": "CAL-CALIB-TIMING-001",
+          "honest_noise_epsilon_h": 0.005
+        },
+        "freshness": {
+          "soft_age_s": null,
+          "hard_age_s": null,
+          "latency_allowance_s": 2.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "lap_completed",
+          "max_obs_per_slot": 1,
+          "deadline_s": 30.0,
+          "allowed_lateness_s": 60.0
+        }
+      },
+      "lap_start_reference": {
+        "required": true,
+        "description": "Start-of-lap session elapsed timestamp reference fact (lST)",
+        "time_class_required": "SESSION_ELAPSED",
+        "admissible_source_origins": [
+          "TRACINGINSIGHTS_LAPS"
+        ],
+        "admissible_processing_origins": [
+          "timing_parser_family"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "s",
+          "tolerance_eta": 0.05,
+          "calibration_ref": "CAL-CALIB-TIMING-001",
+          "honest_noise_epsilon_h": 0.005
+        },
+        "freshness": {
+          "soft_age_s": null,
+          "hard_age_s": null,
+          "latency_allowance_s": 2.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "lap_completed",
+          "max_obs_per_slot": 1,
+          "deadline_s": 30.0,
+          "allowed_lateness_s": 60.0
+        }
+      }
+    },
+    "simultaneity_window_s": 1.0,
+    "finality": {
+      "condition": "all_slots_closed_and_frontier_past_lateness"
+    },
+    "tie_break": "canonical_order",
+    "explanation": {
+      "template_id": "lap_time_consistency_v1"
+    },
+    "limitations": [
+      "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream",
+      "HISTORICAL_ARCHIVE_UNCALIBRATED_LATENCY"
+    ]
+  },
+  "input_stream": [
+    {
+      "step_index": 0,
+      "stream_item_type": "REFERENCE_FACT",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "fact_id": "ref-lapstart-ver-52",
+        "value": 4200.0,
+        "time_class": "SESSION_ELAPSED",
+        "grade": "HEALTHY",
+        "origin_set": [
+          "TRACINGINSIGHTS_LAPS"
+        ]
+      }
+    },
+    {
+      "step_index": 1,
+      "stream_item_type": "RUN_CLOCK_TICK",
+      "transport_event_time_utc": "2026-11-01T14:01:35.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:01:35.000Z",
+      "data": {
+        "clock_domain": "LIVE_UTC",
+        "clock_utc": "2026-11-01T14:01:35.000Z",
+        "seq": 95
+      }
+    },
+    {
+      "step_index": 2,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:02:10.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:01:35.000Z",
+      "data": {
+        "evidence_atom_id": "atom-post-finality",
+        "value": 84.1234,
+        "unit": "s",
+        "time": {
+          "value": 4284.1234,
+          "class": "SESSION_ELAPSED",
+          "unit": "s"
+        }
+      }
+    }
+  ],
+  "evaluation_schedule": [
+    {
+      "eval_id": "FX-15-E1",
+      "after_step_index": 2,
+      "t_eval": "2026-11-01T14:02:15.000Z",
+      "clock_domain": "LIVE_UTC",
+      "decision_instance_id": "mexico-2026|VER|52|lap_time_consistency"
+    }
+  ],
+  "expected_verdicts": [
+    {
+      "eval_id": "FX-15-E1",
+      "schema_name": "calibre.integrity_assessment",
+      "schema_version": "2.0",
+      "decision_instance_id": "mexico-2026|VER|52|lap_time_consistency",
+      "contract": {
+        "id": "lap_time_consistency",
+        "version": "1.0",
+        "epoch": 1
+      },
+      "integrity_state": "DEGRADED",
+      "corroboration_profile_by_role": {
+        "lap_record": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [],
+          "origin_refs": []
+        },
+        "lap_start_reference": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "ref-lapstart-ver-52"
+          ],
+          "origin_refs": [
+            "TRACINGINSIGHTS_LAPS"
+          ]
+        }
+      },
+      "validity_timeline": [
+        {
+          "from": "2026-11-01T14:00:30.000Z",
+          "state": "DEGRADED"
+        }
+      ],
+      "next_transition_at": null,
+      "lease_until": null,
+      "lease_clock_domain": "LIVE_UTC",
+      "resolution_maturity": "STATE_RESOLVED",
+      "finality_status": "FINAL",
+      "revision_number": 1,
+      "previous_verdict_hash": null,
+      "knowledge_frontier": {
+        "watermark": "2026-11-01T14:01:30.000Z",
+        "run_clock": "2026-11-01T14:01:30.000Z"
+      },
+      "primary_binding_witness": "SLOT_SEALED_FINAL: lateness_window_elapsed=14:01:30.000Z",
+      "witness_set": [
+        "SLOT_SEALED_FINAL: lateness_window_elapsed=14:01:30.000Z",
+        "POST_FINALITY_QUARANTINED: atom=atom-post-finality"
+      ],
+      "limiting_children": [
+        "lap_record"
+      ],
+      "alternatives": [],
+      "diagnosis_result": "NONE",
+      "limitations": [
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream",
+        "HISTORICAL_ARCHIVE_UNCALIBRATED_LATENCY"
+      ],
+      "decision_maturity": "FINAL",
+      "verdict_hash": "631f28d492355f11ae80ddc972719b0e4108056272611bf284e6dafa552f1c0a"
+    }
+  ]
+}

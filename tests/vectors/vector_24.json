@@ -1,0 +1,10 @@
+{
+  "id": "VEC-24",
+  "category": "empty_and_primitives",
+  "description": "Null value in object",
+  "raw_input": {
+    "field": null
+  },
+  "canonical_jcs": "{\"field\":null}",
+  "expected_sha256": "113989a3ad32aa945a2dfc9dc7d0a99174033f31435635a8c67c45d731a0a215"
+}

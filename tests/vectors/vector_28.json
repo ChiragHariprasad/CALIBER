@@ -1,0 +1,8 @@
+{
+  "id": "VEC-28",
+  "category": "empty_and_primitives",
+  "description": "Single primitive null at root",
+  "raw_input": null,
+  "canonical_jcs": "null",
+  "expected_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+}

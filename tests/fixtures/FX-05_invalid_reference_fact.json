@@ -1,0 +1,201 @@
+{
+  "schema_name": "calibre.golden_fixture",
+  "schema_version": "1.0",
+  "fixture_id": "FX-05",
+  "title": "Invalid Reference Fact (Corrupted t0_date Syntax => Fail-Closed UNKNOWN)",
+  "description": "Corrupted timestamp syntax on reference fact rejected by admission layer; evaluates to UNKNOWN.",
+  "category": "ADVERSARIAL",
+  "evaluation_phase": "PHASE_3A_MV_SIA",
+  "defect_reference": null,
+  "invariant_tested": "Invariant G1: Fail-closed on invalid reference facts.",
+  "target_contract": {
+    "contract_id": "race_control_incident_timing",
+    "version": "1.0",
+    "epoch": 1,
+    "effective_from": "2026-01-01T00:00:00Z",
+    "decision_type": "safety_status",
+    "decision_scope": {
+      "scope_class": "SESSION",
+      "scope_key_pattern": "{session_id}"
+    },
+    "formula": "AND(rc_message, session_t0_reference)",
+    "roles": {
+      "rc_message": {
+        "required": true,
+        "description": "Race control incident, flag message, or safety car advisory",
+        "time_class_required": "ABSOLUTE_UTC",
+        "admissible_source_origins": [
+          "PITWALL_RACE_CONTROL"
+        ],
+        "admissible_processing_origins": [
+          "race_control_parser_family"
+        ],
+        "agreement": {
+          "metric": "temporal_delta",
+          "unit": "s",
+          "tolerance_eta": 1.0,
+          "calibration_ref": "CAL-CALIB-RC-001",
+          "honest_noise_epsilon_h": 0.1
+        },
+        "freshness": {
+          "soft_age_s": 15.0,
+          "hard_age_s": 60.0,
+          "latency_allowance_s": 3.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "event_driven",
+          "max_obs_per_slot": 5,
+          "deadline_s": 10.0,
+          "allowed_lateness_s": 30.0
+        }
+      },
+      "session_t0_reference": {
+        "required": true,
+        "description": "Official session start UTC reference anchor (t0_date)",
+        "time_class_required": "ABSOLUTE_UTC",
+        "admissible_source_origins": [
+          "PITWALL_SESSION_DATA"
+        ],
+        "admissible_processing_origins": [
+          "session_parser_family"
+        ],
+        "agreement": {
+          "metric": "discrete_equality",
+          "unit": "string",
+          "tolerance_eta": 0.0,
+          "calibration_ref": "CAL-CALIB-SESSION-001",
+          "honest_noise_epsilon_h": 0.0
+        },
+        "freshness": {
+          "soft_age_s": 7200.0,
+          "hard_age_s": 14400.0,
+          "latency_allowance_s": 5.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "session_transition",
+          "max_obs_per_slot": 1,
+          "deadline_s": 60.0,
+          "allowed_lateness_s": 120.0
+        }
+      }
+    },
+    "simultaneity_window_s": 2.0,
+    "finality": {
+      "condition": "all_slots_closed_and_frontier_past_lateness"
+    },
+    "tie_break": "canonical_order",
+    "explanation": {
+      "template_id": "race_control_incident_timing_v1"
+    },
+    "limitations": [
+      "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+    ]
+  },
+  "input_stream": [
+    {
+      "step_index": 0,
+      "stream_item_type": "REFERENCE_FACT",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "fact_id": "ref-t0-corrupted",
+        "fact_type": "session_t0_reference",
+        "session_id": "mexico-2026",
+        "value": "2026-11-01T14:00:00+99:99",
+        "time_class": "ABSOLUTE_UTC",
+        "grade": "DEGRADED",
+        "rejection_reason": "MALFORMED_TIMEZONE_OFFSET"
+      }
+    }
+  ],
+  "evaluation_schedule": [
+    {
+      "eval_id": "FX-05-E1",
+      "after_step_index": 0,
+      "t_eval": "2026-11-01T14:00:15.000Z",
+      "clock_domain": "LIVE_UTC",
+      "decision_instance_id": "mexico-2026|SESSION|race_control_incident_timing"
+    }
+  ],
+  "expected_verdicts": [
+    {
+      "eval_id": "FX-05-E1",
+      "schema_name": "calibre.integrity_assessment",
+      "schema_version": "2.0",
+      "decision_instance_id": "mexico-2026|SESSION|race_control_incident_timing",
+      "contract": {
+        "id": "race_control_incident_timing",
+        "version": "1.0",
+        "epoch": 1
+      },
+      "integrity_state": "UNKNOWN",
+      "corroboration_profile_by_role": {
+        "rc_message": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [],
+          "origin_refs": []
+        },
+        "session_t0_reference": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [],
+          "origin_refs": []
+        }
+      },
+      "validity_timeline": [
+        {
+          "from": "2026-11-01T14:00:15.000Z",
+          "state": "UNKNOWN"
+        }
+      ],
+      "next_transition_at": null,
+      "lease_until": "2026-11-01T14:00:45.000Z",
+      "lease_clock_domain": "LIVE_UTC",
+      "resolution_maturity": "OPEN",
+      "finality_status": "OPEN",
+      "revision_number": 1,
+      "previous_verdict_hash": null,
+      "knowledge_frontier": {
+        "watermark": "2026-11-01T14:00:00.000Z",
+        "run_clock": "2026-11-01T14:00:15.000Z"
+      },
+      "primary_binding_witness": "INVALID_REFERENCE_FACT: session_t0_reference, reason=MALFORMED_TIMEZONE_OFFSET",
+      "witness_set": [
+        "INVALID_REFERENCE_FACT: session_t0_reference, reason=MALFORMED_TIMEZONE_OFFSET",
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+      ],
+      "limiting_children": [
+        "session_t0_reference"
+      ],
+      "alternatives": [],
+      "diagnosis_result": "NONE",
+      "limitations": [
+        "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+      ],
+      "decision_maturity": "PROVISIONAL",
+      "verdict_hash": "3e075f6c88b0856bb126d8cd13655b1ad621c93c1d8ba925d1adf25ad97e109b"
+    }
+  ]
+}

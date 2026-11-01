@@ -1,0 +1,12 @@
+{
+  "id": "VEC-30",
+  "category": "floating_point",
+  "description": "Integers represented as floats strip .0",
+  "raw_input": {
+    "one": 1.0,
+    "forty_two": 42.0,
+    "neg_hundred": -100.0
+  },
+  "canonical_jcs": "{\"forty_two\":42,\"neg_hundred\":-100,\"one\":1}",
+  "expected_sha256": "db455c732ef8813a60dd4597dfcd96f57ab8005101723ae900ee586464f60ed8"
+}

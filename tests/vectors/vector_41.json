@@ -1,0 +1,11 @@
+{
+  "id": "VEC-41",
+  "category": "quantization",
+  "description": "Timing seconds quantized to 10^-4 s (0.1 ms)",
+  "raw_input": {
+    "raw": 84.123456,
+    "quantized": 84.1235
+  },
+  "canonical_jcs": "{\"quantized\":84.1235,\"raw\":84.123456}",
+  "expected_sha256": "99a0605c69d0dc00df096c66b4a153d20832966121d897e779096c4d3e594904"
+}

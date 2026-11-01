@@ -1,0 +1,82 @@
+contract_id: weather_strategy_advisory
+version: "1.0"
+epoch: 1
+effective_from: "2026-01-01T00:00:00Z"
+decision_type: weather_strategy
+decision_scope:
+  scope_class: SESSION
+  scope_key_pattern: "{session_id}"
+formula: "AND(track_weather, air_weather)"
+roles:
+  track_weather:
+    required: true
+    description: "Track surface temperature sensor measurement"
+    time_class_required: ABSOLUTE_UTC
+    admissible_source_origins:
+      - PITWALL_WEATHER
+      - TRACINGINSIGHTS_WEATHER
+    admissible_processing_origins:
+      - weather_parser_family
+    agreement:
+      metric: abs_diff
+      unit: celsius
+      tolerance_eta: 1.0
+      calibration_ref: CAL-CALIB-WEATHER-001
+      honest_noise_epsilon_h: 0.2
+    freshness:
+      soft_age_s: 60.0
+      hard_age_s: 180.0
+      latency_allowance_s: 5.0
+    corroboration:
+      source: INFORMATIONAL
+      processing: INFORMATIONAL
+      source_min_depth: 0
+      processing_min_depth: 0
+    fault_model:
+      source_fault_budget: 0
+      processing_fault_budget: 0
+    slots:
+      trigger: periodic
+      max_obs_per_slot: 1
+      deadline_s: 60.0
+      allowed_lateness_s: 120.0
+  air_weather:
+    required: true
+    description: "Ambient air temperature, pressure, and rainfall flag"
+    time_class_required: ABSOLUTE_UTC
+    admissible_source_origins:
+      - PITWALL_WEATHER
+      - TRACINGINSIGHTS_WEATHER
+    admissible_processing_origins:
+      - weather_parser_family
+    agreement:
+      metric: abs_diff
+      unit: celsius
+      tolerance_eta: 0.5
+      calibration_ref: CAL-CALIB-WEATHER-001
+      honest_noise_epsilon_h: 0.1
+    freshness:
+      soft_age_s: 60.0
+      hard_age_s: 180.0
+      latency_allowance_s: 5.0
+    corroboration:
+      source: INFORMATIONAL
+      processing: INFORMATIONAL
+      source_min_depth: 0
+      processing_min_depth: 0
+    fault_model:
+      source_fault_budget: 0
+      processing_fault_budget: 0
+    slots:
+      trigger: periodic
+      max_obs_per_slot: 1
+      deadline_s: 60.0
+      allowed_lateness_s: 120.0
+simultaneity_window_s: 30.0
+finality:
+  condition: all_slots_closed_and_frontier_past_lateness
+tie_break: canonical_order
+explanation:
+  template_id: weather_strategy_advisory_v1
+limitations:
+  - "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"

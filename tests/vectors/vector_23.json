@@ -1,0 +1,10 @@
+{
+  "id": "VEC-23",
+  "category": "empty_and_primitives",
+  "description": "Empty string value",
+  "raw_input": {
+    "empty": ""
+  },
+  "canonical_jcs": "{\"empty\":\"\"}",
+  "expected_sha256": "5ddea0bed9ab50512425b4c9fa9698e0bacfb81414a3e65f3af66c9e85a9c8f0"
+}

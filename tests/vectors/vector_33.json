@@ -1,0 +1,10 @@
+{
+  "id": "VEC-33",
+  "category": "floating_point",
+  "description": "Small float at 10^-5 formats as 0.00001",
+  "raw_input": {
+    "small": 1e-05
+  },
+  "canonical_jcs": "{\"small\":0.00001}",
+  "expected_sha256": "1794ba1f4b56087d23938af97fe601c72e331fe2999d4207dfd4c715937162ec"
+}

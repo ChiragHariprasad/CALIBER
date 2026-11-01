@@ -1,0 +1,10 @@
+{
+  "id": "VEC-13",
+  "category": "unicode_escaping",
+  "description": "Whitespace control chars (\\b, \\f, \\n, \\r, \\t)",
+  "raw_input": {
+    "escapes": "\b\f\n\r\t"
+  },
+  "canonical_jcs": "{\"escapes\":\"\\b\\f\\n\\r\\t\"}",
+  "expected_sha256": "b18d35711698a58692d2cb29f676c93d8efa261f490c22ccb568104f7efa3d44"
+}

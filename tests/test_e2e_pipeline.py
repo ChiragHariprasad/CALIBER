@@ -34,6 +34,7 @@ from ingestion.mock_source import MockRaceProducer
 from ingestion.service import IngestionService
 from processors.service import ProcessorWorkerService
 from flink.job import CalibreFlinkJob
+from test_flink_streaming import poll_matching_message
 from persistence.service import PersistenceService
 from dashboard.service import DashboardService
 from analytics.service import AnalyticsService
@@ -41,7 +42,7 @@ from analytics.service import AnalyticsService
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("calibre.tests")
 
-TEST_BOOTSTRAP = "localhost:9092"
+TEST_BOOTSTRAP = "127.0.0.1:9092"
 TEST_DB_PATH = Path(__file__).resolve().parent.parent / "data" / "test_persistence.db"
 
 
@@ -225,17 +226,9 @@ class CalibrePipelineE2ETest(unittest.TestCase):
         self.assertTrue(self.flink.events_malformed >= 1)
 
         # Check DLQ topic
-        dlq_consumer = CalibreConsumer(
-            TOPIC_DLQ,
-            bootstrap_servers=TEST_BOOTSTRAP,
-            auto_offset_reset="earliest",
-            consumer_timeout_ms=3000,
-        )
-        dlq_msgs = dlq_consumer.poll_messages(timeout_ms=3000)
-        dlq_consumer.close()
-
-        found_dlq = any(m.get("correlation_id") == malformed_corr_id for m in dlq_msgs)
-        self.assertTrue(found_dlq, f"Malformed event {malformed_corr_id} was not routed to DLQ")
+        dlq_msg = poll_matching_message(TOPIC_DLQ, malformed_corr_id, timeout_sec=6.0, bootstrap_servers=TEST_BOOTSTRAP)
+        self.assertIsNotNone(dlq_msg, f"Malformed event {malformed_corr_id} was not routed to DLQ")
+        self.assertEqual(dlq_msg.get("correlation_id"), malformed_corr_id)
         logger.info("Failure-path test PASSED: Malformed event safely routed to %s", TOPIC_DLQ)
 
     def test_03_historical_fixture_replay(self) -> None:

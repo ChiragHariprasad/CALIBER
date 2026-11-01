@@ -1,0 +1,18 @@
+{
+  "id": "VEC-50",
+  "category": "domain_payloads",
+  "description": "evidence_atom_id canonical object (lap_record)",
+  "raw_input": {
+    "normalized_value_hash": "2183c7ce499e7dfc19c5c2d385f0ef304e7aa145d214ec0a68d7162d980f7aa1",
+    "processor_family_id": "timing_parser_family",
+    "raw_event_ids": [
+      "c2ff507c3975fa98ad6be500a4270f279fe85038890cf2dfb9f390886ff2efd2"
+    ],
+    "reference_atom_ids": [],
+    "role_id": "lap_record",
+    "scope_key": "session_11731|VER|52",
+    "transform_version": "1.0.0"
+  },
+  "canonical_jcs": "{\"normalized_value_hash\":\"2183c7ce499e7dfc19c5c2d385f0ef304e7aa145d214ec0a68d7162d980f7aa1\",\"processor_family_id\":\"timing_parser_family\",\"raw_event_ids\":[\"c2ff507c3975fa98ad6be500a4270f279fe85038890cf2dfb9f390886ff2efd2\"],\"reference_atom_ids\":[],\"role_id\":\"lap_record\",\"scope_key\":\"session_11731|VER|52\",\"transform_version\":\"1.0.0\"}",
+  "expected_sha256": "390d325c5f04a10355a7e27fae6005f4db9c66e7eebd53fd9f47baec1048679e"
+}

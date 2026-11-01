@@ -1,0 +1,10 @@
+{
+  "id": "VEC-39",
+  "category": "floating_point",
+  "description": "Subnormal float minimum 5e-324",
+  "raw_input": {
+    "subnormal": 5e-324
+  },
+  "canonical_jcs": "{\"subnormal\":5e-324}",
+  "expected_sha256": "12c4eb9862ca578b5beb7fd43203471aa6cb2cc54a05c2ed86e6e5186a0ee7c2"
+}

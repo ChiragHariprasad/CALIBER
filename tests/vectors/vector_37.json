@@ -1,0 +1,10 @@
+{
+  "id": "VEC-37",
+  "category": "floating_point",
+  "description": "Large float at 10^21 uses scientific notation",
+  "raw_input": {
+    "large": 1e+21
+  },
+  "canonical_jcs": "{\"large\":1e+21}",
+  "expected_sha256": "78c8cec3b0ffa5da13b75b288de31b90de736dd7b97fb94af257769e2165f650"
+}

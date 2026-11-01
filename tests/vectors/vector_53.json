@@ -1,0 +1,61 @@
+{
+  "id": "VEC-53",
+  "category": "domain_payloads",
+  "description": "verdict_hash content object (HEALTHY state)",
+  "raw_input": {
+    "canonical_frontier": {
+      "run_clock": "2026-10-31T23:15:10.000Z",
+      "watermark": "2026-10-31T23:15:08.500Z"
+    },
+    "contract": {
+      "epoch": 1,
+      "id": "lap_time_consistency",
+      "version": "1.0"
+    },
+    "corroboration_profile_by_role": {
+      "lap_record": {
+        "origin_refs": [
+          "TRACINGINSIGHTS_LAPS"
+        ],
+        "processing_depth": 0,
+        "source_depth": 0,
+        "support_atom_ids": [
+          "31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e"
+        ]
+      },
+      "lap_start_reference": {
+        "origin_refs": [
+          "TRACINGINSIGHTS_LAPS"
+        ],
+        "processing_depth": 0,
+        "source_depth": 0,
+        "support_atom_ids": [
+          "30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456"
+        ]
+      }
+    },
+    "decision_instance_id": "session_11731|VER|lap52|lap_time_consistency",
+    "finality_status": "OPEN",
+    "integrity_state": "HEALTHY",
+    "resolution_maturity": "STATE_RESOLVED",
+    "sorted_reference_atom_ids": [
+      "30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456"
+    ],
+    "sorted_support_atom_ids": [
+      "31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e",
+      "30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456"
+    ],
+    "validity_timeline": [
+      {
+        "from": "2026-10-31T23:15:00.000Z",
+        "state": "HEALTHY"
+      },
+      {
+        "from": "2026-10-31T23:15:30.000Z",
+        "state": "DEGRADED"
+      }
+    ]
+  },
+  "canonical_jcs": "{\"canonical_frontier\":{\"run_clock\":\"2026-10-31T23:15:10.000Z\",\"watermark\":\"2026-10-31T23:15:08.500Z\"},\"contract\":{\"epoch\":1,\"id\":\"lap_time_consistency\",\"version\":\"1.0\"},\"corroboration_profile_by_role\":{\"lap_record\":{\"origin_refs\":[\"TRACINGINSIGHTS_LAPS\"],\"processing_depth\":0,\"source_depth\":0,\"support_atom_ids\":[\"31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e\"]},\"lap_start_reference\":{\"origin_refs\":[\"TRACINGINSIGHTS_LAPS\"],\"processing_depth\":0,\"source_depth\":0,\"support_atom_ids\":[\"30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456\"]}},\"decision_instance_id\":\"session_11731|VER|lap52|lap_time_consistency\",\"finality_status\":\"OPEN\",\"integrity_state\":\"HEALTHY\",\"resolution_maturity\":\"STATE_RESOLVED\",\"sorted_reference_atom_ids\":[\"30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456\"],\"sorted_support_atom_ids\":[\"31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e\",\"30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456\"],\"validity_timeline\":[{\"from\":\"2026-10-31T23:15:00.000Z\",\"state\":\"HEALTHY\"},{\"from\":\"2026-10-31T23:15:30.000Z\",\"state\":\"DEGRADED\"}]}",
+  "expected_sha256": "9706b16ffc4b7b1eacc5ce0fb1db2800da28ef17c9fa22e779765d665e5d838d"
+}

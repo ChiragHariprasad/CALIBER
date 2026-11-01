@@ -1,0 +1,11 @@
+{
+  "id": "VEC-17",
+  "category": "unicode_escaping",
+  "description": "Greek and Cyrillic UTF-8",
+  "raw_input": {
+    "cyrillic": "Москва",
+    "greek": "Αλφα Ωμέγα"
+  },
+  "canonical_jcs": "{\"cyrillic\":\"Москва\",\"greek\":\"Αλφα Ωμέγα\"}",
+  "expected_sha256": "c326b176d51b28021510fb07cc18b6c515ce3d8aceedebcac1007c9d874eb562"
+}

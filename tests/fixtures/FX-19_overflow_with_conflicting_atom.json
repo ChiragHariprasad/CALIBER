@@ -1,0 +1,370 @@
+{
+  "schema_name": "calibre.golden_fixture",
+  "schema_version": "1.0",
+  "fixture_id": "FX-19",
+  "title": "Candidate Atom Overflow with Conflict (Cap M_max = 10 => Fail-Closed <= UNKNOWN)",
+  "description": "Candidate count exceeds M_max bound in presence of conflicting observations; halts exact search and emits SEARCH_BUDGET_EXCEEDED.",
+  "category": "ADVERSARIAL",
+  "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+  "defect_reference": "D-18",
+  "invariant_tested": "Defect D-18: NP-hard maximum clique bounded at M_max = 10.",
+  "target_contract": {
+    "contract_id": "synthetic_multi_sensor_overflow",
+    "version": "1.0",
+    "epoch": 1,
+    "effective_from": "2026-01-01T00:00:00Z",
+    "decision_type": "synthetic_testing",
+    "decision_scope": {
+      "scope_class": "DRIVER_LAP",
+      "scope_key_pattern": "{session_id}|{scope_key}"
+    },
+    "formula": "sensor_group",
+    "roles": {
+      "sensor_group": {
+        "required": true,
+        "description": "Candidate sensor cluster exercising M_max search bound cap",
+        "time_class_required": "SESSION_ELAPSED",
+        "admissible_source_origins": [
+          "SENSOR_1",
+          "SENSOR_2",
+          "SENSOR_3",
+          "SENSOR_4",
+          "SENSOR_5",
+          "SENSOR_6",
+          "SENSOR_7",
+          "SENSOR_8",
+          "SENSOR_9",
+          "SENSOR_10",
+          "SENSOR_11",
+          "SENSOR_12",
+          "SENSOR_13",
+          "SENSOR_14"
+        ],
+        "admissible_processing_origins": [
+          "cluster_parser"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "rpm",
+          "tolerance_eta": 1.0,
+          "calibration_ref": "SYN-RPM",
+          "honest_noise_epsilon_h": 0.2
+        },
+        "freshness": {
+          "soft_age_s": 10.0,
+          "hard_age_s": 30.0,
+          "latency_allowance_s": 1.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 2,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "periodic",
+          "max_obs_per_slot": 15,
+          "deadline_s": 5.0,
+          "allowed_lateness_s": 10.0
+        }
+      }
+    },
+    "simultaneity_window_s": 1.0,
+    "finality": {
+      "condition": "all_slots_closed_and_frontier_past_lateness"
+    },
+    "tie_break": "canonical_order",
+    "explanation": {
+      "template_id": "synthetic_multi_sensor_overflow_v1"
+    },
+    "limitations": [
+      "SYNTHETIC_DATASET_FIXTURE_ONLY"
+    ]
+  },
+  "input_stream": [
+    {
+      "step_index": 1,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-1",
+        "role_id": "sensor_group",
+        "value": 100.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_1"
+        ]
+      }
+    },
+    {
+      "step_index": 2,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-2",
+        "role_id": "sensor_group",
+        "value": 100.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_2"
+        ]
+      }
+    },
+    {
+      "step_index": 3,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-3",
+        "role_id": "sensor_group",
+        "value": 100.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_3"
+        ]
+      }
+    },
+    {
+      "step_index": 4,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-4",
+        "role_id": "sensor_group",
+        "value": 100.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_4"
+        ]
+      }
+    },
+    {
+      "step_index": 5,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-5",
+        "role_id": "sensor_group",
+        "value": 100.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_5"
+        ]
+      }
+    },
+    {
+      "step_index": 6,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-6",
+        "role_id": "sensor_group",
+        "value": 100.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_6"
+        ]
+      }
+    },
+    {
+      "step_index": 7,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-7",
+        "role_id": "sensor_group",
+        "value": 110.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_7"
+        ]
+      }
+    },
+    {
+      "step_index": 8,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-8",
+        "role_id": "sensor_group",
+        "value": 110.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_8"
+        ]
+      }
+    },
+    {
+      "step_index": 9,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-9",
+        "role_id": "sensor_group",
+        "value": 110.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_9"
+        ]
+      }
+    },
+    {
+      "step_index": 10,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-10",
+        "role_id": "sensor_group",
+        "value": 110.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_10"
+        ]
+      }
+    },
+    {
+      "step_index": 11,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-11",
+        "role_id": "sensor_group",
+        "value": 110.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_11"
+        ]
+      }
+    },
+    {
+      "step_index": 12,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-cluster-12",
+        "role_id": "sensor_group",
+        "value": 110.0,
+        "unit": "rpm",
+        "source_origin_set": [
+          "SENSOR_12"
+        ]
+      }
+    }
+  ],
+  "evaluation_schedule": [
+    {
+      "eval_id": "FX-19-E1",
+      "after_step_index": 11,
+      "t_eval": "2026-11-01T14:00:05.000Z",
+      "clock_domain": "LIVE_UTC",
+      "decision_instance_id": "mexico-2026|SESSION|synthetic_multi_sensor_overflow"
+    }
+  ],
+  "expected_verdicts": [
+    {
+      "eval_id": "FX-19-E1",
+      "schema_name": "calibre.integrity_assessment",
+      "schema_version": "2.0",
+      "decision_instance_id": "mexico-2026|SESSION|synthetic_multi_sensor_overflow",
+      "contract": {
+        "id": "synthetic_multi_sensor_overflow",
+        "version": "1.0",
+        "epoch": 1
+      },
+      "integrity_state": "UNKNOWN",
+      "corroboration_profile_by_role": {
+        "sensor_group": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "atom-cluster-1",
+            "atom-cluster-2",
+            "atom-cluster-3",
+            "atom-cluster-4",
+            "atom-cluster-5",
+            "atom-cluster-6",
+            "atom-cluster-7",
+            "atom-cluster-8",
+            "atom-cluster-9",
+            "atom-cluster-10",
+            "atom-cluster-11",
+            "atom-cluster-12"
+          ],
+          "origin_refs": [
+            "SENSOR_1",
+            "SENSOR_2",
+            "SENSOR_3",
+            "SENSOR_4",
+            "SENSOR_5",
+            "SENSOR_6",
+            "SENSOR_7",
+            "SENSOR_8",
+            "SENSOR_9",
+            "SENSOR_10",
+            "SENSOR_11",
+            "SENSOR_12"
+          ]
+        }
+      },
+      "validity_timeline": [
+        {
+          "from": "2026-11-01T14:00:00.000Z",
+          "state": "UNKNOWN"
+        }
+      ],
+      "next_transition_at": "2026-11-01T14:00:10.000Z",
+      "lease_until": "2026-11-01T14:00:10.000Z",
+      "lease_clock_domain": "LIVE_UTC",
+      "resolution_maturity": "OPEN",
+      "finality_status": "OPEN",
+      "revision_number": 1,
+      "previous_verdict_hash": null,
+      "knowledge_frontier": {
+        "watermark": "2026-11-01T14:00:00.000Z",
+        "run_clock": "2026-11-01T14:00:05.000Z"
+      },
+      "primary_binding_witness": "SEARCH_BUDGET_EXCEEDED: count=12, M_max=10",
+      "witness_set": [
+        "SEARCH_BUDGET_EXCEEDED: count=12, M_max=10"
+      ],
+      "limiting_children": [
+        "sensor_group"
+      ],
+      "alternatives": [],
+      "diagnosis_result": "NONE",
+      "limitations": [
+        "SYNTHETIC_DATASET_FIXTURE_ONLY"
+      ],
+      "decision_maturity": "PROVISIONAL",
+      "verdict_hash": "c92da11e64c12ffc169e42ae0bf24bd5b41cb7915436b8dd26407c5a8c92db45"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "VEC-03",
+  "category": "key_ordering",
+  "description": "Case-sensitive ASCII key ordering (A < B < a < b)",
+  "raw_input": {
+    "B": 1,
+    "a": 2,
+    "A": 3,
+    "b": 4
+  },
+  "canonical_jcs": "{\"A\":3,\"B\":1,\"a\":2,\"b\":4}",
+  "expected_sha256": "d93ddd0d3af6dc0387cfa71776636d01446a270a9362210a9621d5b6a04c9d02"
+}

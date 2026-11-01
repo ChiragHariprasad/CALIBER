@@ -1,0 +1,810 @@
+[
+  {
+    "id": "VEC-01",
+    "category": "key_ordering",
+    "description": "Basic unordered keys",
+    "raw_input": {
+      "b": 2,
+      "a": 1
+    },
+    "canonical_jcs": "{\"a\":1,\"b\":2}",
+    "expected_sha256": "43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777"
+  },
+  {
+    "id": "VEC-02",
+    "category": "key_ordering",
+    "description": "Prefix key sorting",
+    "raw_input": {
+      "aa": 1,
+      "a": 2,
+      "aaa": 3,
+      "ab": 4
+    },
+    "canonical_jcs": "{\"a\":2,\"aa\":1,\"aaa\":3,\"ab\":4}",
+    "expected_sha256": "7f53f5ff8ab7f59dd5a3442adebb801599286065e8083413c5bf7b63bdebb8c3"
+  },
+  {
+    "id": "VEC-03",
+    "category": "key_ordering",
+    "description": "Case-sensitive ASCII key ordering (A < B < a < b)",
+    "raw_input": {
+      "B": 1,
+      "a": 2,
+      "A": 3,
+      "b": 4
+    },
+    "canonical_jcs": "{\"A\":3,\"B\":1,\"a\":2,\"b\":4}",
+    "expected_sha256": "d93ddd0d3af6dc0387cfa71776636d01446a270a9362210a9621d5b6a04c9d02"
+  },
+  {
+    "id": "VEC-04",
+    "category": "key_ordering",
+    "description": "Symbols and alphanumeric keys",
+    "raw_input": {
+      "1": 1,
+      "_": 2,
+      "-": 3,
+      "a": 4,
+      "$": 5
+    },
+    "canonical_jcs": "{\"$\":5,\"-\":3,\"1\":1,\"_\":2,\"a\":4}",
+    "expected_sha256": "bbfb7c3f521a555af087ea5d70a159b009338f9c13454ddd23516dc1cf2d7b31"
+  },
+  {
+    "id": "VEC-05",
+    "category": "key_ordering",
+    "description": "UTF-16 code unit vs code point (BMP U+FFFF vs Supp U+10000)",
+    "raw_input": {
+      "￿": 1,
+      "𐀀": 2
+    },
+    "canonical_jcs": "{\"𐀀\":2,\"￿\":1}",
+    "expected_sha256": "72406deb9e8efdb3b2d8b80c26ebd8d609a5338250baa8308cab44bbe7506499"
+  },
+  {
+    "id": "VEC-06",
+    "category": "key_ordering",
+    "description": "Supplementary characters ordering (U+10000 vs U+10001)",
+    "raw_input": {
+      "𐀁": 2,
+      "𐀀": 1
+    },
+    "canonical_jcs": "{\"𐀀\":1,\"𐀁\":2}",
+    "expected_sha256": "ee0fb6bbd20f7d78d35ac484ac9241c9fd125a8094f40eb3940c5bb89918b6aa"
+  },
+  {
+    "id": "VEC-07",
+    "category": "key_ordering",
+    "description": "Deeply nested unordered keys",
+    "raw_input": {
+      "z": {
+        "b": 1,
+        "a": 2
+      },
+      "a": {
+        "d": 3,
+        "c": 4
+      }
+    },
+    "canonical_jcs": "{\"a\":{\"c\":4,\"d\":3},\"z\":{\"a\":2,\"b\":1}}",
+    "expected_sha256": "9064591e55912ef60aed6597e5b9110d6c3b5cd9990fd28831dc58d9f48d487e"
+  },
+  {
+    "id": "VEC-08",
+    "category": "key_ordering",
+    "description": "Array of objects with unordered keys",
+    "raw_input": [
+      {
+        "y": 1,
+        "x": 2
+      },
+      {
+        "b": 3,
+        "a": 4
+      }
+    ],
+    "canonical_jcs": "[{\"x\":2,\"y\":1},{\"a\":4,\"b\":3}]",
+    "expected_sha256": "54da06c7b63412bd8d26b30dbb3492d44956827519fccbf73532e2c40764292d"
+  },
+  {
+    "id": "VEC-09",
+    "category": "key_ordering",
+    "description": "Unicode accented keys",
+    "raw_input": {
+      "é": 1,
+      "e": 2,
+      "ê": 3
+    },
+    "canonical_jcs": "{\"e\":2,\"é\":1,\"ê\":3}",
+    "expected_sha256": "48a49c67ab323f4b03888ae2e262d234d630212a0c1775cab277619055fbb327"
+  },
+  {
+    "id": "VEC-10",
+    "category": "key_ordering",
+    "description": "Empty string key alongside other keys",
+    "raw_input": {
+      "": "empty",
+      "a": "non-empty"
+    },
+    "canonical_jcs": "{\"\":\"empty\",\"a\":\"non-empty\"}",
+    "expected_sha256": "1d42e1492661738102564bf4e1eabb79ad1e8a46c2b082d05da5dbff036d11f9"
+  },
+  {
+    "id": "VEC-11",
+    "category": "unicode_escaping",
+    "description": "Escaped quotes and backslashes",
+    "raw_input": {
+      "text": "Hello \"World\" and \\path\\to\\file"
+    },
+    "canonical_jcs": "{\"text\":\"Hello \\\"World\\\" and \\\\path\\\\to\\\\file\"}",
+    "expected_sha256": "a2f8a3eab1e2633d94af6b246c284f35baf5c9d41eac6d848b676155bc4537b9"
+  },
+  {
+    "id": "VEC-12",
+    "category": "unicode_escaping",
+    "description": "Unescaped forward slash in URL",
+    "raw_input": {
+      "url": "https://calibre.fia.com/f1/telemetry/v2"
+    },
+    "canonical_jcs": "{\"url\":\"https://calibre.fia.com/f1/telemetry/v2\"}",
+    "expected_sha256": "9d120ddcb4f97df39cacff4e9263538d1c5abfc76857d15508359c1884adbacb"
+  },
+  {
+    "id": "VEC-13",
+    "category": "unicode_escaping",
+    "description": "Whitespace control chars (\\b, \\f, \\n, \\r, \\t)",
+    "raw_input": {
+      "escapes": "\b\f\n\r\t"
+    },
+    "canonical_jcs": "{\"escapes\":\"\\b\\f\\n\\r\\t\"}",
+    "expected_sha256": "b18d35711698a58692d2cb29f676c93d8efa261f490c22ccb568104f7efa3d44"
+  },
+  {
+    "id": "VEC-14",
+    "category": "unicode_escaping",
+    "description": "Control chars U+0000 to U+0007",
+    "raw_input": {
+      "ctrl": "\u0000\u0001\u0007"
+    },
+    "canonical_jcs": "{\"ctrl\":\"\\u0000\\u0001\\u0007\"}",
+    "expected_sha256": "e6830ab8e8c0a866bce7a6c15c89ad714c766771959cf8a1ffc8809ea4a0cc6a"
+  },
+  {
+    "id": "VEC-15",
+    "category": "unicode_escaping",
+    "description": "Control chars U+000E to U+001F",
+    "raw_input": {
+      "ctrl": "\u000e\u001f"
+    },
+    "canonical_jcs": "{\"ctrl\":\"\\u000e\\u001f\"}",
+    "expected_sha256": "889986770fe7bb18bfb7c486aaed2750fe332f6bd9d523740836e2e866cc336b"
+  },
+  {
+    "id": "VEC-16",
+    "category": "unicode_escaping",
+    "description": "Accented Latin characters raw UTF-8",
+    "raw_input": {
+      "city": "São Paulo",
+      "driver": "Sergio Pérez"
+    },
+    "canonical_jcs": "{\"city\":\"São Paulo\",\"driver\":\"Sergio Pérez\"}",
+    "expected_sha256": "f571a84938b72590d44555418c8fae2353f60595e751bd8bcda14839dc0e2291"
+  },
+  {
+    "id": "VEC-17",
+    "category": "unicode_escaping",
+    "description": "Greek and Cyrillic UTF-8",
+    "raw_input": {
+      "cyrillic": "Москва",
+      "greek": "Αλφα Ωμέγα"
+    },
+    "canonical_jcs": "{\"cyrillic\":\"Москва\",\"greek\":\"Αλφα Ωμέγα\"}",
+    "expected_sha256": "c326b176d51b28021510fb07cc18b6c515ce3d8aceedebcac1007c9d874eb562"
+  },
+  {
+    "id": "VEC-18",
+    "category": "unicode_escaping",
+    "description": "CJK 3-byte UTF-8 ideographs",
+    "raw_input": {
+      "circuit": "铃鹿赛道",
+      "grand_prix": "日本グランプリ"
+    },
+    "canonical_jcs": "{\"circuit\":\"铃鹿赛道\",\"grand_prix\":\"日本グランプリ\"}",
+    "expected_sha256": "3f087644b8e21f5b508059c3d0b2d61f7a11a5183f5740afb2b64683f597c080"
+  },
+  {
+    "id": "VEC-19",
+    "category": "unicode_escaping",
+    "description": "4-byte UTF-8 Emojis and surrogate pairs",
+    "raw_input": {
+      "car": "🏎️",
+      "flag": "🏁",
+      "trophy": "🏆"
+    },
+    "canonical_jcs": "{\"car\":\"🏎️\",\"flag\":\"🏁\",\"trophy\":\"🏆\"}",
+    "expected_sha256": "41641ee5f998d38bb6d5cf72df8a69b4a34f9f46a02042c6971a5ec54f64bdb0"
+  },
+  {
+    "id": "VEC-20",
+    "category": "unicode_escaping",
+    "description": "Mixed ASCII, control characters, and Unicode",
+    "raw_input": {
+      "mixed": "Test\u0000\t\"\\/é😀"
+    },
+    "canonical_jcs": "{\"mixed\":\"Test\\u0000\\t\\\"\\\\/é😀\"}",
+    "expected_sha256": "b17b4877ce9f6835b4a76b06a9f7c7bff44b2a4ce6aa02d137f8a79cafe81406"
+  },
+  {
+    "id": "VEC-21",
+    "category": "empty_and_primitives",
+    "description": "Empty object",
+    "raw_input": {},
+    "canonical_jcs": "{}",
+    "expected_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+  },
+  {
+    "id": "VEC-22",
+    "category": "empty_and_primitives",
+    "description": "Empty array",
+    "raw_input": [],
+    "canonical_jcs": "[]",
+    "expected_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "id": "VEC-23",
+    "category": "empty_and_primitives",
+    "description": "Empty string value",
+    "raw_input": {
+      "empty": ""
+    },
+    "canonical_jcs": "{\"empty\":\"\"}",
+    "expected_sha256": "5ddea0bed9ab50512425b4c9fa9698e0bacfb81414a3e65f3af66c9e85a9c8f0"
+  },
+  {
+    "id": "VEC-24",
+    "category": "empty_and_primitives",
+    "description": "Null value in object",
+    "raw_input": {
+      "field": null
+    },
+    "canonical_jcs": "{\"field\":null}",
+    "expected_sha256": "113989a3ad32aa945a2dfc9dc7d0a99174033f31435635a8c67c45d731a0a215"
+  },
+  {
+    "id": "VEC-25",
+    "category": "empty_and_primitives",
+    "description": "Boolean true and false",
+    "raw_input": {
+      "flag_false": false,
+      "flag_true": true
+    },
+    "canonical_jcs": "{\"flag_false\":false,\"flag_true\":true}",
+    "expected_sha256": "bd5bf6b6280ac829bd3b3158f6a189b375f74d0cb8dd91517554c082127906ab"
+  },
+  {
+    "id": "VEC-26",
+    "category": "empty_and_primitives",
+    "description": "Compound object with empty primitives and collections",
+    "raw_input": {
+      "a": {},
+      "b": [],
+      "c": "",
+      "d": null
+    },
+    "canonical_jcs": "{\"a\":{},\"b\":[],\"c\":\"\",\"d\":null}",
+    "expected_sha256": "e8a89bdf5f4e49c4ffaeea83b01cc9e7bf86d79d4d2b2adbb354c81109364fdc"
+  },
+  {
+    "id": "VEC-27",
+    "category": "empty_and_primitives",
+    "description": "Deeply nested empty structures",
+    "raw_input": [
+      [
+        [],
+        {}
+      ],
+      {
+        "nested": []
+      }
+    ],
+    "canonical_jcs": "[[[],{}],{\"nested\":[]}]",
+    "expected_sha256": "6a9032c1957230d36d61557ac63ce310acd63cd6f6a737d7ee8598dd76dee308"
+  },
+  {
+    "id": "VEC-28",
+    "category": "empty_and_primitives",
+    "description": "Single primitive null at root",
+    "raw_input": null,
+    "canonical_jcs": "null",
+    "expected_sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+    "id": "VEC-29",
+    "category": "floating_point",
+    "description": "Signed zeros -0.0 and 0.0 canonicalize to 0",
+    "raw_input": {
+      "pos_zero": 0.0,
+      "neg_zero": -0.0
+    },
+    "canonical_jcs": "{\"neg_zero\":0,\"pos_zero\":0}",
+    "expected_sha256": "0c91a4eb864965dcc80f9f5dd1fd5844c36fef5b3fae19dcf8d2ebf9311eeea9"
+  },
+  {
+    "id": "VEC-30",
+    "category": "floating_point",
+    "description": "Integers represented as floats strip .0",
+    "raw_input": {
+      "one": 1.0,
+      "forty_two": 42.0,
+      "neg_hundred": -100.0
+    },
+    "canonical_jcs": "{\"forty_two\":42,\"neg_hundred\":-100,\"one\":1}",
+    "expected_sha256": "db455c732ef8813a60dd4597dfcd96f57ab8005101723ae900ee586464f60ed8"
+  },
+  {
+    "id": "VEC-31",
+    "category": "floating_point",
+    "description": "Negative decimal numbers",
+    "raw_input": {
+      "neg_dec": -42.5,
+      "neg_frac": -0.005,
+      "neg_int": -1
+    },
+    "canonical_jcs": "{\"neg_dec\":-42.5,\"neg_frac\":-0.005,\"neg_int\":-1}",
+    "expected_sha256": "1f60abd0ff5729296291938780db8f32d3cc7c74ac2c18aeaa8aef6039457226"
+  },
+  {
+    "id": "VEC-32",
+    "category": "floating_point",
+    "description": "Standard decimal values without exponents",
+    "raw_input": {
+      "quarter": 0.25,
+      "tenth": 0.1,
+      "timing": 1234.5678
+    },
+    "canonical_jcs": "{\"quarter\":0.25,\"tenth\":0.1,\"timing\":1234.5678}",
+    "expected_sha256": "640b6aa6779e319eb1b88b60211497079c867cf1725b162879d5b1a3c11928ab"
+  },
+  {
+    "id": "VEC-33",
+    "category": "floating_point",
+    "description": "Small float at 10^-5 formats as 0.00001",
+    "raw_input": {
+      "small": 1e-05
+    },
+    "canonical_jcs": "{\"small\":0.00001}",
+    "expected_sha256": "1794ba1f4b56087d23938af97fe601c72e331fe2999d4207dfd4c715937162ec"
+  },
+  {
+    "id": "VEC-34",
+    "category": "floating_point",
+    "description": "Small float at 10^-6 formats as 0.000001",
+    "raw_input": {
+      "small": 1e-06
+    },
+    "canonical_jcs": "{\"small\":0.000001}",
+    "expected_sha256": "09028ff7ccc3ad409d352227a6594cd42d7ad36080df522c86e2eca61c98e289"
+  },
+  {
+    "id": "VEC-35",
+    "category": "floating_point",
+    "description": "Small float at 10^-7 uses scientific notation",
+    "raw_input": {
+      "small": 1e-07
+    },
+    "canonical_jcs": "{\"small\":1e-7}",
+    "expected_sha256": "eab71f0599648ef0fd925fca469c78e7aab062861bcb11ff037454b97f43720d"
+  },
+  {
+    "id": "VEC-36",
+    "category": "floating_point",
+    "description": "Large float at 10^20 formats as 21-digit decimal",
+    "raw_input": {
+      "large": 1e+20
+    },
+    "canonical_jcs": "{\"large\":100000000000000000000}",
+    "expected_sha256": "fb3e43ae3685e727dbc9219028731ec408ac78591b79c0135bca7bb9f465b8e1"
+  },
+  {
+    "id": "VEC-37",
+    "category": "floating_point",
+    "description": "Large float at 10^21 uses scientific notation",
+    "raw_input": {
+      "large": 1e+21
+    },
+    "canonical_jcs": "{\"large\":1e+21}",
+    "expected_sha256": "78c8cec3b0ffa5da13b75b288de31b90de736dd7b97fb94af257769e2165f650"
+  },
+  {
+    "id": "VEC-38",
+    "category": "floating_point",
+    "description": "High precision mathematical constants",
+    "raw_input": {
+      "e": 2.718281828459045,
+      "pi": 3.141592653589793
+    },
+    "canonical_jcs": "{\"e\":2.718281828459045,\"pi\":3.141592653589793}",
+    "expected_sha256": "4861483be7ca838d228860f83023dcb1cd0ad26cbb3091ecc62741e45f351f77"
+  },
+  {
+    "id": "VEC-39",
+    "category": "floating_point",
+    "description": "Subnormal float minimum 5e-324",
+    "raw_input": {
+      "subnormal": 5e-324
+    },
+    "canonical_jcs": "{\"subnormal\":5e-324}",
+    "expected_sha256": "12c4eb9862ca578b5beb7fd43203471aa6cb2cc54a05c2ed86e6e5186a0ee7c2"
+  },
+  {
+    "id": "VEC-40",
+    "category": "floating_point",
+    "description": "IEEE 754 max safe integer (2^53-1) and max float",
+    "raw_input": {
+      "max_safe_int": 9007199254740991,
+      "max_float": 1.7976931348623157e+308
+    },
+    "canonical_jcs": "{\"max_float\":1.7976931348623157e+308,\"max_safe_int\":9007199254740991}",
+    "expected_sha256": "c93118b52b4ae77bcf62c0d63da5c7cc5f47ebcac99a8650a6555fa292ad8590"
+  },
+  {
+    "id": "VEC-41",
+    "category": "quantization",
+    "description": "Timing seconds quantized to 10^-4 s (0.1 ms)",
+    "raw_input": {
+      "raw": 84.123456,
+      "quantized": 84.1235
+    },
+    "canonical_jcs": "{\"quantized\":84.1235,\"raw\":84.123456}",
+    "expected_sha256": "99a0605c69d0dc00df096c66b4a153d20832966121d897e779096c4d3e594904"
+  },
+  {
+    "id": "VEC-42",
+    "category": "quantization",
+    "description": "Timing seconds quantized to whole integer",
+    "raw_input": {
+      "raw": 84.00001,
+      "quantized": 84.0
+    },
+    "canonical_jcs": "{\"quantized\":84,\"raw\":84.00001}",
+    "expected_sha256": "dd03f8a3665aaefdc86522738c8b0d57a338a6c694f7d651fccc2668fc786103"
+  },
+  {
+    "id": "VEC-43",
+    "category": "quantization",
+    "description": "Speed telemetry quantized to 10^-2 kph",
+    "raw_input": {
+      "raw": 315.4567,
+      "quantized": 315.46
+    },
+    "canonical_jcs": "{\"quantized\":315.46,\"raw\":315.4567}",
+    "expected_sha256": "67bccc970f3783a94434e7a35612b4cea44462c3c6910e611094bf6d47fa7589"
+  },
+  {
+    "id": "VEC-44",
+    "category": "quantization",
+    "description": "Dimensionless ratio quantized to 10^-6",
+    "raw_input": {
+      "raw": 0.12345678,
+      "quantized": 0.123457
+    },
+    "canonical_jcs": "{\"quantized\":0.123457,\"raw\":0.12345678}",
+    "expected_sha256": "1029ed97742be8cfcc41cdfd29a03bf7e61af4e796e7e395c0ff9dccc7d632cb"
+  },
+  {
+    "id": "VEC-45",
+    "category": "quantization",
+    "description": "Negative timing delta quantized to 10^-4 s",
+    "raw_input": {
+      "raw": -0.054321,
+      "quantized": -0.0543
+    },
+    "canonical_jcs": "{\"quantized\":-0.0543,\"raw\":-0.054321}",
+    "expected_sha256": "c729a0a49b67b966ad132ff7f8cb308752086db6c250bf85efe64d7fb19d856c"
+  },
+  {
+    "id": "VEC-46",
+    "category": "quantization",
+    "description": "Banker's rounding half-to-even boundary",
+    "raw_input": {
+      "even_case": 1.0,
+      "odd_case": 1.0002
+    },
+    "canonical_jcs": "{\"even_case\":1,\"odd_case\":1.0002}",
+    "expected_sha256": "39c03478d76f94b91b46040ca9bdb093ae3717d332c3ecca3dd2890ade2eec0f"
+  },
+  {
+    "id": "VEC-47",
+    "category": "domain_payloads",
+    "description": "raw_event_id canonical object (Pitwall TimingData)",
+    "raw_input": {
+      "feed": "TimingData",
+      "payload_sha256": "47a3e785d03ec1c54b2857037f394c8b21c70e28f325d254b1f415392e2760df",
+      "provider": "PITWALL_F1",
+      "scope": {
+        "driver_id": "VER",
+        "lap": 52
+      },
+      "session_id": "session_11731",
+      "source_record_key": "session_11731_lap_52_VER",
+      "source_time": {
+        "semantics": "SESSION_ELAPSED",
+        "unit": "s",
+        "value": 84.1234
+      }
+    },
+    "canonical_jcs": "{\"feed\":\"TimingData\",\"payload_sha256\":\"47a3e785d03ec1c54b2857037f394c8b21c70e28f325d254b1f415392e2760df\",\"provider\":\"PITWALL_F1\",\"scope\":{\"driver_id\":\"VER\",\"lap\":52},\"session_id\":\"session_11731\",\"source_record_key\":\"session_11731_lap_52_VER\",\"source_time\":{\"semantics\":\"SESSION_ELAPSED\",\"unit\":\"s\",\"value\":84.1234}}",
+    "expected_sha256": "6f9e399cab9ec9bccfd62a9b5d117d7ac2e3a7757da6222e2298976879f90304"
+  },
+  {
+    "id": "VEC-48",
+    "category": "domain_payloads",
+    "description": "raw_event_id canonical object (TracingInsights Laps)",
+    "raw_input": {
+      "feed": "session_laptimes",
+      "payload_sha256": "3cb49a4eccfa07cb2017df85db49692482e9b89736c0db92f70ddbdfcbeea7f3",
+      "provider": "TRACINGINSIGHTS",
+      "scope": {
+        "driver_id": "VER",
+        "lap": 52
+      },
+      "session_id": "USGP2025_R",
+      "source_record_key": "TI_USGP2025_R_VER_L52",
+      "source_time": {
+        "semantics": "SESSION_ELAPSED",
+        "unit": "s",
+        "value": 4892.456
+      }
+    },
+    "canonical_jcs": "{\"feed\":\"session_laptimes\",\"payload_sha256\":\"3cb49a4eccfa07cb2017df85db49692482e9b89736c0db92f70ddbdfcbeea7f3\",\"provider\":\"TRACINGINSIGHTS\",\"scope\":{\"driver_id\":\"VER\",\"lap\":52},\"session_id\":\"USGP2025_R\",\"source_record_key\":\"TI_USGP2025_R_VER_L52\",\"source_time\":{\"semantics\":\"SESSION_ELAPSED\",\"unit\":\"s\",\"value\":4892.456}}",
+    "expected_sha256": "0c17099c971c7deac5dfc60abc1bd2c2b1a8a83db7229949a2fc665ad089e819"
+  },
+  {
+    "id": "VEC-49",
+    "category": "domain_payloads",
+    "description": "raw_event_id acquisition-bound fallback object",
+    "raw_input": {
+      "feed": "RaceControlMessages",
+      "payload_sha256": "d98fb87f7422f4625b172a3920cbe0aee50a1dfd9a6ca587e954ff206aeb73f0",
+      "provider": "PITWALL_F1",
+      "received_at_utc": "2026-10-31T23:15:00.123456Z",
+      "scope": {
+        "scope_class": "SESSION"
+      },
+      "session_id": "session_11731",
+      "source_record_key": null,
+      "source_time": {
+        "semantics": "RECEIPT_TIME_ONLY",
+        "unit": "utc",
+        "value": null
+      }
+    },
+    "canonical_jcs": "{\"feed\":\"RaceControlMessages\",\"payload_sha256\":\"d98fb87f7422f4625b172a3920cbe0aee50a1dfd9a6ca587e954ff206aeb73f0\",\"provider\":\"PITWALL_F1\",\"received_at_utc\":\"2026-10-31T23:15:00.123456Z\",\"scope\":{\"scope_class\":\"SESSION\"},\"session_id\":\"session_11731\",\"source_record_key\":null,\"source_time\":{\"semantics\":\"RECEIPT_TIME_ONLY\",\"unit\":\"utc\",\"value\":null}}",
+    "expected_sha256": "ec43d436f6af7f337ed84b7417b184e5812016735fe5b4df2a447ed16307aeb6"
+  },
+  {
+    "id": "VEC-50",
+    "category": "domain_payloads",
+    "description": "evidence_atom_id canonical object (lap_record)",
+    "raw_input": {
+      "normalized_value_hash": "2183c7ce499e7dfc19c5c2d385f0ef304e7aa145d214ec0a68d7162d980f7aa1",
+      "processor_family_id": "timing_parser_family",
+      "raw_event_ids": [
+        "c2ff507c3975fa98ad6be500a4270f279fe85038890cf2dfb9f390886ff2efd2"
+      ],
+      "reference_atom_ids": [],
+      "role_id": "lap_record",
+      "scope_key": "session_11731|VER|52",
+      "transform_version": "1.0.0"
+    },
+    "canonical_jcs": "{\"normalized_value_hash\":\"2183c7ce499e7dfc19c5c2d385f0ef304e7aa145d214ec0a68d7162d980f7aa1\",\"processor_family_id\":\"timing_parser_family\",\"raw_event_ids\":[\"c2ff507c3975fa98ad6be500a4270f279fe85038890cf2dfb9f390886ff2efd2\"],\"reference_atom_ids\":[],\"role_id\":\"lap_record\",\"scope_key\":\"session_11731|VER|52\",\"transform_version\":\"1.0.0\"}",
+    "expected_sha256": "390d325c5f04a10355a7e27fae6005f4db9c66e7eebd53fd9f47baec1048679e"
+  },
+  {
+    "id": "VEC-51",
+    "category": "domain_payloads",
+    "description": "evidence_atom_id with reference atom dependency",
+    "raw_input": {
+      "normalized_value_hash": "6ec62955f13d80bf4a4aa89617d5c8eef8dc0387b92bb590214c77ea4d1567bc",
+      "processor_family_id": "timing_parser_family",
+      "raw_event_ids": [
+        "f8490a618d35099b22a00c7e2b1ea2095f00a501e74f88e999c09c2a39626e2a"
+      ],
+      "reference_atom_ids": [
+        "628a7ee4bbf255ef4fb84e8574492bf22d713c71ea407fa71c4c9e42258ea281"
+      ],
+      "role_id": "telemetry_sample",
+      "scope_key": "session_11731|VER|52|sample_120",
+      "transform_version": "1.0.0"
+    },
+    "canonical_jcs": "{\"normalized_value_hash\":\"6ec62955f13d80bf4a4aa89617d5c8eef8dc0387b92bb590214c77ea4d1567bc\",\"processor_family_id\":\"timing_parser_family\",\"raw_event_ids\":[\"f8490a618d35099b22a00c7e2b1ea2095f00a501e74f88e999c09c2a39626e2a\"],\"reference_atom_ids\":[\"628a7ee4bbf255ef4fb84e8574492bf22d713c71ea407fa71c4c9e42258ea281\"],\"role_id\":\"telemetry_sample\",\"scope_key\":\"session_11731|VER|52|sample_120\",\"transform_version\":\"1.0.0\"}",
+    "expected_sha256": "5ef6d405617c6b269c4a86bda6d97102c450e670b539d26aea73e008485cc2ad"
+  },
+  {
+    "id": "VEC-52",
+    "category": "domain_payloads",
+    "description": "RunClockTick fact canonical representation",
+    "raw_input": {
+      "clock_domain": "LIVE_UTC",
+      "clock_utc": "2026-10-31T23:15:05.000Z",
+      "emitter_id": "calibre_supervisor_01",
+      "run_id": "live_session_11731_prod",
+      "seq": 420
+    },
+    "canonical_jcs": "{\"clock_domain\":\"LIVE_UTC\",\"clock_utc\":\"2026-10-31T23:15:05.000Z\",\"emitter_id\":\"calibre_supervisor_01\",\"run_id\":\"live_session_11731_prod\",\"seq\":420}",
+    "expected_sha256": "dda50892a0bffe5b8aafbc19a3dd3976cd91bd132b7b180565e4c5ce7b8a344a"
+  },
+  {
+    "id": "VEC-53",
+    "category": "domain_payloads",
+    "description": "verdict_hash content object (HEALTHY state)",
+    "raw_input": {
+      "canonical_frontier": {
+        "run_clock": "2026-10-31T23:15:10.000Z",
+        "watermark": "2026-10-31T23:15:08.500Z"
+      },
+      "contract": {
+        "epoch": 1,
+        "id": "lap_time_consistency",
+        "version": "1.0"
+      },
+      "corroboration_profile_by_role": {
+        "lap_record": {
+          "origin_refs": [
+            "TRACINGINSIGHTS_LAPS"
+          ],
+          "processing_depth": 0,
+          "source_depth": 0,
+          "support_atom_ids": [
+            "31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e"
+          ]
+        },
+        "lap_start_reference": {
+          "origin_refs": [
+            "TRACINGINSIGHTS_LAPS"
+          ],
+          "processing_depth": 0,
+          "source_depth": 0,
+          "support_atom_ids": [
+            "30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456"
+          ]
+        }
+      },
+      "decision_instance_id": "session_11731|VER|lap52|lap_time_consistency",
+      "finality_status": "OPEN",
+      "integrity_state": "HEALTHY",
+      "resolution_maturity": "STATE_RESOLVED",
+      "sorted_reference_atom_ids": [
+        "30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456"
+      ],
+      "sorted_support_atom_ids": [
+        "31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e",
+        "30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456"
+      ],
+      "validity_timeline": [
+        {
+          "from": "2026-10-31T23:15:00.000Z",
+          "state": "HEALTHY"
+        },
+        {
+          "from": "2026-10-31T23:15:30.000Z",
+          "state": "DEGRADED"
+        }
+      ]
+    },
+    "canonical_jcs": "{\"canonical_frontier\":{\"run_clock\":\"2026-10-31T23:15:10.000Z\",\"watermark\":\"2026-10-31T23:15:08.500Z\"},\"contract\":{\"epoch\":1,\"id\":\"lap_time_consistency\",\"version\":\"1.0\"},\"corroboration_profile_by_role\":{\"lap_record\":{\"origin_refs\":[\"TRACINGINSIGHTS_LAPS\"],\"processing_depth\":0,\"source_depth\":0,\"support_atom_ids\":[\"31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e\"]},\"lap_start_reference\":{\"origin_refs\":[\"TRACINGINSIGHTS_LAPS\"],\"processing_depth\":0,\"source_depth\":0,\"support_atom_ids\":[\"30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456\"]}},\"decision_instance_id\":\"session_11731|VER|lap52|lap_time_consistency\",\"finality_status\":\"OPEN\",\"integrity_state\":\"HEALTHY\",\"resolution_maturity\":\"STATE_RESOLVED\",\"sorted_reference_atom_ids\":[\"30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456\"],\"sorted_support_atom_ids\":[\"31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e\",\"30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456\"],\"validity_timeline\":[{\"from\":\"2026-10-31T23:15:00.000Z\",\"state\":\"HEALTHY\"},{\"from\":\"2026-10-31T23:15:30.000Z\",\"state\":\"DEGRADED\"}]}",
+    "expected_sha256": "9706b16ffc4b7b1eacc5ce0fb1db2800da28ef17c9fa22e779765d665e5d838d"
+  },
+  {
+    "id": "VEC-54",
+    "category": "domain_payloads",
+    "description": "verdict_hash content object (SUSPECT state)",
+    "raw_input": {
+      "canonical_frontier": {
+        "run_clock": "2026-10-31T23:15:15.000Z",
+        "watermark": "2026-10-31T23:15:14.000Z"
+      },
+      "contract": {
+        "epoch": 1,
+        "id": "source_integrity_assessment",
+        "version": "1.0"
+      },
+      "corroboration_profile_by_role": {
+        "feed_telemetry": {
+          "origin_refs": [
+            "PITWALL_TIMINGDATA"
+          ],
+          "processing_depth": 0,
+          "source_depth": 0,
+          "support_atom_ids": [
+            "01424a3f2d3adaf283f368c687039d928f60d6527e9eedc156f06ba6f036249e"
+          ]
+        },
+        "guard_liveness": {
+          "origin_refs": [
+            "CALIBRE_GUARD"
+          ],
+          "processing_depth": 0,
+          "source_depth": 0,
+          "support_atom_ids": [
+            "580015b4da099204eed926f14521a7a03c72b23f7bb9bf7ccedcd72e3d06b843"
+          ]
+        }
+      },
+      "decision_instance_id": "session_11731|SESSION|source_integrity_assessment",
+      "finality_status": "OPEN",
+      "integrity_state": "SUSPECT",
+      "resolution_maturity": "STATE_RESOLVED",
+      "sorted_reference_atom_ids": [],
+      "sorted_support_atom_ids": [
+        "01424a3f2d3adaf283f368c687039d928f60d6527e9eedc156f06ba6f036249e",
+        "580015b4da099204eed926f14521a7a03c72b23f7bb9bf7ccedcd72e3d06b843"
+      ],
+      "validity_timeline": [
+        {
+          "from": "2026-10-31T23:15:00.000Z",
+          "state": "SUSPECT"
+        }
+      ]
+    },
+    "canonical_jcs": "{\"canonical_frontier\":{\"run_clock\":\"2026-10-31T23:15:15.000Z\",\"watermark\":\"2026-10-31T23:15:14.000Z\"},\"contract\":{\"epoch\":1,\"id\":\"source_integrity_assessment\",\"version\":\"1.0\"},\"corroboration_profile_by_role\":{\"feed_telemetry\":{\"origin_refs\":[\"PITWALL_TIMINGDATA\"],\"processing_depth\":0,\"source_depth\":0,\"support_atom_ids\":[\"01424a3f2d3adaf283f368c687039d928f60d6527e9eedc156f06ba6f036249e\"]},\"guard_liveness\":{\"origin_refs\":[\"CALIBRE_GUARD\"],\"processing_depth\":0,\"source_depth\":0,\"support_atom_ids\":[\"580015b4da099204eed926f14521a7a03c72b23f7bb9bf7ccedcd72e3d06b843\"]}},\"decision_instance_id\":\"session_11731|SESSION|source_integrity_assessment\",\"finality_status\":\"OPEN\",\"integrity_state\":\"SUSPECT\",\"resolution_maturity\":\"STATE_RESOLVED\",\"sorted_reference_atom_ids\":[],\"sorted_support_atom_ids\":[\"01424a3f2d3adaf283f368c687039d928f60d6527e9eedc156f06ba6f036249e\",\"580015b4da099204eed926f14521a7a03c72b23f7bb9bf7ccedcd72e3d06b843\"],\"validity_timeline\":[{\"from\":\"2026-10-31T23:15:00.000Z\",\"state\":\"SUSPECT\"}]}",
+    "expected_sha256": "1853990164db999aa23eb15dc31b2e637116d6876d11c5a498b2012149afd32e"
+  },
+  {
+    "id": "VEC-55",
+    "category": "domain_payloads",
+    "description": "verdict_hash content object (FINAL verdict pinned frontier)",
+    "raw_input": {
+      "canonical_frontier": {
+        "run_clock": "2026-10-31T23:16:30.000Z",
+        "watermark": "2026-10-31T23:16:30.000Z"
+      },
+      "contract": {
+        "epoch": 1,
+        "id": "lap_time_consistency",
+        "version": "1.0"
+      },
+      "corroboration_profile_by_role": {
+        "lap_record": {
+          "origin_refs": [
+            "TRACINGINSIGHTS_LAPS"
+          ],
+          "processing_depth": 0,
+          "source_depth": 0,
+          "support_atom_ids": [
+            "31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e"
+          ]
+        },
+        "lap_start_reference": {
+          "origin_refs": [
+            "TRACINGINSIGHTS_LAPS"
+          ],
+          "processing_depth": 0,
+          "source_depth": 0,
+          "support_atom_ids": [
+            "30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456"
+          ]
+        }
+      },
+      "decision_instance_id": "session_11731|VER|lap52|lap_time_consistency",
+      "finality_status": "FINAL",
+      "integrity_state": "HEALTHY",
+      "resolution_maturity": "TUPLE_RESOLVED",
+      "sorted_reference_atom_ids": [
+        "30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456"
+      ],
+      "sorted_support_atom_ids": [
+        "31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e",
+        "30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456"
+      ],
+      "validity_timeline": [
+        {
+          "from": "2026-10-31T23:15:00.000Z",
+          "state": "HEALTHY"
+        }
+      ]
+    },
+    "canonical_jcs": "{\"canonical_frontier\":{\"run_clock\":\"2026-10-31T23:16:30.000Z\",\"watermark\":\"2026-10-31T23:16:30.000Z\"},\"contract\":{\"epoch\":1,\"id\":\"lap_time_consistency\",\"version\":\"1.0\"},\"corroboration_profile_by_role\":{\"lap_record\":{\"origin_refs\":[\"TRACINGINSIGHTS_LAPS\"],\"processing_depth\":0,\"source_depth\":0,\"support_atom_ids\":[\"31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e\"]},\"lap_start_reference\":{\"origin_refs\":[\"TRACINGINSIGHTS_LAPS\"],\"processing_depth\":0,\"source_depth\":0,\"support_atom_ids\":[\"30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456\"]}},\"decision_instance_id\":\"session_11731|VER|lap52|lap_time_consistency\",\"finality_status\":\"FINAL\",\"integrity_state\":\"HEALTHY\",\"resolution_maturity\":\"TUPLE_RESOLVED\",\"sorted_reference_atom_ids\":[\"30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456\"],\"sorted_support_atom_ids\":[\"31735a4ca2582c6d28c254614768bfb22d2831da0b1f98328b4f05974b93599e\",\"30d930beaa562d2a951c1c855490f93ca091838e6a27fd04ac35dd0c58dd1456\"],\"validity_timeline\":[{\"from\":\"2026-10-31T23:15:00.000Z\",\"state\":\"HEALTHY\"}]}",
+    "expected_sha256": "4c4f6723b1e4f00a0c565d7a5640fa3f4b2fff73b8b3896678290b346e42407e"
+  }
+]

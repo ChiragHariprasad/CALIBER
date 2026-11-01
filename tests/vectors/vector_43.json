@@ -1,0 +1,11 @@
+{
+  "id": "VEC-43",
+  "category": "quantization",
+  "description": "Speed telemetry quantized to 10^-2 kph",
+  "raw_input": {
+    "raw": 315.4567,
+    "quantized": 315.46
+  },
+  "canonical_jcs": "{\"quantized\":315.46,\"raw\":315.4567}",
+  "expected_sha256": "67bccc970f3783a94434e7a35612b4cea44462c3c6910e611094bf6d47fa7589"
+}

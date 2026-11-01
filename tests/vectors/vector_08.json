@@ -1,0 +1,17 @@
+{
+  "id": "VEC-08",
+  "category": "key_ordering",
+  "description": "Array of objects with unordered keys",
+  "raw_input": [
+    {
+      "y": 1,
+      "x": 2
+    },
+    {
+      "b": 3,
+      "a": 4
+    }
+  ],
+  "canonical_jcs": "[{\"x\":2,\"y\":1},{\"a\":4,\"b\":3}]",
+  "expected_sha256": "54da06c7b63412bd8d26b30dbb3492d44956827519fccbf73532e2c40764292d"
+}

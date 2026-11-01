@@ -1,0 +1,55 @@
+{
+  "id": "VEC-54",
+  "category": "domain_payloads",
+  "description": "verdict_hash content object (SUSPECT state)",
+  "raw_input": {
+    "canonical_frontier": {
+      "run_clock": "2026-10-31T23:15:15.000Z",
+      "watermark": "2026-10-31T23:15:14.000Z"
+    },
+    "contract": {
+      "epoch": 1,
+      "id": "source_integrity_assessment",
+      "version": "1.0"
+    },
+    "corroboration_profile_by_role": {
+      "feed_telemetry": {
+        "origin_refs": [
+          "PITWALL_TIMINGDATA"
+        ],
+        "processing_depth": 0,
+        "source_depth": 0,
+        "support_atom_ids": [
+          "01424a3f2d3adaf283f368c687039d928f60d6527e9eedc156f06ba6f036249e"
+        ]
+      },
+      "guard_liveness": {
+        "origin_refs": [
+          "CALIBRE_GUARD"
+        ],
+        "processing_depth": 0,
+        "source_depth": 0,
+        "support_atom_ids": [
+          "580015b4da099204eed926f14521a7a03c72b23f7bb9bf7ccedcd72e3d06b843"
+        ]
+      }
+    },
+    "decision_instance_id": "session_11731|SESSION|source_integrity_assessment",
+    "finality_status": "OPEN",
+    "integrity_state": "SUSPECT",
+    "resolution_maturity": "STATE_RESOLVED",
+    "sorted_reference_atom_ids": [],
+    "sorted_support_atom_ids": [
+      "01424a3f2d3adaf283f368c687039d928f60d6527e9eedc156f06ba6f036249e",
+      "580015b4da099204eed926f14521a7a03c72b23f7bb9bf7ccedcd72e3d06b843"
+    ],
+    "validity_timeline": [
+      {
+        "from": "2026-10-31T23:15:00.000Z",
+        "state": "SUSPECT"
+      }
+    ]
+  },
+  "canonical_jcs": "{\"canonical_frontier\":{\"run_clock\":\"2026-10-31T23:15:15.000Z\",\"watermark\":\"2026-10-31T23:15:14.000Z\"},\"contract\":{\"epoch\":1,\"id\":\"source_integrity_assessment\",\"version\":\"1.0\"},\"corroboration_profile_by_role\":{\"feed_telemetry\":{\"origin_refs\":[\"PITWALL_TIMINGDATA\"],\"processing_depth\":0,\"source_depth\":0,\"support_atom_ids\":[\"01424a3f2d3adaf283f368c687039d928f60d6527e9eedc156f06ba6f036249e\"]},\"guard_liveness\":{\"origin_refs\":[\"CALIBRE_GUARD\"],\"processing_depth\":0,\"source_depth\":0,\"support_atom_ids\":[\"580015b4da099204eed926f14521a7a03c72b23f7bb9bf7ccedcd72e3d06b843\"]}},\"decision_instance_id\":\"session_11731|SESSION|source_integrity_assessment\",\"finality_status\":\"OPEN\",\"integrity_state\":\"SUSPECT\",\"resolution_maturity\":\"STATE_RESOLVED\",\"sorted_reference_atom_ids\":[],\"sorted_support_atom_ids\":[\"01424a3f2d3adaf283f368c687039d928f60d6527e9eedc156f06ba6f036249e\",\"580015b4da099204eed926f14521a7a03c72b23f7bb9bf7ccedcd72e3d06b843\"],\"validity_timeline\":[{\"from\":\"2026-10-31T23:15:00.000Z\",\"state\":\"SUSPECT\"}]}",
+  "expected_sha256": "1853990164db999aa23eb15dc31b2e637116d6876d11c5a498b2012149afd32e"
+}

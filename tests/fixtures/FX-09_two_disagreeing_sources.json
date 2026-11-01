@@ -1,0 +1,180 @@
+{
+  "schema_name": "calibre.golden_fixture",
+  "schema_version": "1.0",
+  "fixture_id": "FX-09",
+  "title": "Two Independent Disagreeing Sources (|v1 - v2| > eta => SUSPECT)",
+  "description": "Two disagreeing sources with budget f=0 cannot isolate faulty source; degrades to SUSPECT.",
+  "category": "ADVERSARIAL",
+  "evaluation_phase": "PHASE_3B_FULL_EVALUATOR",
+  "defect_reference": null,
+  "invariant_tested": "CAL-DOC-007 §2.4.3: Disagreement under zero fault budget degrades to SUSPECT.",
+  "target_contract": {
+    "contract_id": "synthetic_dual_speed_sensor",
+    "version": "1.0",
+    "epoch": 1,
+    "effective_from": "2026-01-01T00:00:00Z",
+    "decision_type": "synthetic_testing",
+    "decision_scope": {
+      "scope_class": "DRIVER_LAP",
+      "scope_key_pattern": "{session_id}|{scope_key}"
+    },
+    "formula": "speed_sensor",
+    "roles": {
+      "speed_sensor": {
+        "required": true,
+        "description": "Dual speed sensor fusion",
+        "time_class_required": "LAP_RELATIVE",
+        "admissible_source_origins": [
+          "SOURCE_GPS",
+          "SOURCE_WHEEL"
+        ],
+        "admissible_processing_origins": [
+          "gps_parser",
+          "wheel_parser"
+        ],
+        "agreement": {
+          "metric": "abs_diff",
+          "unit": "kph",
+          "tolerance_eta": 2.0,
+          "calibration_ref": "SYN-SPEED-01",
+          "honest_noise_epsilon_h": 0.5
+        },
+        "freshness": {
+          "soft_age_s": 5.0,
+          "hard_age_s": 15.0,
+          "latency_allowance_s": 1.0
+        },
+        "corroboration": {
+          "source": "INFORMATIONAL",
+          "processing": "INFORMATIONAL",
+          "source_min_depth": 0,
+          "processing_min_depth": 0
+        },
+        "fault_model": {
+          "source_fault_budget": 0,
+          "processing_fault_budget": 0
+        },
+        "slots": {
+          "trigger": "event_driven",
+          "max_obs_per_slot": 2,
+          "deadline_s": 5.0,
+          "allowed_lateness_s": 10.0
+        }
+      }
+    },
+    "simultaneity_window_s": 1.0,
+    "finality": {
+      "condition": "all_slots_closed_and_frontier_past_lateness"
+    },
+    "tie_break": "canonical_order",
+    "explanation": {
+      "template_id": "synthetic_dual_speed_sensor_v1"
+    },
+    "limitations": [
+      "SYNTHETIC_DATASET_FIXTURE_ONLY"
+    ]
+  },
+  "input_stream": [
+    {
+      "step_index": 0,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:20:00.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:20:00.000Z",
+      "data": {
+        "evidence_atom_id": "atom-gps",
+        "role_id": "speed_sensor",
+        "value": 285.0,
+        "unit": "kph",
+        "source_origin_set": [
+          "SOURCE_GPS"
+        ]
+      }
+    },
+    {
+      "step_index": 1,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:20:00.100Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:20:00.100Z",
+      "data": {
+        "evidence_atom_id": "atom-wheel",
+        "role_id": "speed_sensor",
+        "value": 292.5,
+        "unit": "kph",
+        "source_origin_set": [
+          "SOURCE_WHEEL"
+        ]
+      }
+    }
+  ],
+  "evaluation_schedule": [
+    {
+      "eval_id": "FX-09-E1",
+      "after_step_index": 1,
+      "t_eval": "2026-11-01T14:20:01.000Z",
+      "clock_domain": "LIVE_UTC",
+      "decision_instance_id": "mexico-2026|VER|52|synthetic_dual_speed_sensor"
+    }
+  ],
+  "expected_verdicts": [
+    {
+      "eval_id": "FX-09-E1",
+      "schema_name": "calibre.integrity_assessment",
+      "schema_version": "2.0",
+      "decision_instance_id": "mexico-2026|VER|52|synthetic_dual_speed_sensor",
+      "contract": {
+        "id": "synthetic_dual_speed_sensor",
+        "version": "1.0",
+        "epoch": 1
+      },
+      "integrity_state": "SUSPECT",
+      "corroboration_profile_by_role": {
+        "speed_sensor": {
+          "source_depth": 0,
+          "processing_depth": 0,
+          "support_atom_ids": [
+            "atom-gps",
+            "atom-wheel"
+          ],
+          "origin_refs": [
+            "SOURCE_GPS",
+            "SOURCE_WHEEL"
+          ]
+        }
+      },
+      "validity_timeline": [
+        {
+          "from": "2026-11-01T14:20:00.100Z",
+          "state": "SUSPECT"
+        }
+      ],
+      "next_transition_at": "2026-11-01T14:20:05.100Z",
+      "lease_until": "2026-11-01T14:20:05.100Z",
+      "lease_clock_domain": "LIVE_UTC",
+      "resolution_maturity": "STATE_RESOLVED",
+      "finality_status": "OPEN",
+      "revision_number": 1,
+      "previous_verdict_hash": null,
+      "knowledge_frontier": {
+        "watermark": "2026-11-01T14:20:00.100Z",
+        "run_clock": "2026-11-01T14:20:01.000Z"
+      },
+      "primary_binding_witness": "UNRESOLVED_CONFLICT: pair=(atom-gps, atom-wheel), delta=7.5kph, eta=2.0kph",
+      "witness_set": [
+        "UNRESOLVED_CONFLICT: pair=(atom-gps, atom-wheel), delta=7.5kph, eta=2.0kph",
+        "FAULT_BUDGET_EXCEEDED: f_budget=0, conflicts=1"
+      ],
+      "limiting_children": [
+        "speed_sensor"
+      ],
+      "alternatives": [],
+      "diagnosis_result": "FAULT_BUDGET_EXCEEDED",
+      "limitations": [
+        "SYNTHETIC_DATASET_FIXTURE_ONLY"
+      ],
+      "decision_maturity": "PROVISIONAL",
+      "verdict_hash": "3d1f637a861d72b21c8b4008b6e3fd36f20137b570c34513d5e64e7c528841eb"
+    }
+  ]
+}

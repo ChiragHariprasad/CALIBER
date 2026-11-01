@@ -1,0 +1,10 @@
+{
+  "id": "VEC-11",
+  "category": "unicode_escaping",
+  "description": "Escaped quotes and backslashes",
+  "raw_input": {
+    "text": "Hello \"World\" and \\path\\to\\file"
+  },
+  "canonical_jcs": "{\"text\":\"Hello \\\"World\\\" and \\\\path\\\\to\\\\file\"}",
+  "expected_sha256": "a2f8a3eab1e2633d94af6b246c284f35baf5c9d41eac6d848b676155bc4537b9"
+}

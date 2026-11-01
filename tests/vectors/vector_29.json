@@ -1,0 +1,11 @@
+{
+  "id": "VEC-29",
+  "category": "floating_point",
+  "description": "Signed zeros -0.0 and 0.0 canonicalize to 0",
+  "raw_input": {
+    "pos_zero": 0.0,
+    "neg_zero": -0.0
+  },
+  "canonical_jcs": "{\"neg_zero\":0,\"pos_zero\":0}",
+  "expected_sha256": "0c91a4eb864965dcc80f9f5dd1fd5844c36fef5b3fae19dcf8d2ebf9311eeea9"
+}

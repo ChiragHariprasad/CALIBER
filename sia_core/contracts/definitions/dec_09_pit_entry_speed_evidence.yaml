@@ -1,0 +1,81 @@
+contract_id: pit_entry_speed_evidence
+version: "1.0"
+epoch: 1
+effective_from: "2026-01-01T00:00:00Z"
+decision_type: speed_compliance
+decision_scope:
+  scope_class: DRIVER_LAP
+  scope_key_pattern: "{session_id}|{driver_id}|lap{lap_number}"
+formula: "AND(telemetry_speed, pit_threshold_reference)"
+roles:
+  telemetry_speed:
+    required: true
+    description: "Car wheel speed telemetry sample recorded at pit entry crossing"
+    time_class_required: LAP_RELATIVE
+    admissible_source_origins:
+      - TRACINGINSIGHTS_TELEMETRY
+    admissible_processing_origins:
+      - telemetry_parser_family
+    agreement:
+      metric: abs_diff
+      unit: kph
+      tolerance_eta: 1.0
+      calibration_ref: CAL-CALIB-SPEED-001
+      honest_noise_epsilon_h: 0.2
+    freshness:
+      soft_age_s: null
+      hard_age_s: null
+      latency_allowance_s: 2.0
+    corroboration:
+      source: INFORMATIONAL
+      processing: INFORMATIONAL
+      source_min_depth: 0
+      processing_min_depth: 0
+    fault_model:
+      source_fault_budget: 0
+      processing_fault_budget: 0
+    slots:
+      trigger: pit_event
+      max_obs_per_slot: 1
+      deadline_s: 30.0
+      allowed_lateness_s: 60.0
+  pit_threshold_reference:
+    required: true
+    description: "Sporting regulation pit lane speed limit configuration (e.g., 80.0 kph)"
+    time_class_required: LAP_RELATIVE
+    admissible_source_origins:
+      - SPORTING_REGULATIONS
+    admissible_processing_origins:
+      - rules_parser_family
+    agreement:
+      metric: discrete_equality
+      unit: kph
+      tolerance_eta: 0.0
+      calibration_ref: FIA-REG-2026-F1
+      honest_noise_epsilon_h: 0.0
+    freshness:
+      soft_age_s: null
+      hard_age_s: null
+      latency_allowance_s: 0.0
+    corroboration:
+      source: INFORMATIONAL
+      processing: INFORMATIONAL
+      source_min_depth: 0
+      processing_min_depth: 0
+    fault_model:
+      source_fault_budget: 0
+      processing_fault_budget: 0
+    slots:
+      trigger: session_transition
+      max_obs_per_slot: 1
+      deadline_s: 1.0
+      allowed_lateness_s: 0.0
+simultaneity_window_s: 0.5
+finality:
+  condition: all_slots_closed_and_frontier_past_lateness
+tie_break: canonical_order
+explanation:
+  template_id: pit_entry_speed_evidence_v1
+limitations:
+  - "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
+  - "HISTORICAL_ONLY_LIVE_SPEED_F1TV_RESTRICTED"
