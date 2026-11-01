@@ -93,7 +93,7 @@ def test_pure_evaluator_golden_fixture_parity(fx_idx: int):
 
         prev_verdict = actual_v
 
-        # Assert key attributes match expected verdict
+        # Assert all 9 verdict fields per CAL-DOC-007
         assert actual_v["integrity_state"] == exp_v["integrity_state"], (
             f"{fx_id} Eval {sched['eval_id']}: integrity_state mismatch "
             f"actual={actual_v['integrity_state']} != exp={exp_v['integrity_state']}"
@@ -113,6 +113,14 @@ def test_pure_evaluator_golden_fixture_parity(fx_idx: int):
         assert actual_v["primary_binding_witness"] == exp_v["primary_binding_witness"], (
             f"{fx_id} Eval {sched['eval_id']}: primary_binding_witness mismatch "
             f"actual={actual_v['primary_binding_witness']} != exp={exp_v['primary_binding_witness']}"
+        )
+        assert actual_v["lease_until"] == exp_v["lease_until"], (
+            f"{fx_id} Eval {sched['eval_id']}: lease_until mismatch "
+            f"actual={actual_v['lease_until']} != exp={exp_v['lease_until']}"
+        )
+        assert actual_v["next_transition_at"] == exp_v["next_transition_at"], (
+            f"{fx_id} Eval {sched['eval_id']}: next_transition_at mismatch "
+            f"actual={actual_v['next_transition_at']} != exp={exp_v['next_transition_at']}"
         )
         if "diagnosis_result" in exp_v:
             assert actual_v.get("diagnosis_result") == exp_v["diagnosis_result"], (

@@ -275,9 +275,15 @@ class ContractEvaluator:
                 if evidence_evals:
                     evidence_tls = [tl for _, tl in evidence_evals]
                     base_tl = compose_pointwise("AND", evidence_tls)
+                    if composed_state == IntegrityState.HEALTHY:
+                        tuple_start = max(tl.breakpoints[0].from_time for tl in evidence_tls if tl.breakpoints)
+                        future_bps = [bp for bp in base_tl.breakpoints if bp.from_time > tuple_start]
+                        bps = [TimelineBreakpoint(tuple_start, base_tl.state_at(tuple_start))] + future_bps
+                    else:
+                        bps = base_tl.breakpoints
                     composed_bps = [
                         TimelineBreakpoint(bp.from_time, and_state(bp.state, composed_state))
-                        for bp in base_tl.breakpoints
+                        for bp in bps
                     ]
                     composed_tl = ValidityTimeline(composed_bps)
                 else:
@@ -309,6 +315,20 @@ class ContractEvaluator:
             final_integrity_state = IntegrityState.UNKNOWN
         else:
             final_integrity_state = exact_state
+
+        # Build timeline list from AST composed timeline
+        if has_overflow:
+            start_t = active_atoms[0].transport_event_time_utc if active_atoms else t_eval
+            validity_timeline_list = [{"from": start_t, "state": "UNKNOWN"}]
+        elif has_missing_ref:
+            validity_timeline_list = [{"from": t_eval, "state": "UNKNOWN"}]
+        elif pending_roles and maturity == ResolutionMaturity.OPEN:
+            start_t = anchor_time or (active_atoms[0].transport_event_time_utc if active_atoms else t_eval)
+            validity_timeline_list = [{"from": start_t, "state": "UNKNOWN"}]
+        else:
+            validity_timeline_list = composed_timeline.to_list()
+
+        issued_at = validity_timeline_list[0]["from"] if validity_timeline_list else t_eval
 
         # Assemble corroboration profile preserving contract.roles order
         corroboration_profile: Dict[str, Any] = {}
@@ -394,6 +414,8 @@ class ContractEvaluator:
                     break
 
         for r_res in leaf_results.values():
+            if has_missing_ref and not ("MISSING_REFERENCE_FACT" in str(r_res.primary_witness) or "INVALID_REFERENCE_FACT" in str(r_res.primary_witness)):
+                continue
             for w in r_res.witnesses:
                 if w not in witness_set:
                     witness_set.append(w)
@@ -514,7 +536,7 @@ class ContractEvaluator:
                 if previous_verdict and previous_verdict.get("integrity_state") == "DEGRADED" and slot_lateness_t and t_eval <= slot_lateness_t:
                     lease_until = slot_lateness_t
                 else:
-                    lease_until = add_seconds_to_iso(t_eval, 30.0)
+                    lease_until = add_seconds_to_iso(issued_at, 30.0)
 
         # Revision numbering & Chaining
         revision_number = 1
@@ -545,21 +567,6 @@ class ContractEvaluator:
                 "run_clock": t_eval,
                 "watermark": watermark,
             }
-
-        # Build timeline list from AST composed timeline
-        if has_overflow:
-            start_t = active_atoms[0].transport_event_time_utc if active_atoms else t_eval
-            validity_timeline_list = [{"from": start_t, "state": "UNKNOWN"}]
-        elif has_missing_ref:
-            validity_timeline_list = [{"from": t_eval, "state": "UNKNOWN"}]
-        elif pending_roles and maturity == ResolutionMaturity.OPEN:
-            start_t = anchor_time or (active_atoms[0].transport_event_time_utc if active_atoms else t_eval)
-            validity_timeline_list = [{"from": start_t, "state": "UNKNOWN"}]
-        elif len(contract.roles) > 1 and active_atoms and len(active_atoms) >= len(contract.roles) and exact_state == IntegrityState.HEALTHY:
-            tuple_horizon = max(a.transport_event_time_utc for a in active_atoms if a.transport_event_time_utc)
-            validity_timeline_list = [{"from": tuple_horizon, "state": "HEALTHY"}]
-        else:
-            validity_timeline_list = composed_timeline.to_list()
 
         # Compute cryptographic verdict_hash via RFC 8785 JCS
         v_hash = compute_verdict_hash(

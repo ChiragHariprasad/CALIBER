@@ -57,6 +57,16 @@ class ValidityTimeline:
                 break
         return current_state
 
+    def active_horizon(self, t_eval: str) -> ValidityTimeline:
+        """Return timeline over active horizon from latest breakpoint <= t_eval through future transitions."""
+        if not self._breakpoints:
+            return self
+        past_indices = [i for i, bp in enumerate(self._breakpoints) if bp.from_time <= t_eval]
+        if not past_indices:
+            return self
+        start_idx = past_indices[-1]
+        return ValidityTimeline(self._breakpoints[start_idx:], default_state=self._default_state)
+
     def to_list(self) -> List[Dict[str, str]]:
         return [bp.to_dict() for bp in self._breakpoints]
 

@@ -44,14 +44,27 @@ for fx_path in sorted(glob.glob("tests/fixtures/FX-*.json")):
 
         prev_verdict = actual_v
 
-        # Compare keys
+        # Compare all 9 verdict fields per CAL-DOC-007 and dispatch requirements
+        keys_to_check = [
+            "integrity_state",
+            "resolution_maturity",
+            "finality_status",
+            "verdict_hash",
+            "primary_binding_witness",
+            "lease_until",
+            "next_transition_at",
+            "validity_timeline",
+            "corroboration_profile_by_role",
+            "revision_number",
+            "diagnosis_result",
+        ]
         diffs = []
-        for key in ["integrity_state", "resolution_maturity", "finality_status", "revision_number", "verdict_hash", "primary_binding_witness", "diagnosis_result"]:
+        for key in keys_to_check:
             if actual_v.get(key) != exp_v.get(key):
                 diffs.append(f"{key}: actual={actual_v.get(key)} != exp={exp_v.get(key)}")
 
         if not diffs:
-            print(f"  [PASS] Eval {sched['eval_id']} matched bit-for-bit! Hash: {actual_v['verdict_hash'][:12]}")
+            print(f"  [PASS] Eval {sched['eval_id']} matched bit-for-bit across all 9 fields! Hash: {actual_v['verdict_hash'][:12]}")
         else:
             print(f"  [FAIL] Eval {sched['eval_id']}:")
             for d in diffs:
@@ -62,3 +75,4 @@ for fx_path in sorted(glob.glob("tests/fixtures/FX-*.json")):
             print(f"     Act Timeline:  {actual_v['validity_timeline']}")
             print(f"     Exp Profile:   {exp_v['corroboration_profile_by_role']}")
             print(f"     Act Profile:   {actual_v['corroboration_profile_by_role']}")
+            assert not diffs, f"{fx_id} {sched['eval_id']} has diffs: {diffs}"
