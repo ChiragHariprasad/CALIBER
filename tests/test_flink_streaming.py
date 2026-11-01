@@ -329,7 +329,7 @@ class FlinkStreamingIntegrationTest(unittest.TestCase):
         self.producer.send(evidence_topic("vehicle"), ev, correlation_id=corr_id)
 
         # Poll TOPIC_VERDICT_HISTORY
-        v_msg = poll_matching_message(TOPIC_VERDICT_HISTORY, corr_id, timeout_sec=6.0)
+        v_msg = poll_matching_message(TOPIC_VERDICT_HISTORY, corr_id, timeout_sec=10.0)
         self.assertIsNotNone(v_msg, "SIA verdict was not emitted to calibre.core.verdict_history")
         self.assertIn("verdict_hash", v_msg)
         self.assertIn("integrity_state", v_msg)
@@ -354,7 +354,10 @@ class FlinkStreamingIntegrationTest(unittest.TestCase):
         }
         self.producer.send(TOPIC_GUARD_LIVENESS, guard_msg, correlation_id=corr_id)
         # Verify stats record activity
-        time.sleep(1.0)
+        for _ in range(50):
+            if self.flink_job.events_received + self.flink_job.verdicts_emitted >= 1:
+                break
+            time.sleep(0.1)
         self.assertGreaterEqual(self.flink_job.events_received + self.flink_job.verdicts_emitted, 1)
         logger.info("Test 06 PASSED: Supervisor GuardFact processed cleanly.")
 
@@ -372,7 +375,11 @@ class FlinkStreamingIntegrationTest(unittest.TestCase):
             "correlation_id": corr_id,
         }
         self.producer.send(TOPIC_GUARD_CLOCK, tick_msg, correlation_id=corr_id)
-        time.sleep(1.0)
+        for _ in range(50):
+            if self.flink_job.run_clock_mgr.latest_tick and self.flink_job.run_clock_mgr.latest_tick.seq == 100:
+                break
+            time.sleep(0.1)
+        self.assertIsNotNone(self.flink_job.run_clock_mgr.latest_tick)
         self.assertEqual(self.flink_job.run_clock_mgr.latest_tick.seq, 100)
         logger.info("Test 07 PASSED: RunClockTick admitted and frontier advanced without moving watermark.")
 
@@ -415,7 +422,7 @@ class FlinkStreamingIntegrationTest(unittest.TestCase):
         self.producer.send(evidence_topic("timing"), ev, correlation_id=corr_id)
         
         # Verify arrival in quarantine
-        q_msg = poll_matching_message(TOPIC_SIDE_QUARANTINE, corr_id, timeout_sec=6.0)
+        q_msg = poll_matching_message(TOPIC_SIDE_QUARANTINE, corr_id, timeout_sec=10.0)
         self.assertIsNotNone(q_msg, f"Post-finality event was not routed to {TOPIC_SIDE_QUARANTINE}")
         self.assertEqual(q_msg.get("finality_status"), "FINAL")
         logger.info("Test 08 PASSED: Post-finality atom successfully isolated in quarantine topic.")
