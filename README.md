@@ -1,169 +1,170 @@
 # CALIBRE — Streaming Data Platform Backbone
 
 > **Calibration-Aware, Lineage-Indexed, Bitemporal Rule Evaluation**  
-> An independent evidence-integrity and assurance platform for motorsport telemetry and race events.
+> An independent evidence-integrity and assurance platform for motorsport telemetry and race events powered by the **Scoped Integrity Algebra (SIA) v2.2**.
 
 ---
 
 ## 1. System Architecture
 
+CALIBRE ingests heterogeneous motorsport telemetry from live and historical sources, preserves source lineage, normalizes observations through specialist processor agents, and evaluates decision fitness in a pure, deterministic integrity core embedded in Apache Flink:
+
 ```text
-                    DATA SOURCES
-                          |
-             +------------+------------+
-             |            |            |
-          Pitwall     TracingInsights  Mock/Replay
-          Live Feed    Historical Data  Test Source
-             |            |            |
-             +------------+------------+
-                          |
-                   SOURCE INGESTION
-                          |
-                          v
-                  KAFKA RAW TOPICS
-               (calibre.raw.<source>.<feed>)
-                          |
-                          v
-              AGENT / PROCESSING LAYER
-               5 Independent Processors
-             (vehicle, incident, environment,
-               timing, system integrity)
-                          |
-                          v
-                 KAFKA EVIDENCE TOPICS
-               (calibre.evidence.<domain>)
-                          |
-                          v
-                 APACHE FLINK CORE
-          (Validation, Lineage Tracking,
-          Routing, DLQ, Status Enrichment)
-                          |
-             +------------+------------+------------------+
-             |                         |                  |
-             v                         v                  v
-     calibre.out.database     calibre.out.dashboard   calibre.out.analytics
-             |                         |                  |
-             v                         v                  v
-     PERSISTENCE SERVICE       DASHBOARD GATEWAY      ANALYTICS SERVICE
-     (SQLite / Relational      (FastAPI REST/SSE      (Throughput & Event
-      Audit History Store)      Live Event Stream)     Metrics / Alerts)
-             |                         |                  |
-             +------------+------------+------------------+
-                          |
-                    SYSTEM HEALTH
-                     AND OBSERVABILITY
+LIVE / HISTORICAL / SYNTHETIC SOURCES
+                 │
+                 ▼
+          SOURCE INGESTION (Pitwall Live / TracingInsights Historical / Mock)
+                 │
+                 ▼
+            KAFKA RAW TOPICS (calibre.raw.<source>.<feed>)
+                 │
+                 ▼
+        AGENT / PROCESSOR LAYER (5 Specialist Domain Processors)
+        (vehicle, incident, environment, timing, system integrity)
+                 │
+                 ▼
+         KAFKA EVIDENCE TOPICS (calibre.evidence.<domain>)
+         + GUARD & CONFIG (calibre.guard.*, calibre.config.contracts)
+                 │
+                 ▼
+     ┌────────────────────────────────────────────────────────┐
+     │           SIA PURE EVALUATOR ENGINE (sia_core)         │
+     │                                                        │
+     │  1. Evidence Admission & RFC 8785 Canonical Identity   │
+     │  2. Fact & Typed-Time Resolution (Legal Conversions)   │
+     │  3. Origin Management (3-Tier & Shared Upstreams)      │
+     │  4. Pairwise Agreement Clique Search (M_max = 10)       │
+     │  5. Fault Diagnosis (Theorem G4-I: ⋂ D_min)             │
+     │  6. Decision Evidence Contract Evaluation (DEC AST)    │
+     │  7. Abstract Verdict Envelope (C_max = 32 & P4/P5)     │
+     │  8. Pointwise Validity Timeline Composition σ(t)       │
+     │  9. Bitemporal Verdict Builder & Hash Linkage          │
+     │ 10. Dual-Domain Leases (LIVE_UTC vs REPLAY_VIRTUAL)    │
+     └───────────────────────────┬────────────────────────────┘
+                                 │
+                                 ▼
+         APACHE FLINK INTEGRITY OPERATOR (flink/job.py)
+                 │ (Keyed by session_instance_id:driver_id)
+          +──────┴───────────────+
+          │                      │
+          ▼                      ▼
+  DOWNSTREAM SINKS        SIDE-OUTPUT QUARANTINE
+  ├─ calibre.out.database  ├─ calibre.dlq (malformed)
+  ├─ calibre.out.dashboard ├─ calibre.side.quarantine (late/finality)
+  ├─ calibre.out.analytics └─ calibre.side.overflow (search budget capped)
+  └─ calibre.core.verdict_history
+          │                      │                      │
+          ▼                      ▼                      ▼
+  PERSISTENCE SERVICE    DASHBOARD GATEWAY      ANALYTICS SERVICE
+  (SQLite Bitemporal     (FastAPI REST/SSE      (Throughput, Metrics
+   Audit Ledger)          Operations UI)         & Operational Alerts)
 ```
 
 ---
 
 ## 2. Kafka Topic Catalogue
 
-| Topic Name | Producer | Consumer(s) | Purpose |
-|---|---|---|---|
-| `calibre.raw.pitwall.<feed>` | Ingestion Service | Specialist Processors | Raw messages from public Pitwall SignalR topics |
-| `calibre.raw.tracinginsights.<feed>` | Ingestion Service | Specialist Processors | Historical records from TracingInsights |
-| `calibre.raw.mock.<feed>` | Mock Producer | Specialist Processors | Deterministic synthetic events for testing |
-| `calibre.evidence.<domain>` | Agent Processors | Apache Flink Core | Normalised observations, scope, and findings |
-| `calibre.out.database` | Apache Flink | Persistence Sink | Audit-grade stream for relational persistence |
-| `calibre.out.dashboard` | Apache Flink | Dashboard Gateway | Real-time event stream for operations UI |
-| `calibre.out.analytics` | Apache Flink | Analytics Service | Operational evidence stream for metrics |
-| `calibre.analytics.metrics` | Analytics Service | Operations / UI | Derived pipeline throughput and event rates |
-| `calibre.alerts` | Analytics Service | Operations / Review | Operational alerts for high-severity findings |
-| `calibre.dlq` | Any Component / Flink | Operations Tooling | Malformed, unparseable, or failed events |
+| Topic Name | Key Semantic | Producer | Consumer(s) | Purpose |
+|:---|:---|:---|:---|:---|
+| `calibre.raw.pitwall.<feed>` | `event_id` | Ingestion Service | Specialist Processors | Raw SignalR messages from public Pitwall timing |
+| `calibre.raw.tracinginsights.<feed>` | `event_id` | Ingestion Service | Specialist Processors | Historical session records from TracingInsights |
+| `calibre.raw.mock.<feed>` | `event_id` | Mock Producer | Specialist Processors | Deterministic synthetic events for test pipelines |
+| `calibre.evidence.<domain>` | `event_id` | Agent Processors | Apache Flink / SIA Core | Normalized observations, findings, and scope |
+| `calibre.guard.liveness` | `origin_id` | Supervisor Agent | Apache Flink / SIA Core | Durable liveness state facts (`STALLED` / `RESUMED`) |
+| `calibre.guard.clock` | `clock_domain` | Run Clock Generator | Apache Flink / SIA Core | Recorded `RunClockTick` facts ("Time is Data") |
+| `calibre.config.contracts` | `contract_id` | Admin / Config CLI | Apache Flink / SIA Core | Versioned Decision Evidence Contracts (DECs) |
+| `calibre.out.database` | `correlation_id` | Apache Flink Core | Persistence Sink | Audit-grade stream for SQLite bitemporal store |
+| `calibre.out.dashboard` | `correlation_id` | Apache Flink Core | Dashboard Gateway | Real-time event stream with consumer leases for UI |
+| `calibre.out.analytics` | `correlation_id` | Apache Flink Core | Analytics Service | Integrity-gated evidence stream for metrics/rules |
+| `calibre.core.verdict_history` | `decision_id` | Apache Flink Core | Persistence Sink | Immutable revision chain ledger ($H_1 \to H_2 \to \dots$) |
+| `calibre.dlq` | `correlation_id` | Any Component / Flink | Operations Monitor | Malformed, unparseable, or schema-invalid events |
+| `calibre.side.quarantine` | `decision_id` | Apache Flink Core | Integrity Audit Monitor | Late evidence arriving after canonical finality cutoffs |
+| `calibre.side.overflow` | `decision_id` | Apache Flink Core | Performance Monitor | Search budget overflows ($M_{\max}=10, C_{\max}=32$) |
 
 ---
 
 ## 3. Quick Start & Operational Commands
 
-All platform operations can be executed from the repository root via `run_pipeline.py`.
+All platform operations are orchestrated from the repository root via `run_pipeline.py`:
 
 ### Prerequisites
-- Python 3.10+
-- Docker and Docker Compose
-- Virtualenv with requirements installed (`pip install -r requirements.txt`)
+- Python 3.10+ (tested on Python 3.13)
+- Docker & Docker Compose
+- Virtualenv with requirements installed:
+  ```bash
+  pip install -r requirements.txt
+  ```
 
-### 1. Start Infrastructure
-Starts Zookeeper, Kafka broker, Flink JobManager, Flink TaskManager, and initializes all Kafka topics:
+### 1. Infrastructure Management
 ```bash
+# Start Docker infrastructure (Zookeeper, Kafka, Flink) and initialize topics:
 python run_pipeline.py start
-```
 
-### 2. Check System Health
-Inspects running containers, Kafka connectivity, topic list, Flink cluster status, and database:
-```bash
+# Check running containers, Kafka connectivity, Flink cluster, and database health:
 python run_pipeline.py status
+
+# Cleanly stop all background streaming services and Docker containers:
+python run_pipeline.py stop-all
 ```
 
-### 3. Run End-to-End Integration Tests
-Executes the full automated pipeline verification (verifying all 11 assertions and failure-path DLQ routing):
+### 2. Comprehensive Test Suites
 ```bash
+# Run the master regression suite (741 tests in ~21s):
+pytest -q
+
+# Run bit-for-bit Golden Fixture parity check (20/20 bit-for-bit SHA-256 match):
+python tests/test_eval_parity.py
+
+# Run the 30 mandatory property and adversarial tests:
+pytest tests/test_30_adversarial_scenarios.py -v
+
+# Run end-to-end integration pipeline verification:
 python run_pipeline.py test
-```
 
-### 4. Run Dedicated Apache Flink Streaming Tests
-Verifies Flink input ingestion from `calibre.evidence.*`, schema validation, multi-sink fan-out to database/dashboard/analytics, and DLQ routing:
-```bash
+# Run dedicated Apache Flink streaming verification:
 python run_pipeline.py test-flink
 ```
 
-### 5. Run Streaming Services Interactively
-Starts all 5 streaming services (Processors, Flink Core, Persistence, Dashboard, Analytics) listening to Kafka:
+### 3. Streaming Operations & Interactive Ingestion
 ```bash
+# Start all streaming services interactively:
 python run_pipeline.py run
-```
 
-### 5. Inject a Deterministic Mock Event
-Injects a single synthetic event to trace through the pipeline:
-```bash
-python run_pipeline.py produce-mock --type weather --corr my-trace-001
-python run_pipeline.py produce-mock --type telemetry --corr my-trace-002
-python run_pipeline.py produce-mock --type rcm --corr my-trace-003
-python run_pipeline.py produce-mock --type timing --corr my-trace-004
-```
+# Inject deterministic synthetic events to trace through the pipeline:
+python run_pipeline.py produce-mock --type weather --corr trace-001
+python run_pipeline.py produce-mock --type telemetry --corr trace-002
+python run_pipeline.py produce-mock --type rcm --corr trace-003
+python run_pipeline.py produce-mock --type timing --corr trace-004
 
-### 6. Replay a Historical Log File
-Replays recorded JSONL fixtures into the live Kafka pipeline:
-```bash
-python run_pipeline.py replay-log --limit 5
-```
+# Replay historical session JSONL into Kafka:
+python run_pipeline.py replay-log --file main/source_logs/TRACINGINSIGHTS_2025_United_States_Grand_Prix_Race_rcm_20261031T180354Z.jsonl --limit 50
 
-### 7. Inspect Persisted Events
-Queries events stored by the persistence sink:
-```bash
+# Query persisted bitemporal verdicts in SQLite:
 python run_pipeline.py query-db --limit 10
-python run_pipeline.py query-db --corr my-trace-001
-```
-
-### 8. List Kafka Topics
-```bash
-python run_pipeline.py topics
-```
-
-### 9. Stop Everything in One Command
-Stops all running Python background streaming services, tears down all Docker containers (Kafka, Zookeeper, Flink), and releases network ports:
-```bash
-# In WSL / Linux:
-./stop_all.sh
-
-# Or cross-platform via CLI:
-python run_pipeline.py stop-all
-
-# Or in Windows CMD / PowerShell:
-stop_all.bat
+python run_pipeline.py query-db --corr trace-001
 ```
 
 ---
 
-## 4. Service Inventory
+## 4. Platform Service Inventory
 
-### 1. `ingestion` (Source Ingestion Service)
-- **Responsibility:** Ingests live SignalR (Pitwall) or historical (TracingInsights/fixtures) records, wraps them into `RawSourceEnvelope`, and publishes to `calibre.raw.*`.
+### 1. `sia_core` (Scoped Integrity Algebra Core)
+- **Responsibility:** Pure zero-dependency decision integrity engine implementing:
+  - **4-State Total Order Lattice:** $\text{DEGRADED} < \text{UNKNOWN} < \text{SUSPECT} < \text{HEALTHY}$.
+  - **RFC 8785 Canonical Identity:** Deterministic JSON Canonicalization Scheme (JCS) and SHA-256 hashing.
+  - **Decision Evidence Contracts (DECs):** Versioned YAML contracts with compile-time validator rules V-01..V-10.
+  - **Pointwise Validity Timelines:** Non-increasing step functions $\sigma(t) = \sigma_1(t) \odot \dots \odot \sigma_n(t)$.
+  - **Theorem G4-I Fault Isolation:** Minimal hitting-set diagnosis $\bigcap \mathcal{D}_{\min}$ avoiding improper blaming on star graphs.
+  - **Complexity Bounding:** $M_{\max} = 10$ Bron-Kerbosch clique search and $C_{\max} = 32$ abstract completion cap.
+  - **Dual-Domain Consumer Leases:** `LIVE_UTC` (wall clock) vs `REPLAY_VIRTUAL` (run clock facts).
+- **Location:** `sia_core/`
+
+### 2. `ingestion` (Source Ingestion Service)
+- **Responsibility:** Ingests live SignalR (Pitwall) or historical (TracingInsights) records, wraps them into `RawSourceEnvelope`, and publishes to `calibre.raw.*`.
 - **Entry Points:** `ingestion/service.py`, `ingestion/mock_source.py`
-- **Health:** Reports dependency on Kafka, events in/out, error counts.
 
-### 2. `processors` (Evidence Processing Layer)
-- **Responsibility:** Multi-processor worker service subscribing independently (with independent consumer groups) to raw topics, passing payloads to the 5 specialist assurance agents, and emitting `EvidenceEvent`s to `calibre.evidence.<domain>`.
-- **Agents Integrated:**
+### 3. `processors` (Specialist Processor Layer)
+- **Responsibility:** 5 specialist processors subscribing independently to raw topics, normalizing observations into `EvidenceEvent`s, and publishing to `calibre.evidence.<domain>`:
   - `VehicleTwinSensorAgent` (`domain: vehicle`)
   - `IncidentTrackAgent` (`domain: incident`)
   - `EnvironmentalContextAgent` (`domain: environment`)
@@ -171,29 +172,29 @@ stop_all.bat
   - `VehicleElectronicsSystemIntegrityAgent` (`domain: system`)
 - **Entry Point:** `processors/service.py`
 
-### 3. `flink` (Apache Flink Integrity Core)
-- **Responsibility:** Consumes `calibre.evidence.*`, validates envelope structure, preserves correlation ID and lineage, enriches with metadata, routes to 3 downstream outputs (`out.database`, `out.dashboard`, `out.analytics`), and sends malformed events to `calibre.dlq`.
-- **Integrity Status:** Explicitly set to `"NOT_EVALUATED"` during scaffold phase (maintaining semantic separation between pipeline operational health and sporting integrity).
+### 4. `flink` (Apache Flink Integrity Core)
+- **Responsibility:** Keyed streaming operator (`session_instance_id:driver_id`), evaluates evidence against versioned DECs, emits 9-field `IntegrityAssessment` envelopes, routes to triple sinks, and quarantines post-finality or malformed events.
 - **Entry Point:** `flink/job.py`
 - **Flink Cluster:** Apache Flink 1.19 (JobManager at `http://localhost:8081`).
 
-### 4. `persistence` (Relational Audit Sink)
-- **Responsibility:** Consumes `calibre.out.database`, stores records idempotently into SQLite (`data/calibre_persistence.db`), indexes by `correlation_id` and `event_id`.
+### 5. `persistence` (Bitemporal Relational Audit Sink)
+- **Responsibility:** Stores verdicts and raw envelopes idempotently into SQLite (`data/calibre_persistence.db`) with bitemporal coordinates (valid time $\times$ knowledge time), supporting As-Of-K historical queries and revision chain traversals ($H_1 \to H_2$).
 - **Entry Point:** `persistence/service.py`
 
-### 5. `dashboard` (Operational Gateway API)
-- **Responsibility:** Consumes `calibre.out.dashboard`, provides in-memory trace indexing, serves REST endpoints (`/health`, `/metrics`, `/events/recent`, `/trace/{correlation_id}`).
+### 6. `dashboard` (Operational Gateway API)
+- **Responsibility:** Serves REST and SSE endpoints (`/health`, `/metrics`, `/events/recent`, `/trace/{correlation_id}`) with consumer lease validation.
 - **Entry Point:** `dashboard/service.py` (FastAPI app)
 
-### 6. `analytics` (Stream Metrics Service)
-- **Responsibility:** Consumes `calibre.out.analytics`, aggregates totals per provider/processor/domain, computes throughput (events/sec), emits operational metrics to `calibre.analytics.metrics`, and emits alert stubs to `calibre.alerts`.
+### 7. `analytics` (Stream Metrics & Alerts)
+- **Responsibility:** Partitions analytics into 3 non-overlapping classes: Pipeline Telemetry (ungated), Race Metrics (labelled), and Gated Rules Evaluation.
 - **Entry Point:** `analytics/service.py`
 
 ---
 
-## 5. Event Contract & Envelope Specification
+## 5. Event Contract & Envelope Specifications
 
-### RawSourceEnvelope (`calibre.raw_source_envelope` v1.0)
+### 1. RawSourceEnvelope (`calibre.raw_source_envelope` v1.0)
+Preserves authentic source payload, origin provider, received timestamp, and cryptographic hash:
 ```json
 {
   "schema_name": "calibre.raw_source_envelope",
@@ -218,7 +219,8 @@ stop_all.bat
 }
 ```
 
-### EvidenceEvent (`calibre.evidence_event` v1.0)
+### 2. EvidenceEvent (`calibre.evidence_event` v1.0)
+Emitted by specialist processors containing normalized observations and domain findings:
 ```json
 {
   "schema_name": "calibre.evidence_event",
@@ -227,7 +229,7 @@ stop_all.bat
   "correlation_id": "trace-e2e-assert-001",
   "event_type": "weather_sample",
   "domain": "environment",
-  "producer": { "processor_id": "environmental_context_agent", "version": "0.1.0", "build": "scaffold-v1" },
+  "producer": { "processor_id": "environmental_context_agent", "version": "0.1.0", "build": "v1.0" },
   "produced_at_utc": "2026-11-01T01:07:52.680Z",
   "source_refs": ["fe92064856930911b4b502b1"],
   "time": { "source_value": 124.5, "source_semantics": "SESSION_ELAPSED_SECONDS" },
@@ -238,33 +240,77 @@ stop_all.bat
 }
 ```
 
-### FlinkOutputEnvelope (`calibre.flink_output_envelope` v1.0)
+### 3. IntegrityAssessment (`calibre.integrity_assessment` v1.0)
+The central 9-field verdict envelope produced by the Scoped Integrity Algebra core with 4 decoupled orthogonal dimensions:
 ```json
 {
-  "schema_name": "calibre.flink_output_envelope",
+  "schema_name": "calibre.integrity_assessment",
   "schema_version": "1.0",
-  "envelope_id": "d8204b1234900aef12345678",
-  "correlation_id": "trace-e2e-assert-001",
-  "processing_stage": "FLINK_INTEGRITY_VALIDATED",
-  "integrity_status": "NOT_EVALUATED",
-  "processed_at_utc": "2026-11-01T01:07:52.710Z",
-  "event": { ... },
-  "routed_to": ["PERSISTENCE", "DASHBOARD", "ANALYTICS"],
-  "flink_job_id": "calibre-flink-stream-job-v1",
-  "validation_status": "VALID"
+  "verdict_hash": "00dbb61092b5e28a...",
+  "decision_id": "session-bahrain-2026|VER|lap_44",
+  "contract_id": "lap_time_consistency",
+  "contract_version": "1.0",
+  "evaluation_instant": "2026-11-01T01:08:15.000Z",
+  "integrity_state": "HEALTHY",
+  "resolution_maturity": "TUPLE_RESOLVED",
+  "finality_status": "PROVISIONAL",
+  "revision_number": 1,
+  "previous_verdict_hash": null,
+  "validity_timeline": [
+    {"from": "2026-11-01T01:08:15.000Z", "until": "2026-11-01T01:08:45.000Z", "state": "HEALTHY"},
+    {"from": "2026-11-01T01:08:45.000Z", "until": null, "state": "DEGRADED"}
+  ],
+  "lease_until": "2026-11-01T01:08:30.000Z",
+  "clock_domain": "LIVE_UTC",
+  "corroboration_profile_by_role": {
+    "lap_duration": { "kappa_src": 0, "kappa_proc": 1, "status": "SATISFIED" }
+  },
+  "primary_binding_witness": "atom_lap_duration_44",
+  "witness_set": ["atom_lap_duration_44", "ref_session_t0"],
+  "limitations": ["UNMODELLED_COMMON_CAUSE"]
 }
 ```
 
 ---
 
-## 6. Verification & Test Evidence
+## 6. Verification, Testing & Empirical Benchmarks
 
-The pipeline scaffold is covered by 23 passing tests:
-- **`tests/test_e2e_pipeline.py`** (3 integration tests):
-  - `test_01_end_to_end_traceability`: Verifies all 11 pipeline assertions with end-to-end correlation ID tracking.
-  - `test_02_failure_path_dlq_routing`: Verifies that malformed envelopes are routed to `calibre.dlq` without pipeline termination.
-  - `test_03_historical_fixture_replay`: Verifies that real recorded JSONL logs replay into Kafka and reach persistence.
-- **`agents/calibre_agent_tests/`** (20 unit tests):
-  - 19 processor/agent tests verifying normalization, range bounds, and timestamp semantics.
-  - 1 pipeline integration test verifying multi-file batch execution.
+CALIBRE enforces zero-tolerance formal verification across the entire stack:
 
+### Test Suite Summary
+- **Master Regression Suite:** **741 passed** across 11 test modules in **21.07s (100% pass rate)**.
+- **Golden Fixtures Bit-for-Bit Parity:** **20 / 20 passed** (`FX-01` through `FX-20`) with identical RFC 8785 SHA-256 hashes across all 9 fields.
+- **30 Mandatory Adversarial Counterexamples:** **30 / 30 passed** covering `TC-P01`..`TC-P10` (properties), `TC-A01`..`TC-A12` (adversarial), and `TC-S01`..`TC-S08` (streaming).
+- **Cross-Language RFC 8785 Vectors:** **123 / 123 passed** matching the official JSON Canonicalization Scheme standard.
+
+### Measured Performance Profile (Spike S-1 & Benchmarks)
+- **Single-Core Evaluator Throughput:** **5,859.2 decisions evaluated per second** ($+192.9\%$ over the 2,000 ops/s requirement).
+- **Latency Profile (Measured over 2,000 iterations):**
+  - **P50:** **155.75 $\mu s$** ($6.4\times$ faster than the 1,000 $\mu s$ budget).
+  - **P95:** **253.50 $\mu s$** ($9.8\times$ faster than the 2,500 $\mu s$ budget).
+  - **P99:** **377.60 $\mu s$** ($13.2\times$ faster than the 5,000 $\mu s$ budget).
+- **State Footprint:** **3,195.0 bytes (~3.19 KB) per active decision instance** (~319.5 MB for 100,000 concurrent keys).
+- **Hypothesis H1 Verification:** **Confirmed**. SIA completely eliminated false-HEALTHY verdicts (**0.0%**) compared to a naive per-feed freshness baseline (**33.4% false-HEALTHY**).
+
+---
+
+## 7. Documentation Roadmap
+
+Complete architectural, normative, and operational specifications are available in the [`docs/`](file:///e:/CALIBER/docs/README.md) directory:
+
+- [**Documentation Master Index**](file:///e:/CALIBER/docs/README.md): Comprehensive navigation guide for all platform documents.
+- [**Final Engineering Handover Report**](file:///e:/CALIBER/docs/implementation/SIA_FINAL_HANDOVER_REPORT.md): Definitive delivery report covering Phase 0 through Phase 7.
+- [**SIA Operations Runbook**](file:///e:/CALIBER/docs/core/SIA_OPERATIONS_RUNBOOK.md): Operations manual, topic retentions, dynamic contract updates, triage & recovery procedures.
+- [**Mathematical Specification v1.0**](file:///e:/CALIBER/docs/core/SIA_MATHEMATICAL_SPECIFICATION_v1.0.md): The 4-state lattice, Theorem G4-I fault isolation, and clique complexity bounds.
+- [**DEC Schema Specification v1.0**](file:///e:/CALIBER/docs/core/SIA_DEC_SCHEMA_v1.md): Declarative contract schema, AST grammar, and static validation rules V-01..V-10.
+- [**SIA v2.2.1 Errata Catalog**](file:///e:/CALIBER/docs/implementation/SIA_v2.2.1_ERRATA.md): Detailed audit and resolution of 20 defects (D-01..D-20) and 9 conflicts.
+- [**Performance Benchmark Report**](file:///e:/CALIBER/docs/implementation/SIA_BENCHMARK_REPORT.md): Empirical benchmarks and Hypothesis H1 validation.
+- [**Master Test Catalogue**](file:///e:/CALIBER/docs/implementation/SIA_TEST_CATALOGUE.md): Complete index of all 741 tests, 30 adversarial scenarios, and 20 golden fixtures.
+
+---
+
+## 8. License & Governance
+
+CALIBRE is developed as an independent assurance and decision-support layer for motorsport telemetry.  
+**Governing Standard:** CAL-DOC-007 v2.2 (Amending CAL-DOC-001 through CAL-DOC-006).  
+*CALIBRE does not issue official sporting penalties or replace FIA/FOM race-control systems; all outputs are explainable decision support for human review.*

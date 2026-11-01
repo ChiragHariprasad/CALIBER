@@ -10,10 +10,11 @@
 
 The Scoped Integrity Algebra (SIA) core engine has been implemented and integrated end-to-end into the CALIBRE streaming platform (`E:\CALIBER`). All 8 phases (Phase 0 through Phase 7) and all 6 quality gates are **100% complete, fully verified, and passing**.
 
-* **Test Suite:** **735 / 735 tests passing (100%)** across all suites in `22.62s`.
+* **Test Suite:** **741 / 741 tests passing (100%)** across all suites in `21.07s`.
 * **Golden Fixtures:** **20 / 20 Golden Fixtures (`FX-01` to `FX-20`) passing with 100% bit-for-bit SHA-256 verdict hash parity**.
-* **30 Mandatory Adversarial Counterexamples:** **30 / 30 verified and passing in dedicated test suite**.
+* **30 Mandatory Adversarial Counterexamples:** **30 / 30 verified and passing in dedicated test suite (`tests/test_30_adversarial_scenarios.py`)**.
 * **Production Cluster:** Live integration verified with Apache Flink 1.19 and Apache Kafka 7.7.0.
+* **Handover Documentation:** Complete final engineering handover documented in [`SIA_FINAL_HANDOVER_REPORT.md`](file:///e:/CALIBER/docs/implementation/SIA_FINAL_HANDOVER_REPORT.md).
 
 ---
 
@@ -47,13 +48,13 @@ The Scoped Integrity Algebra (SIA) core engine has been implemented and integrat
 
 | Defect ID | Title | Implementation Module | Test Verification |
 | :--- | :--- | :--- | :--- |
-| **D-01** | Unsound Diagnosis Rule | `sia_core/evaluation/diagnosis.py` | `test_adv_02_star_graph_ambiguity_f2_excludes_nothing`, `test_adv_03_unique_intersection_diagnosis_isolates_fault` |
-| **D-03** | Completion Monotonicity | `sia_core/envelope/completion.py` | `test_adv_22_pending_origins_abstract_completion_bounds` |
-| **D-04** | Pointwise Timeline Algebra | `sia_core/time/timeline.py` | `test_adv_30_timeline_algebraic_laws_monotonicity` |
-| **D-06** | "Time is Data" Frontier | `sia_core/liveness/run_clock.py` | `test_adv_10_silent_source_stationary_watermark_expiry`, `test_07_sia_stationary_watermark_clock_tick_expiry` |
-| **D-07** | Dual-Domain Replay Leases | `sia_core/evaluation/contract_evaluator.py` | `test_adv_25_replay_virtual_clock_leases_isolated_from_wall_clock` |
-| **D-08** | Revision Hash Chaining | `sia_core/verdict/builder.py` | `test_adv_13_late_atom_inside_lateness_window_revises`, `test_02_revision_chaining_traversal` |
-| **D-09** | Build Supersession | `sia_core/origin/manager.py` | `test_adv_08_two_builds_of_one_parser_family_supersession` |
-| **D-13** | RFC 8785 Canonical JCS | `sia_core/identity/canonical.py` | `test_adv_24_cross_language_rfc8785_jcs_hash_invariant` |
-| **D-15** | Shared FOM Upstream | `sia_core/evaluation/leaf.py` | `test_adv_09_two_providers_sharing_one_upstream` |
-| **D-18** | Search Budget Overflow | `sia_core/envelope/clique.py` | `test_adv_12_candidate_atom_overflow_with_conflict` |
+| **D-01** | Unsound Diagnosis Rule | `sia_core/evaluation/diagnosis.py` | `test_tc_a02_star_graph_ambiguity_f2_excludes_nothing`, `test_tc_a03_unique_intersection_diagnosis_isolates_fault` |
+| **D-03** | Completion Monotonicity | `sia_core/envelope/completion.py` | `test_tc_p05_envelope_soundness`, `FX-12` |
+| **D-04** | Pointwise Timeline Algebra | `sia_core/time/timeline.py` | `test_tc_p01_monotonicity_state_and_timeline`, `FX-02` |
+| **D-06** | "Time is Data" Frontier | `sia_core/liveness/run_clock.py` | `test_tc_a11_silent_source_stationary_watermark_expiry`, `FX-16` |
+| **D-07** | Dual-Domain Replay Leases | `sia_core/evaluation/contract_evaluator.py` | `test_tc_a12_guard_unavailable_consumer_lease_expiry`, `FX-17` |
+| **D-08** | Revision Hash Chaining | `sia_core/verdict/builder.py` | `test_tc_s03_late_atom_inside_lateness_window_revises`, `FX-14` |
+| **D-09** | Build Supersession | `sia_core/origin/manager.py` | `test_tc_a09_two_builds_of_one_parser_family_supersession`, `FX-08` |
+| **D-13** | RFC 8785 Canonical JCS | `sia_core/identity/canonical.py` | `test_tc_s06_cross_language_rfc8785_jcs_hash_invariant`, `FX-20` |
+| **D-15** | Shared FOM Upstream | `sia_core/evaluation/leaf.py` | `test_tc_a10_two_providers_sharing_one_upstream`, `FX-06` |
+| **D-18** | Search Budget Overflow | `sia_core/envelope/clique.py` | `test_tc_s01_candidate_atom_overflow_with_conflict`, `FX-19` |
