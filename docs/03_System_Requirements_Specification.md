@@ -275,6 +275,25 @@ The system shall expose, at minimum:
 
 The Phase 1 design must be operable using free/public source access and open-source software. Hosting/infrastructure may incur costs if deployed on paid cloud resources; therefore, the initial development setup should prefer local or free-tier infrastructure and must not assume a paid managed service.
 
+### 7.8 Determinism and Replay Reproducibility (NFR-DET)
+
+- **R1 Evaluator Determinism:** The pure `ContractEvaluator` engine shall be strictly referentially transparent with zero wall-clock or random dependencies. Re-evaluating the identical sequence of canonical input stream items at $t_{\text{eval}}$ shall produce bit-for-bit identical RFC 8785 canonical bytes and SHA-256 verdict hashes across independent executions and runtime environments.
+- **R2 Admission Log Determinism:** Streaming re-execution from the append-only `calibre.core.admission_log` shall reproduce identical finality states and revision histories without temporal drift.
+
+### 7.9 Bounded State and Memory Caps (NFR-STATE)
+
+- **Clique Candidate Cap ($M_{\max}=10$):** Mutual agreement clique search shall be bounded by Bron-Kerbosch with pivot capped at $M_{\max}=10$. If candidate atoms exceed $M_{\max}$, evaluation shall fail closed to $\le \text{UNKNOWN}$ with `SEARCH_BUDGET_EXCEEDED` witness.
+- **Envelope Completion Cap ($C_{\max}=32$):** AST formula completion enumeration across pending roles shall be capped at $C_{\max}=32$. If combination count exceeds $C_{\max}$, evaluator shall emit conservative envelope bounds $[\text{DEGRADED}, \text{HEALTHY}]$ with `ENVELOPE_CAPPED` witness.
+
+### 7.10 Dual-Domain Time and Clock Ticks (NFR-CLOCK)
+
+- **Time as Data:** Stream evaluation instant $t_{\text{eval}}$ shall be driven monotonically by event-time watermarks and discrete durable `RunClockTick` facts, preventing stall during quiet periods.
+- **Domain Isolation:** Real-time processing (`LIVE_UTC`) and historical simulation (`REPLAY_VIRTUAL`) shall operate on independent Flink job instances and distinct lease clock domains.
+
+### 7.11 Consumer Leases (NFR-LEASE)
+
+- **Lease Bounding:** Every emitted verdict shall carry an explicit monotonic lease (`lease_until`). Downstream consumers shall refuse to use verdicts whose lease has expired, treating expired verdicts as fail-closed `UNKNOWN`.
+
 ## 8. State models
 
 ### 8.1 Source health

@@ -37,24 +37,26 @@ At a high level, the core is expected to:
 
 ## 4. Preliminary vocabulary
 
-### 4.1 Integrity status
+### 4.1 Integrity state
 
-| Status | Preliminary meaning |
+| State | Normative definition (CAL-DOC-007 §2.6) |
 |---|---|
-| `HEALTHY` | Evidence required for this scope is present, sufficiently fresh, aligned and passes the configured integrity checks. |
-| `SUSPECT` | Evidence exists but has unresolved quality, timing, consistency, dependency or provenance concerns. |
-| `DEGRADED` | A required dependency is unavailable or too incomplete/impaired for normal assessment. |
-| `UNKNOWN` | The core cannot establish the required evidence state or dependency set. |
+| `HEALTHY` | Evidence required for this scope is present, sufficiently fresh, mutually agreeing within tolerance $\eta$, and passing corroboration requirements. |
+| `SUSPECT` | Evidence exists but exhibits pairwise divergence ($|v_1 - v_2| > \eta$), soft-age expiration, unmodelled common cause, or unresolvable fault diagnosis. |
+| `UNKNOWN` | The core cannot establish required evidence or dependencies: evidence slot open within arrival deadline, missing/corrupted reference facts, or state overflow. |
+| `DEGRADED` | Relevant evidence is no longer admissible: slot arrival deadline closed without admissible evidence, evidence has hard-expired, origin instance is `STALLED`, or state overflow occurred. |
 
-These terms are provisional. Final transition rules and whether an additional status is needed will be decided in the detailed core specification.
+States adhere strictly to the total order $\text{DEGRADED} < \text{UNKNOWN} < \text{SUSPECT} < \text{HEALTHY}$.
 
-### 4.2 Decision maturity
+### 4.2 Orthogonal verdict dimensions
 
-| State | Preliminary meaning |
-|---|---|
-| `PROVISIONAL` | An assessment is available but the configured event-time boundary or evidence completeness condition has not yet been met. |
-| `FINAL` | The configured finalisation condition has been met for the assessment scope. |
-| `REVISED` | A later accepted event changed an earlier assessment; the new revision supersedes but does not erase the prior one. |
+Per ERR-02, the verdict model defines four orthogonal dimensions:
+1. `integrity_state`: $\text{DEGRADED} < \text{UNKNOWN} < \text{SUSPECT} < \text{HEALTHY}$.
+2. `resolution_maturity`: `OPEN`, `STATE_RESOLVED`, `TUPLE_RESOLVED`, `REOPENED`.
+3. `finality_status`: `OPEN`, `FINAL`, `FINALITY_VIOLATION`.
+4. `revision_number`: Monotonic integer ($H_1 \to H_2 \to \dots$).
+
+`decision_maturity` (`PROVISIONAL`, `FINAL`, `REVISED`) is retained strictly as a derived display field.
 
 ### 4.3 Separation from analytics outcome
 

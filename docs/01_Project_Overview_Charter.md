@@ -5,11 +5,11 @@
 | Document control | Value |
 |---|---|
 | Document ID | CAL-DOC-001 |
-| Version | 1.0-draft |
+| Version | 1.1 (Amended per CAL-DOC-007 §9) |
 | Date | 1 November 2026 |
 | Status | Platform design baseline |
 | Owner | CALIBRE project team |
-| Related documents | CAL-DOC-002 through CAL-DOC-006 |
+| Related documents | CAL-DOC-002 through CAL-DOC-007 |
 
 ## 1. Executive summary
 
@@ -216,3 +216,12 @@ CALIBRE Phase 1 is successful when:
 ## 14. Charter approval
 
 This document establishes the platform-level project baseline. Detailed component algorithms, processor count, exact deployment topology, resource sizing and operational thresholds are controlled by their respective design and implementation documents and may be revised without changing the project purpose.
+
+## 15. Baseline Amendment: Scoped Integrity Algebra (SIA) v2.2 Adoption
+
+Per CAL-DOC-007 §9, CALIBRE formally adopts the Scoped Integrity Algebra (SIA) v2.2 core specification:
+1. **Decision-Scoped Evidence Contracts (DEC):** Formalize evidence requirements via declarative DEC schemas (`sia_core/contracts/definitions/`).
+2. **4-State Integrity Lattice:** Mathematical total order $\text{DEGRADED} < \text{UNKNOWN} < \text{SUSPECT} < \text{HEALTHY}$.
+3. **Decoupled Orthogonal Verdict Dimensions:** `integrity_state`, `resolution_maturity`, `finality_status`, and `revision_number`.
+4. **Bitemporal Revision & Dual-Domain Leases:** Revisions chained via content-hash pointers; leases isolated between `LIVE_UTC` and `REPLAY_VIRTUAL`.
+

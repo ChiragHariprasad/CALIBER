@@ -184,8 +184,10 @@ class CalibreFlinkJob:
         """Evaluate relevant DECs using the pure ContractEvaluator."""
         domain = data.get("domain", "")
         scope = data.get("scope", {})
-        session_id = scope.get("session_type", "session")
-        driver_id = str(scope.get("driver_number", "1"))
+        session_id = scope.get("session_id") or scope.get("session_type", "session")
+        run_id = data.get("run_id") or scope.get("run_id")
+        session_instance_id = scope.get("session_instance_id") or (f"{session_id}#{run_id}" if run_id else session_id)
+        driver_id = str(scope.get("driver_number") or scope.get("driver_id", "1"))
         evidence = data.get("evidence", {})
         obs = evidence.get("observations", {}) if isinstance(evidence, dict) else {}
         corr_id = data.get("correlation_id", "unknown")
@@ -257,7 +259,7 @@ class CalibreFlinkJob:
                 else:
                     continue
 
-            decision_key = f"{session_id}|{driver_id}|{contract_id}"
+            decision_key = f"{session_instance_id}|{driver_id}|{contract_id}"
             state = self.decision_states.setdefault(decision_key, {
                 "input_stream": [],
                 "latest_verdict": None,
@@ -295,6 +297,8 @@ class CalibreFlinkJob:
                 run_clock=transport_time,
             )
 
+            clock_domain = data.get("clock_domain") or ("REPLAY_VIRTUAL" if "#" in session_instance_id else "LIVE_UTC")
+
             try:
                 verdict = ContractEvaluator.evaluate(
                     contract=contract,
@@ -302,6 +306,7 @@ class CalibreFlinkJob:
                     input_stream=state["input_stream"],
                     t_eval=t_eval,
                     previous_verdict=latest_v,
+                    clock_domain=clock_domain,
                 )
                 state["latest_verdict"] = verdict
                 self.verdicts_emitted += 1
@@ -351,6 +356,7 @@ class CalibreFlinkJob:
             contract = self.contracts.get(contract_id)
             if contract:
                 t_eval = data.get("detection_clock") or utc_now()
+                clock_domain = data.get("clock_domain", "LIVE_UTC")
                 try:
                     verdict = ContractEvaluator.evaluate(
                         contract=contract,
@@ -358,6 +364,7 @@ class CalibreFlinkJob:
                         input_stream=state["input_stream"],
                         t_eval=t_eval,
                         previous_verdict=state.get("latest_verdict"),
+                        clock_domain=clock_domain,
                     )
                     state["latest_verdict"] = verdict
                     self.verdicts_emitted += 1
@@ -399,6 +406,7 @@ class CalibreFlinkJob:
                         input_stream=state["input_stream"],
                         t_eval=tick.clock_utc,
                         previous_verdict=latest_v,
+                        clock_domain=tick.clock_domain,
                     )
                     state["latest_verdict"] = verdict
                     self.verdicts_emitted += 1

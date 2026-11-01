@@ -35,36 +35,36 @@ All 30 scenarios specified in CAL-DOC-007 §16.4 are implemented and verified in
 
 | Scenario ID | Test Function | Scenario Description | Expected Outcome | Verified Result |
 |:---|:---|:---|:---|:---:|
-| **TC-01** | `test_adv_01_missing_evidence_slot_deadline` | Missing mandatory evidence slot | UNKNOWN $\to$ DEGRADED at deadline | **PASS** |
-| **TC-02** | `test_adv_02_stale_evidence_soft_hard_age` | Stale evidence exceeding soft/hard age | Step to SUSPECT, then DEGRADED | **PASS** |
-| **TC-03** | `test_adv_03_missing_lap_start_reference` | Missing `lST` reference fact | Conversion refused, fail-closed UNKNOWN | **PASS** |
-| **TC-04** | `test_adv_04_invalid_session_t0` | Corrupted `t0_date` reference | Fail-closed UNKNOWN with error witness | **PASS** |
-| **TC-05** | `test_adv_05_lap_duration_treated_as_timestamp` | Quantity treated as timestamp | Invariant G10 refusal, rejected conversion | **PASS** |
-| **TC-06** | `test_adv_06_conflicting_evidence_leaf` | Disagreeing atoms within single role | Conflict graph detection, state $\le$ SUSPECT | **PASS** |
-| **TC-07** | `test_adv_07_two_disagreeing_sources` | Independent sources $\|v_1 - v_2\| > \eta$ | Non-transitive clique split, SUSPECT | **PASS** |
-| **TC-08** | `test_adv_08_shared_upstream_different_feeds` | Feeds sharing upstream timing | $\kappa_{\text{src}} = 0$, limitation attached | **PASS** |
-| **TC-09** | `test_adv_09_two_builds_same_processor_family` | Re-parse of same raw record | Supersession applied, $\kappa_{\text{proc}}$ uninflated | **PASS** |
-| **TC-10** | `test_adv_10_single_processor_many_derived_atoms` | Fan-out from one processor | Single origin class credited | **PASS** |
-| **TC-11** | `test_adv_11_star_graph_ambiguous_diagnosis` | Star conflict graph with budget $f=2$ | $\bigcap \mathcal{D}_{\min} = \emptyset$, exclude nothing | **PASS** |
-| **TC-12** | `test_adv_12_unique_intersection_diagnosis` | Graph with unique minimal hitting set | Exclude $\bigcap \mathcal{D}_{\min} = \{A\}$, rest HEALTHY | **PASS** |
-| **TC-13** | `test_adv_13_fault_budget_exceeded` | Conflicting origins exceeding $f$ | `FAULT_BUDGET_EXCEEDED` witness, SUSPECT | **PASS** |
-| **TC-14** | `test_adv_14_pending_origins_envelope` | Open evidence slots with pending origins | Bounded envelope [lower, upper] | **PASS** |
-| **TC-15** | `test_adv_15_sound_early_collapse` | Definitive child failure in AND formula | Early collapse to STATE_RESOLVED (P5) | **PASS** |
-| **TC-16** | `test_adv_16_conflicting_late_evidence` | In-window late arrival introducing conflict | Revision emitted, $H_1 \to H_2$, state lowered | **PASS** |
-| **TC-17** | `test_adv_17_post_finality_violation` | Atom arriving after canonical finality | Atom quarantined, FINAL hash intact | **PASS** |
-| **TC-18** | `test_adv_18_silent_source_stationary_watermark` | Stalled feed with stationary watermark | `RunClockTick` drives expiry (D-06) | **PASS** |
-| **TC-19** | `test_adv_19_run_clock_tick_fan_out` | Clock tick reaching multiple active keys | Keyed decision states re-evaluated | **PASS** |
-| **TC-20** | `test_adv_20_guard_outage_consumer_lease_expiry` | Flink/Guard process outage | Consumer lease expires to UNKNOWN | **PASS** |
-| **TC-21** | `test_adv_21_concurrent_replay_same_session` | Two replays with same session ID | Keyed by `session_instance_id`, no bleed | **PASS** |
-| **TC-22** | `test_adv_22_two_contracts_incompatible_fact` | One fact used by two differing DECs | Scope locality G2: independent verdicts | **PASS** |
-| **TC-23** | `test_adv_23_or_branch_selection_witness` | OR composition with one branch expiring | Non-expired branch sustains HEALTHY | **PASS** |
-| **TC-24** | `test_adv_24_k_of_n_tie_breaking` | Equal rank candidates in $k$-of-$n$ | Canonical order tie-breaking | **PASS** |
-| **TC-25** | `test_adv_25_m_max_clique_overflow` | Clique candidate count $> M_{\max}=10$ | Fail-closed $\le$ UNKNOWN, overflow witness | **PASS** |
-| **TC-26** | `test_adv_26_c_max_envelope_overflow` | Pending combinations $> C_{\max}=32$ | Conservative envelope [D, H], capped witness | **PASS** |
-| **TC-27** | `test_adv_27_conflicting_atom_at_state_cap` | Conflict arriving when state capped | Never dropped while HEALTHY; fails closed | **PASS** |
-| **TC-28** | `test_adv_28_contract_update_quiet_key` | Contract version update on quiet decision | Dirty-flag set, re-evaluated on next tick | **PASS** |
-| **TC-29** | `test_adv_29_cross_language_hash_conformance` | Python vs Java RFC 8785 serialization | Identical 64-char hex SHA-256 digests | **PASS** |
-| **TC-30** | `test_adv_30_restart_checkpoint_restoration` | State recovery from checkpoint/snapshot | Identical state and revision numbers restored | **PASS** |
+| **TC-P01** | `test_tc_p01_monotonicity_state_and_timeline` | Lattice meet/join laws and non-increasing timeline steps | Commutative/absorptive; step to SUSPECT/DEGRADED | **PASS** |
+| **TC-P02** | `test_tc_p02_scope_locality` | Scope locality (Invariant G2: multi-DEC independent evaluation) | Independent local judgments, zero leakage | **PASS** |
+| **TC-P03** | `test_tc_p03_permutation_invariance` | Evidence atom arrival order permutation invariance | Bit-for-bit identical hash and state | **PASS** |
+| **TC-P04** | `test_tc_p04_duplicate_idempotence` | Duplicate identical atoms in input stream | Invariant hash; uninflated $\kappa_{\text{src}}=0$ | **PASS** |
+| **TC-P05** | `test_tc_p05_envelope_soundness` | Bounded envelope evaluation across pending completions | $\text{lower} \le \text{actual} \le \text{upper}$ | **PASS** |
+| **TC-P06** | `test_tc_p06_early_collapse_soundness` | Definitive child failure in AND formula (Obligation P5) | Early collapse to STATE_RESOLVED | **PASS** |
+| **TC-P07** | `test_tc_p07_valid_witness_references` | Validation that witness references exist in facts/atoms | Non-empty binding witness & audit set | **PASS** |
+| **TC-P08** | `test_tc_p08_fail_closed_evaluation` | Missing reference fact or malformed timestamp syntax | Conversion refused, fail-closed UNKNOWN | **PASS** |
+| **TC-P09** | `test_tc_p09_canonical_hash_identity` | RFC 8785 canonical serialization and SHA-256 | Deterministic 64-character hex hash | **PASS** |
+| **TC-P10** | `test_tc_p10_bitemporal_revision_consistency` | In-window late arrival generating linked revision $H_1 \to H_2$ | Monotonic revision increment; prev hash pointer | **PASS** |
+| **TC-A01** | `test_tc_a01_two_disagreeing_sources` | Independent sources $\|v_1 - v_2\| > \eta$ | Non-transitive clique split, SUSPECT | **PASS** |
+| **TC-A02** | `test_tc_a02_star_graph_ambiguity_f2_excludes_nothing` | Star conflict graph with budget $f=2$ (D-01) | $\bigcap \mathcal{D}_{\min} = \emptyset$, exclude nothing | **PASS** |
+| **TC-A03** | `test_tc_a03_unique_intersection_diagnosis_isolates_fault` | Graph with unique minimal hitting set (D-01) | Exclude $\bigcap \mathcal{D}_{\min} = \{A\}$, rest HEALTHY | **PASS** |
+| **TC-A04** | `test_tc_a04_fault_budget_exceeded` | Conflicting origins exceeding budget $f$ (D-01) | `FAULT_BUDGET_EXCEEDED` witness, SUSPECT | **PASS** |
+| **TC-A05** | `test_tc_a05_2f_plus_1_adversarial_graphs` | $2f+1$ adversarial resilience with 1 Byzantine liar (D-02) | Tolerates faulty node, maintains HEALTHY | **PASS** |
+| **TC-A06** | `test_tc_a06_or_branches_coordinate_borrowing_prevention` | OR formula coordinate borrowing prevention | Disjoint evaluation paths isolated | **PASS** |
+| **TC-A07** | `test_tc_a07_k_of_n_ties_canonical_tie_break` | Equal rank candidates in $k$-of-$n$ (D-19) | Deterministic canonical tie-break | **PASS** |
+| **TC-A08** | `test_tc_a08_one_origin_many_derived_atoms_deduplication` | Fan-out from single source origin | Single origin credited, uninflated depth | **PASS** |
+| **TC-A09** | `test_tc_a09_two_builds_of_one_parser_family_supersession` | Re-parse of same raw record (Defect D-09) | Supersession applied, $\kappa_{\text{proc}}$ uninflated | **PASS** |
+| **TC-A10** | `test_tc_a10_two_providers_sharing_one_upstream` | Feeds sharing upstream timing infrastructure (D-15) | $\kappa_{\text{src}} = 0$, limitation witness attached | **PASS** |
+| **TC-A11** | `test_tc_a11_silent_source_stationary_watermark_expiry` | Stalled feed with stationary watermark (D-06) | `RunClockTick` drives deterministic expiry | **PASS** |
+| **TC-A12** | `test_tc_a12_guard_unavailable_consumer_lease_expiry` | Guard outage / lease expiry across clock domains (D-07) | Consumer lease elapsed, fail-closed UNKNOWN | **PASS** |
+| **TC-S01** | `test_tc_s01_candidate_atom_overflow_with_conflict` | Moon-Moser clique candidate count $> M_{\max}=10$ (D-18) | Fail-closed $\le$ UNKNOWN, overflow witness | **PASS** |
+| **TC-S02** | `test_tc_s02_envelope_completion_overflow` | Pending role combinations $> C_{\max}=32$ (D-03) | Conservative envelope [D, H], capped witness | **PASS** |
+| **TC-S03** | `test_tc_s03_late_atom_inside_lateness_window_revises` | In-window late arrival introducing conflict | Revision emitted, $H_1 \to H_2$, state lowered | **PASS** |
+| **TC-S04** | `test_tc_s04_late_atom_after_finality_quarantined` | Atom arriving after canonical finality (Invariant G11) | Atom quarantined, FINAL hash intact | **PASS** |
+| **TC-S05** | `test_tc_s05_mandatory_evidence_slot_deadline_expiry` | Missing mandatory evidence slot | UNKNOWN $\to$ DEGRADED at deadline | **PASS** |
+| **TC-S06** | `test_tc_s06_cross_language_rfc8785_jcs_hash_invariant` | Cross-language RFC 8785 serialization (D-13) | Identical 64-char hex SHA-256 digests | **PASS** |
+| **TC-S07** | `test_tc_s07_replay_determinism_r1_and_r2` | Replay determinism R1 and log playback R2 | Bit-for-bit hash equality and FINAL replay | **PASS** |
+| **TC-S08** | `test_tc_s08_bitemporal_as_of_knowledge_query` | Relational bitemporal As-Of-K knowledge queries (D-16) | State as known at historical knowledge time $K$ | **PASS** |
 
 ---
 

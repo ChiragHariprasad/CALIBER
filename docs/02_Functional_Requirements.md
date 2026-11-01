@@ -79,7 +79,7 @@ Each requirement has an acceptance condition that can be verified by inspection,
 | FR-037 | MUST | Flink shall publish persistence-oriented outputs independently of dashboard and analytics consumers. | Database sink can consume its output without requiring the dashboard or analytics service. |
 | FR-038 | MUST | Flink shall publish a continuous operational data stream for dashboard delivery. | Dashboard gateway can consume current state and updates from its own topic/consumer group. |
 | FR-039 | MUST | Flink shall publish integrity-aware inputs to the analytics service. | Analytics receives evidence bundle/assessment references and associated scope. |
-| FR-040 | MUST | Analytics shall calculate derived operational metrics from the accepted inputs. | Metric output identifies metric name, value, unit, source scope, calculation/rule version and time. |
+| FR-040 | MUST | Analytics shall be strictly partitioned into three non-overlapping classes: (1) Pipeline-Health Telemetry (never gated by integrity); (2) Race Metrics (always computed, carries integrity context); and (3) Gated Rule Evaluation (defers with RULE_DEFERRED when contract conditions fail). | Pipeline telemetry, race metrics, and gated rules execute with explicit isolation. |
 | FR-041 | MUST | Analytics shall evaluate configured operational rules separately from evidence-integrity assessment. | Rule result and integrity status are independently represented. |
 | FR-042 | MUST | Analytics shall emit explainable alerts for conditions requiring human investigation. | Alert includes severity, scope, trigger, explanation and evidence references. |
 | FR-043 | MUST | Dashboard delivery shall combine live operational state, metrics and alerts without making the dashboard the authoritative rule engine. | Dashboard displays upstream outputs and does not independently determine integrity or alert status. |
@@ -96,6 +96,18 @@ Each requirement has an acceptance condition that can be verified by inspection,
 | FR-049 | MUST | Reprocessing shall be idempotent or clearly identified as a new replay/run. | Re-run does not silently overwrite or duplicate prior audit records. |
 | FR-050 | SHOULD | Configuration and rule changes shall be versioned and attributable. | A metric or alert can be traced to the configuration version used. |
 | FR-051 | SHOULD | The platform shall support synthetic fault-injection fixtures for signals not exposed by public sources. | Fault scenarios are labelled as tests and cannot be confused with acquired source evidence. |
+| FR-052 | MUST | DEC contracts shall be versioned, immutable, and dynamically registered via compacted Kafka topics. | Contract registry validates AST and compiles formula without restarting stream job. |
+| FR-053 | MUST | Corroboration depth shall report source depth ($\kappa_{\text{src}}$) and processing depth ($\kappa_{\text{proc}}$) separately without conflation. | Corroboration profile distinguishes physical provider diversity from processor pipeline diversity. |
+| FR-054 | MUST | Evidence atoms excluded from the support set due to expiration or fault isolation shall be retained in audit witness sets. | Excluded atoms are not discarded; they remain referenced in the audit witness record. |
+| FR-055 | MUST | Verdicts shall include monotonic validity leases (`lease_until`) scoped to `LIVE_UTC` or `REPLAY_VIRTUAL` domains. | Downstream consumers fail closed to UNKNOWN when the consumer lease expires. |
+| FR-056 | MUST | Source liveness state changes shall be emitted as durable `GuardFact` events to Kafka. | Supervisor state transitions (`STALLED`, `RESUMED`) trigger deterministic re-evaluation. |
+| FR-057 | MUST | All canonical identity and verdict hashes shall use RFC 8785 JSON Canonicalization Scheme (JCS) and SHA-256. | Identical semantic inputs produce bit-for-bit identical hashes across Python and Java runtimes. |
+| FR-058 | MUST | Algorithmic search budgets ($M_{\max}=10, C_{\max}=32$) exceeding bounds shall fail closed to $\le \text{UNKNOWN}$. | State explosion triggers fail-closed UNKNOWN verdict with overflow witness and side-output routing. |
+| FR-059 | MUST | Relational persistence shall support As-Of-K knowledge time queries and full revision chain traversal. | Queries reproduce exact historical states as known at knowledge time $K$. |
+| FR-060 | MUST | Replay execution shall use isolated streaming keys (`session_instance_id = session_id#run_id`) and virtual clock leases without contaminating live state. | Concurrent replays of the same race session operate with zero state or watermark bleed. |
+| FR-061 | MUST | Evidence atoms shall be graded against contract requirements at ingress before support set search. | Inadmissible or malformed atoms are rejected or quarantined before clique search. |
+| FR-062 | MUST | Expiry of slots and evidence freshness during stalled feeds shall be driven monotonically by `RunClockTick` facts. | Slot deadline transitions occur deterministically even when source watermark is completely stationary. |
+
 
 ## 8. Business invariants
 

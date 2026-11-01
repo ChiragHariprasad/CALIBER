@@ -397,6 +397,10 @@ Every log should include a traceable event/run/session identifier where availabl
 | ADR-005 | Evidence processor topology | Pluggable; final structure to be redesigned. |
 | ADR-006 | Integrity vs analytics | Separate responsibilities and outputs. |
 | ADR-007 | Human authority | Human review; no automatic external actuation in Phase 1. |
+| ADR-008 | Typed-Time and Run-Clock Fact Model | Explicit `TypedTime` classes with legal conversion rules; discrete durable `RunClockTick` facts drive monotonic progress without synthetic watermarks. |
+| ADR-009 | Content Hash Decoupling & Reproducibility R1/R2 | Cryptographic RFC 8785 JCS SHA-256 hashes exclude non-deterministic runtime state; R1 evaluator and R2 log replay determinism enforced. |
+| ADR-010 | Fault Isolation via Minimal Admissible Diagnoses | Fault isolation theorem G4-I: isolate and exclude strictly the intersection $\bigcap \mathcal{D}_{\min}$ of minimal hitting sets; if empty, exclude nothing (ambiguous). |
+| ADR-011 | Live vs Replay Axis & Flink Job Isolation | Separate Flink streaming jobs (`calibre-flink-live` vs `calibre-flink-replay`) with partition key `session_instance_id` and distinct lease clock domains. |
 | TBD-001 | Exact Kafka partition/retention policy | Determine after payload volume and replay requirements are measured. |
 | TBD-002 | Exact Flink event-time and lateness policy | Determine after live topic cadence/semantics are tested. |
 | TBD-003 | Database and dashboard technologies | Select during implementation. |

@@ -44,6 +44,11 @@ Topic names are logical baseline names. Feed slugs, partition counts, retention,
 | `calibre.analytics.metrics` | Analytics service | Dashboard, database sink | Derived metrics and time series. |
 | `calibre.alerts` | Analytics service | Dashboard, notification adapter | Human-review alerts and lifecycle changes. |
 | `calibre.review.dispositions` | Dashboard/review service | Analytics, persistence | Human acknowledgement and disposition events. |
+| `calibre.config.contracts` | Contract administrator | Flink core | Compacted topic for versioned DEC contracts. |
+| `calibre.guard.liveness` | Supervisor | Flink core | Durable GuardFact (STALLED / RESUMED) stream. |
+| `calibre.guard.clock` | Supervisor | Flink core | Durable RunClockTick facts for deterministic expiry. |
+| `calibre.core.admission_log` | Ingress admission grader | Replay/audit | Append-only admitted and quarantined atom ledger. |
+| `calibre.core.verdict_history` | Flink core | Persistence | Append-only bitemporal verdict revision log. |
 | `calibre.dlq.<component>` | Any component | Operations/replay tooling | Invalid or unprocessable events with failure metadata. |
 
 **Topic design note:** `calibre.evidence.<domain>` is a topic family. The actual domain names are governed by the selected processor decomposition. The platform does not require five particular agent services or a fixed list of domain topics at this stage.
@@ -300,17 +305,28 @@ Domain names above are illustrative and do not prescribe the final processor top
 | `logical_assessment_id` | string | Yes | Stable ID across revisions. |
 | `revision` | integer | Yes | Monotonic revision. |
 | `bundle_id` | string | Yes | Related EvidenceBundle. |
-| `integrity_status` | enum | Yes | `HEALTHY`, `SUSPECT`, `DEGRADED`, `UNKNOWN`. |
-| `decision_maturity` | enum | Yes | `PROVISIONAL`, `FINAL`, `REVISED`. |
+| `integrity_state` | enum | Yes | `HEALTHY`, `SUSPECT`, `UNKNOWN`, `DEGRADED` (total order). |
+| `resolution_maturity` | enum | Yes | `OPEN`, `STATE_RESOLVED`, `TUPLE_RESOLVED`, `REOPENED`. |
+| `finality_status` | enum | Yes | `OPEN`, `FINAL`, `FINALITY_VIOLATION`. |
+| `revision_number` | integer | Yes | Monotonic revision number $H_1 \to H_2$. |
+| `decision_maturity` | enum | Yes | Derived display field (`PROVISIONAL`, `FINAL`, `REVISED`). |
+| `verdict_hash` | string | Yes | RFC 8785 JCS SHA-256 canonical hex digest. |
+| `previous_verdict_hash` | string/null | No | Hash pointer to preceding revision. |
+| `lease_until` | datetime | Yes | Consumer validity lease expiration boundary. |
+| `lease_clock_domain` | enum | Yes | `LIVE_UTC` or `REPLAY_VIRTUAL`. |
+| `validity_timeline` | array | Yes | Pointwise validity timeline breakpoints. |
+| `corroboration_profile_by_role` | object | Yes | Disjoint source and processing depths by role. |
+| `primary_binding_witness` | string | Yes | Explanatory witness for binding decision. |
+| `witness_set` | array | Yes | Complete audit witness references. |
 | `assessed_at_utc` | datetime | Yes | Processing time. |
-| `scope` | object | Yes | Assessment scope. |
+| `scope` | object | Yes | Assessment scope (`session_instance_id`, `driver_id`). |
 | `explanation` | string | Yes | Human-readable assessment explanation. |
 | `supporting_findings` | array | Yes | Finding/evidence references. |
 | `affected_dependencies` | array | Yes | Dependencies considered impaired or uncertain. |
 | `policy_version` | string | Yes | Integrity policy/config version. |
 | `supersedes_assessment_id` | string/null | No | Prior assessment superseded by a revision. |
 
-`HEALTHY` does not mean a sporting rule was satisfied. It means the evidence required by the named decision context passed the configured integrity policy.
+`HEALTHY` does not mean a sporting rule was satisfied. It means the evidence required by the named decision context passed the configured integrity policy. Per ERR-02, IntegrityAssessment v2.0 defines four orthogonal fields: `integrity_state`, `resolution_maturity`, `finality_status`, and monotonic integer `revision_number`. `decision_maturity` is retained strictly as a derived display field.
 
 ## 11. AnalyticsMetric v1
 
