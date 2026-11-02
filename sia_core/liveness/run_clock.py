@@ -19,6 +19,19 @@ class RunClockManager:
         if self.latest_tick is None or tick.seq > self.latest_tick.seq:
             self.latest_tick = tick
 
+    def advance_to(self, run_id: str, clock_domain: str, clock_value: str, emitter_id: str = "event-time") -> None:
+        """Advance a replay run clock monotonically from admitted source time."""
+        if self.latest_tick and clock_value <= self.latest_tick.clock_utc:
+            return
+        seq = self.latest_tick.seq + 1 if self.latest_tick else 1
+        self.process_tick(RunClockTick(
+            run_id=run_id,
+            clock_domain=clock_domain,
+            clock_utc=clock_value,
+            seq=seq,
+            emitter_id=emitter_id,
+        ))
+
     def update_watermark(self, watermark: str) -> None:
         """Advance the event-time watermark."""
         if self.watermark is None or watermark > self.watermark:

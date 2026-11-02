@@ -131,6 +131,33 @@
     },
     {
       "step_index": 1,
+      "stream_item_type": "EVIDENCE_ATOM",
+      "transport_event_time_utc": "2026-11-01T14:00:05.000Z",
+      "transport_time_basis": "EVENT_UTC",
+      "watermark_at_arrival": "2026-11-01T14:00:05.000Z",
+      "data": {
+        "evidence_atom_id": "atom-lap-record",
+        "role_id": "lap_record",
+        "value": 84.1234,
+        "unit": "s",
+        "raw_event_ids": [
+          "source-lap-record-52"
+        ],
+        "processor_family_id": "timing_parser_family",
+        "transform_version": "1.0.0",
+        "source_origin_set": [
+          "TRACINGINSIGHTS_LAPS"
+        ],
+        "time": {
+          "value": 4200.0,
+          "class": "SESSION_ELAPSED",
+          "unit": "s"
+        },
+        "quality_grade": "HEALTHY"
+      }
+    },
+    {
+      "step_index": 2,
       "stream_item_type": "RUN_CLOCK_TICK",
       "transport_event_time_utc": "2026-11-01T14:01:35.000Z",
       "transport_time_basis": "EVENT_UTC",
@@ -142,7 +169,7 @@
       }
     },
     {
-      "step_index": 2,
+      "step_index": 3,
       "stream_item_type": "EVIDENCE_ATOM",
       "transport_event_time_utc": "2026-11-01T14:02:10.000Z",
       "transport_time_basis": "EVENT_UTC",
@@ -162,7 +189,7 @@
   "evaluation_schedule": [
     {
       "eval_id": "FX-15-E1",
-      "after_step_index": 2,
+      "after_step_index": 3,
       "t_eval": "2026-11-01T14:02:15.000Z",
       "clock_domain": "LIVE_UTC",
       "decision_instance_id": "mexico-2026|VER|52|lap_time_consistency"
@@ -179,13 +206,17 @@
         "version": "1.0",
         "epoch": 1
       },
-      "integrity_state": "DEGRADED",
+      "integrity_state": "HEALTHY",
       "corroboration_profile_by_role": {
         "lap_record": {
           "source_depth": 0,
           "processing_depth": 0,
-          "support_atom_ids": [],
-          "origin_refs": []
+          "support_atom_ids": [
+            "atom-lap-record"
+          ],
+          "origin_refs": [
+            "TRACINGINSIGHTS_LAPS"
+          ]
         },
         "lap_start_reference": {
           "source_depth": 0,
@@ -200,29 +231,27 @@
       },
       "validity_timeline": [
         {
-          "from": "2026-11-01T14:00:30.000Z",
-          "state": "DEGRADED"
+          "from": "2026-11-01T14:00:05.000Z",
+          "state": "HEALTHY"
         }
       ],
       "next_transition_at": null,
       "lease_until": null,
       "lease_clock_domain": "LIVE_UTC",
-      "resolution_maturity": "STATE_RESOLVED",
+      "resolution_maturity": "TUPLE_RESOLVED",
       "finality_status": "FINAL",
       "revision_number": 1,
       "previous_verdict_hash": null,
       "knowledge_frontier": {
-        "watermark": "2026-11-01T14:01:30.000Z",
-        "run_clock": "2026-11-01T14:01:30.000Z"
+        "run_clock": "2026-11-01T14:01:30.000Z",
+        "watermark": "2026-11-01T14:01:30.000Z"
       },
       "primary_binding_witness": "SLOT_SEALED_FINAL: lateness_window_elapsed=14:01:30.000Z",
       "witness_set": [
         "SLOT_SEALED_FINAL: lateness_window_elapsed=14:01:30.000Z",
         "POST_FINALITY_QUARANTINED: atom=atom-post-finality"
       ],
-      "limiting_children": [
-        "lap_record"
-      ],
+      "limiting_children": [],
       "alternatives": [],
       "diagnosis_result": "NONE",
       "limitations": [
@@ -230,7 +259,12 @@
         "HISTORICAL_ARCHIVE_UNCALIBRATED_LATENCY"
       ],
       "decision_maturity": "FINAL",
-      "verdict_hash": "631f28d492355f11ae80ddc972719b0e4108056272611bf284e6dafa552f1c0a"
+      "verdict_hash": "9e3acde40cd763117a0f2be8751199817f16c6c817bbad27a9918e7584b870a8",
+      "lease_metadata": {
+        "clock_domain": "LIVE_UTC",
+      "timestamp_semantics": "UTC",
+        "lease_until": null
+      }
     }
   ]
 }

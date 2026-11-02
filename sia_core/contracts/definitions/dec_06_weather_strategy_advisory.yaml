@@ -11,6 +11,10 @@ roles:
   track_weather:
     required: true
     description: "Track surface temperature sensor measurement"
+    input_selector:
+      feeds: [weather]
+      value_field: track_temperature_c
+      unit: celsius
     time_class_required: ABSOLUTE_UTC
     admissible_source_origins:
       - PITWALL_WEATHER
@@ -43,6 +47,10 @@ roles:
   air_weather:
     required: true
     description: "Ambient air temperature, pressure, and rainfall flag"
+    input_selector:
+      feeds: [weather]
+      value_field: air_temperature_c
+      unit: celsius
     time_class_required: ABSOLUTE_UTC
     admissible_source_origins:
       - PITWALL_WEATHER

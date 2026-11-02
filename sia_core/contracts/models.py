@@ -155,6 +155,15 @@ class SlotSpec:
 
 
 @dataclass(frozen=True, slots=True)
+class InputSelector:
+    """Explicit evidence-source and value mapping for one contract role."""
+    feeds: Sequence[str] = field(default_factory=tuple)
+    event_types: Sequence[str] = field(default_factory=tuple)
+    value_field: str = ""
+    unit: Optional[str] = None
+
+
+@dataclass(frozen=True, slots=True)
 class RoleSpec:
     name: str
     required: bool
@@ -167,6 +176,7 @@ class RoleSpec:
     corroboration: CorroborationSpec
     fault_model: FaultModelSpec
     slots: SlotSpec
+    input_selector: Optional[InputSelector] = None
 
 
 # Alias for RoleSpec

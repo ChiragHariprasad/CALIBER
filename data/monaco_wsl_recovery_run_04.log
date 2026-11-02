@@ -1,0 +1,680 @@
+2026-11-01 21:06:58,077 [INFO] calibre.monaco: Run monaco2026-wsl-recovery-04 loaded 200 raw records: {'weather': 62, 'rcm': 15, 'laps': 117, 'pit': 6}
+2026-11-01 21:06:58,080 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,081 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,081 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,183 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,185 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:58,188 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,188 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,188 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:58,291 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:58,368 [INFO] calibre.persistence: Initialized persistence database at data/monaco_wsl_recovery_run_04.db
+2026-11-01 21:06:58,369 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-worker, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,370 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,370 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-worker, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,472 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,473 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:58,477 [INFO] calibre.kafka_bus: CalibreProducer connected to Kafka at 127.0.0.1:9092
+2026-11-01 21:06:58,477 [INFO] kafka.conn: <BrokerConnection client_id=flink-monaco-monaco2026-wsl-recovery-04-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,478 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,479 [INFO] kafka.conn: <BrokerConnection client_id=flink-monaco-monaco2026-wsl-recovery-04-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,580 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,581 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:58,582 [INFO] calibre.kafka_bus: CalibreProducer connected to Kafka at 127.0.0.1:9092
+2026-11-01 21:06:58,671 [INFO] calibre.flink: Flink job monaco-monaco2026-wsl-recovery-04 loaded 11 DEC contracts from sia_core/contracts/definitions
+2026-11-01 21:06:58,675 [INFO] kafka.conn: <BrokerConnection client_id=calibre-analytics-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,675 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,675 [INFO] kafka.conn: <BrokerConnection client_id=calibre-analytics-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,778 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,778 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:58,779 [INFO] calibre.kafka_bus: CalibreProducer connected to Kafka at 127.0.0.1:9092
+2026-11-01 21:06:58,779 [INFO] kafka.conn: <BrokerConnection client_id=calibre-ingestion-service, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,780 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,780 [INFO] kafka.conn: <BrokerConnection client_id=calibre-ingestion-service, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,882 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,882 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:58,883 [INFO] calibre.kafka_bus: CalibreProducer connected to Kafka at 127.0.0.1:9092
+2026-11-01 21:06:58,884 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,885 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,886 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,886 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,886 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,887 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,887 [INFO] calibre.processors: Started 5 processor consumer threads
+2026-11-01 21:06:58,887 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,887 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,887 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,888 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,888 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,889 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,889 [INFO] calibre.flink: Flink job monaco-monaco2026-wsl-recovery-04 successfully started
+2026-11-01 21:06:58,889 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,889 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,889 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,890 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,890 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,891 [INFO] calibre.persistence: PersistenceService started
+2026-11-01 21:06:58,891 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:58,891 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,892 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:58,893 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:58,991 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,992 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,992 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:58,993 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,993 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:58,994 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,994 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,997 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,999 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:58,999 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,000 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,000 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,001 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,002 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,002 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,003 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,004 [INFO] kafka.conn: Probing node 1 broker version
+2026-11-01 21:06:59,008 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,010 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,010 [INFO] kafka.conn: Probing node 1 broker version
+2026-11-01 21:06:59,010 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.out.database',)
+2026-11-01 21:06:59,010 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,011 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,011 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,011 [INFO] kafka.conn: Probing node 1 broker version
+2026-11-01 21:06:59,012 [INFO] kafka.conn: Probing node 1 broker version
+2026-11-01 21:06:59,012 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,012 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-persistence-sink-group-monaco2026-wsl-recovery-04) connected to 127.0.0.1:9092 on topics: ['calibre.out.database']
+2026-11-01 21:06:59,012 [INFO] kafka.conn: Probing node 1 broker version
+2026-11-01 21:06:59,013 [INFO] kafka.conn: Probing node 1 broker version
+2026-11-01 21:06:59,013 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,013 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,013 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,014 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,014 [INFO] calibre.persistence: Persistence service consuming from calibre.out.database
+2026-11-01 21:06:59,014 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,014 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,015 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,015 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,016 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,016 [INFO] kafka.cluster: Group coordinator for calibre-persistence-sink-group-monaco2026-wsl-recovery-04 is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:06:59,016 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,017 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,018 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:06:59,018 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,018 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,019 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,019 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,116 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,117 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,117 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,117 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,118 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,119 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,120 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,123 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,121 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,121 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,124 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,122 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,123 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,120 [INFO] kafka.coordinator: (Re-)joining group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,124 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,122 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,125 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,126 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,127 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-discovery, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,128 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,128 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:59,129 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,130 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,130 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:06:59,131 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:59,131 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,131 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,131 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,131 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:59,132 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,132 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,133 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,133 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:59,134 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:59,135 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,135 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:06:59,136 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,136 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,137 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,138 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,138 [INFO] kafka.coordinator: Successfully joined group calibre-persistence-sink-group-monaco2026-wsl-recovery-04 with generation 1
+2026-11-01 21:06:59,140 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.out.database', partition=0)]
+2026-11-01 21:06:59,140 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.out.database', partition=0)} for group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,236 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,236 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,237 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.raw.mock.rcm', 'calibre.raw.mock.system', 'calibre.raw.mock.telemetry', 'calibre.raw.mock.timing', 'calibre.raw.mock.weather', 'calibre.raw.openf1.laps', 'calibre.raw.openf1.pit', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.pitwall.all', 'calibre.raw.tracinginsights.all', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.tracinginsights.unknown_feed')
+2026-11-01 21:06:59,237 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-agent-processor-vehicle-monaco2026-wsl-recovery-04) connected to 127.0.0.1:9092 on topics: ['calibre.raw.mock.rcm', 'calibre.raw.mock.system', 'calibre.raw.mock.telemetry', 'calibre.raw.mock.timing', 'calibre.raw.mock.weather', 'calibre.raw.openf1.laps', 'calibre.raw.openf1.pit', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.pitwall.all', 'calibre.raw.tracinginsights.all', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.tracinginsights.unknown_feed']
+2026-11-01 21:06:59,237 [INFO] calibre.processors: Processor vehicle_twin_sensor_agent worker loop started (group=calibre-agent-processor-vehicle-monaco2026-wsl-recovery-04) on 13 raw topics
+2026-11-01 21:06:59,238 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,239 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,239 [INFO] kafka.cluster: Group coordinator for calibre-agent-processor-vehicle-monaco2026-wsl-recovery-04 is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:06:59,239 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,240 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.raw.mock.rcm', 'calibre.raw.mock.system', 'calibre.raw.mock.telemetry', 'calibre.raw.mock.timing', 'calibre.raw.mock.weather', 'calibre.raw.openf1.laps', 'calibre.raw.openf1.pit', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.pitwall.all', 'calibre.raw.tracinginsights.all', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.tracinginsights.unknown_feed')
+2026-11-01 21:06:59,241 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,242 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,242 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-agent-processor-vehicle-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,243 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:06:59,243 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,245 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-agent-processor-incident-monaco2026-wsl-recovery-04) connected to 127.0.0.1:9092 on topics: ['calibre.raw.mock.rcm', 'calibre.raw.mock.system', 'calibre.raw.mock.telemetry', 'calibre.raw.mock.timing', 'calibre.raw.mock.weather', 'calibre.raw.openf1.laps', 'calibre.raw.openf1.pit', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.pitwall.all', 'calibre.raw.tracinginsights.all', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.tracinginsights.unknown_feed']
+2026-11-01 21:06:59,247 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,248 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,248 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:06:59,248 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:06:59,249 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.raw.mock.rcm', 'calibre.raw.mock.system', 'calibre.raw.mock.telemetry', 'calibre.raw.mock.timing', 'calibre.raw.mock.weather', 'calibre.raw.openf1.laps', 'calibre.raw.openf1.pit', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.pitwall.all', 'calibre.raw.tracinginsights.all', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.tracinginsights.unknown_feed')
+2026-11-01 21:06:59,249 [INFO] calibre.processors: Processor incident_track_agent worker loop started (group=calibre-agent-processor-incident-monaco2026-wsl-recovery-04) on 13 raw topics
+2026-11-01 21:06:59,249 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.raw.mock.rcm', 'calibre.raw.mock.system', 'calibre.raw.mock.telemetry', 'calibre.raw.mock.timing', 'calibre.raw.mock.weather', 'calibre.raw.openf1.laps', 'calibre.raw.openf1.pit', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.pitwall.all', 'calibre.raw.tracinginsights.all', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.tracinginsights.unknown_feed')
+2026-11-01 21:06:59,250 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.raw.mock.rcm', 'calibre.raw.mock.system', 'calibre.raw.mock.telemetry', 'calibre.raw.mock.timing', 'calibre.raw.mock.weather', 'calibre.raw.openf1.laps', 'calibre.raw.openf1.pit', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.pitwall.all', 'calibre.raw.tracinginsights.all', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.tracinginsights.unknown_feed')
+2026-11-01 21:06:59,250 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-agent-processor-vehicle-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,251 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.config.contracts', 'calibre.evidence.environment', 'calibre.evidence.incident', 'calibre.evidence.system', 'calibre.evidence.timing', 'calibre.evidence.vehicle', 'calibre.guard.clock', 'calibre.guard.liveness')
+2026-11-01 21:06:59,251 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-agent-processor-environment-monaco2026-wsl-recovery-04) connected to 127.0.0.1:9092 on topics: ['calibre.raw.mock.rcm', 'calibre.raw.mock.system', 'calibre.raw.mock.telemetry', 'calibre.raw.mock.timing', 'calibre.raw.mock.weather', 'calibre.raw.openf1.laps', 'calibre.raw.openf1.pit', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.pitwall.all', 'calibre.raw.tracinginsights.all', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.tracinginsights.unknown_feed']
+2026-11-01 21:06:59,254 [INFO] calibre.processors: Processor environmental_context_agent worker loop started (group=calibre-agent-processor-environment-monaco2026-wsl-recovery-04) on 13 raw topics
+2026-11-01 21:06:59,252 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-agent-processor-system-monaco2026-wsl-recovery-04) connected to 127.0.0.1:9092 on topics: ['calibre.raw.mock.rcm', 'calibre.raw.mock.system', 'calibre.raw.mock.telemetry', 'calibre.raw.mock.timing', 'calibre.raw.mock.weather', 'calibre.raw.openf1.laps', 'calibre.raw.openf1.pit', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.pitwall.all', 'calibre.raw.tracinginsights.all', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.tracinginsights.unknown_feed']
+2026-11-01 21:06:59,252 [INFO] kafka.cluster: Group coordinator for calibre-agent-processor-incident-monaco2026-wsl-recovery-04 is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:06:59,253 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,253 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-flink-core-group-monaco2026-wsl-recovery-04) connected to 127.0.0.1:9092 on topics: ['calibre.config.contracts', 'calibre.evidence.environment', 'calibre.evidence.incident', 'calibre.evidence.system', 'calibre.evidence.timing', 'calibre.evidence.vehicle', 'calibre.guard.clock', 'calibre.guard.liveness']
+2026-11-01 21:06:59,252 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-agent-processor-timing-monaco2026-wsl-recovery-04) connected to 127.0.0.1:9092 on topics: ['calibre.raw.mock.rcm', 'calibre.raw.mock.system', 'calibre.raw.mock.telemetry', 'calibre.raw.mock.timing', 'calibre.raw.mock.weather', 'calibre.raw.openf1.laps', 'calibre.raw.openf1.pit', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.pitwall.all', 'calibre.raw.tracinginsights.all', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.tracinginsights.unknown_feed']
+2026-11-01 21:06:59,254 [INFO] calibre.processors: Processor vehicle_electronics_system_integrity_agent worker loop started (group=calibre-agent-processor-system-monaco2026-wsl-recovery-04) on 13 raw topics
+2026-11-01 21:06:59,254 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-agent-processor-incident-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,255 [INFO] kafka.cluster: Group coordinator for calibre-agent-processor-environment-monaco2026-wsl-recovery-04 is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:06:59,255 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,255 [INFO] calibre.flink: Flink job monaco-monaco2026-wsl-recovery-04 streaming loop active on 8 topics
+2026-11-01 21:06:59,256 [INFO] calibre.processors: Processor race_timing_session_agent worker loop started (group=calibre-agent-processor-timing-monaco2026-wsl-recovery-04) on 13 raw topics
+2026-11-01 21:06:59,256 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:06:59,257 [INFO] kafka.cluster: Group coordinator for calibre-agent-processor-system-monaco2026-wsl-recovery-04 is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:06:59,257 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-agent-processor-environment-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,257 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,258 [INFO] kafka.cluster: Group coordinator for calibre-flink-core-group-monaco2026-wsl-recovery-04 is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:06:59,259 [INFO] kafka.cluster: Group coordinator for calibre-agent-processor-timing-monaco2026-wsl-recovery-04 is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:06:59,259 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-agent-processor-incident-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,259 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-agent-processor-system-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,260 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:06:59,260 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-flink-core-group-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,261 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-agent-processor-timing-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,261 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,261 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:06:59,262 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-agent-processor-environment-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,262 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:06:59,262 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:06:59,263 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,263 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-agent-processor-system-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,264 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,264 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-flink-core-group-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,264 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-agent-processor-timing-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,264 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,265 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,265 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,265 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,266 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,267 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,267 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,267 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,268 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,268 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,268 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,269 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:06:59,360 [INFO] kafka.coordinator: (Re-)joining group calibre-agent-processor-vehicle-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,362 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:06:59,363 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,363 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,366 [INFO] kafka.coordinator: (Re-)joining group calibre-agent-processor-incident-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,368 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:06:59,368 [INFO] kafka.coordinator: (Re-)joining group calibre-agent-processor-environment-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,369 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,369 [INFO] kafka.coordinator: Successfully joined group calibre-agent-processor-vehicle-monaco2026-wsl-recovery-04 with generation 1
+2026-11-01 21:06:59,369 [INFO] kafka.coordinator: (Re-)joining group calibre-agent-processor-system-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,369 [INFO] kafka.coordinator: (Re-)joining group calibre-flink-core-group-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,370 [INFO] kafka.coordinator: (Re-)joining group calibre-agent-processor-timing-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,370 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,370 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:06:59,370 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0)]
+2026-11-01 21:06:59,372 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:06:59,372 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:06:59,372 [INFO] kafka.coordinator: Successfully joined group calibre-agent-processor-incident-monaco2026-wsl-recovery-04 with generation 1
+2026-11-01 21:06:59,373 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:06:59,373 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,373 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0)} for group calibre-agent-processor-vehicle-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,374 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,374 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,374 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0)]
+2026-11-01 21:06:59,375 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:06:59,375 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,376 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,379 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0)} for group calibre-agent-processor-incident-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,379 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,380 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:06:59,380 [INFO] kafka.coordinator: Successfully joined group calibre-agent-processor-environment-monaco2026-wsl-recovery-04 with generation 1
+2026-11-01 21:06:59,381 [INFO] kafka.coordinator: Successfully joined group calibre-agent-processor-system-monaco2026-wsl-recovery-04 with generation 1
+2026-11-01 21:06:59,382 [INFO] kafka.coordinator: Successfully joined group calibre-agent-processor-timing-monaco2026-wsl-recovery-04 with generation 1
+2026-11-01 21:06:59,383 [INFO] kafka.coordinator: Successfully joined group calibre-flink-core-group-monaco2026-wsl-recovery-04 with generation 1
+2026-11-01 21:06:59,384 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0)]
+2026-11-01 21:06:59,385 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0)]
+2026-11-01 21:06:59,386 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0)} for group calibre-agent-processor-system-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,386 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.config.contracts', partition=0), TopicPartition(topic='calibre.evidence.environment', partition=0), TopicPartition(topic='calibre.evidence.incident', partition=0), TopicPartition(topic='calibre.evidence.system', partition=0), TopicPartition(topic='calibre.evidence.timing', partition=0), TopicPartition(topic='calibre.evidence.vehicle', partition=0), TopicPartition(topic='calibre.guard.clock', partition=0), TopicPartition(topic='calibre.guard.liveness', partition=0)]
+2026-11-01 21:06:59,386 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0)} for group calibre-agent-processor-environment-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,385 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0)]
+2026-11-01 21:06:59,394 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.guard.clock', partition=0), TopicPartition(topic='calibre.config.contracts', partition=0), TopicPartition(topic='calibre.evidence.timing', partition=0), TopicPartition(topic='calibre.evidence.incident', partition=0), TopicPartition(topic='calibre.evidence.environment', partition=0), TopicPartition(topic='calibre.evidence.vehicle', partition=0), TopicPartition(topic='calibre.guard.liveness', partition=0), TopicPartition(topic='calibre.evidence.system', partition=0)} for group calibre-flink-core-group-monaco2026-wsl-recovery-04
+2026-11-01 21:06:59,395 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0)} for group calibre-agent-processor-timing-monaco2026-wsl-recovery-04
+2026-11-01 21:07:05,469 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:07:05,470 [INFO] kafka.coordinator: Leaving consumer group (calibre-persistence-sink-group-monaco2026-wsl-recovery-04).
+2026-11-01 21:07:05,471 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:07:05,472 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:07:05,472 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-01 21:07:05,473 [INFO] calibre.persistence: PersistenceService stopped
+2026-11-01 21:07:05,474 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:05,474 [INFO] calibre.dashboard: DashboardService started
+2026-11-01 21:07:05,474 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:07:05,475 [INFO] calibre.analytics: AnalyticsService started
+2026-11-01 21:07:05,475 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:05,475 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:05,476 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:07:05,477 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:05,580 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:07:05,583 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:07:05,581 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:07:05,584 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:07:05,583 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.out.analytics',)
+2026-11-01 21:07:05,584 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.out.dashboard',)
+2026-11-01 21:07:05,585 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-dashboard-gateway-group) connected to 127.0.0.1:9092 on topics: ['calibre.out.dashboard']
+2026-11-01 21:07:05,586 [INFO] calibre.dashboard: Dashboard gateway consuming from calibre.out.dashboard
+2026-11-01 21:07:05,585 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-analytics-service-group) connected to 127.0.0.1:9092 on topics: ['calibre.out.analytics']
+2026-11-01 21:07:05,587 [INFO] calibre.analytics: Analytics service consuming from calibre.out.analytics
+2026-11-01 21:07:05,587 [INFO] kafka.cluster: Group coordinator for calibre-dashboard-gateway-group is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:07:05,588 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-dashboard-gateway-group
+2026-11-01 21:07:05,588 [INFO] kafka.cluster: Group coordinator for calibre-analytics-service-group is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:07:05,588 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:07:05,589 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-analytics-service-group
+2026-11-01 21:07:05,589 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-dashboard-gateway-group
+2026-11-01 21:07:05,589 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:07:05,590 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:05,591 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-analytics-service-group
+2026-11-01 21:07:05,591 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:05,591 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:05,592 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:07:05,592 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:05,593 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:07:05,693 [INFO] kafka.coordinator: (Re-)joining group calibre-dashboard-gateway-group
+2026-11-01 21:07:05,694 [INFO] kafka.coordinator: (Re-)joining group calibre-analytics-service-group
+2026-11-01 21:07:05,695 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:07:05,695 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:07:05,696 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:05,696 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:05,697 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:05,697 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:05,698 [INFO] kafka.coordinator: Successfully joined group calibre-dashboard-gateway-group with generation 198
+2026-11-01 21:07:05,698 [INFO] kafka.coordinator: Successfully joined group calibre-analytics-service-group with generation 188
+2026-11-01 21:07:05,699 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.out.dashboard', partition=0)]
+2026-11-01 21:07:05,699 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.out.analytics', partition=0)]
+2026-11-01 21:07:05,699 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.out.analytics', partition=0)} for group calibre-analytics-service-group
+2026-11-01 21:07:05,699 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.out.dashboard', partition=0)} for group calibre-dashboard-gateway-group
+2026-11-01 21:07:07,520 [INFO] kafka.conn: <BrokerConnection client_id=calibre-ingestion-service, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:07,520 [INFO] kafka.conn: <BrokerConnection client_id=calibre-ingestion-service, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:07,521 [INFO] kafka.conn: <BrokerConnection client_id=calibre-ingestion-service, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:07:07,528 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-worker, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:07,528 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-worker, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:07,528 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-worker, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:07:07,579 [INFO] kafka.conn: <BrokerConnection client_id=flink-monaco-monaco2026-wsl-recovery-04-producer, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:07,579 [INFO] kafka.conn: <BrokerConnection client_id=flink-monaco-monaco2026-wsl-recovery-04-producer, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:07,579 [INFO] kafka.conn: <BrokerConnection client_id=flink-monaco-monaco2026-wsl-recovery-04-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:07:07,908 [INFO] kafka.conn: <BrokerConnection client_id=calibre-analytics-producer, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:07,909 [INFO] kafka.conn: <BrokerConnection client_id=calibre-analytics-producer, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:07,910 [INFO] kafka.conn: <BrokerConnection client_id=calibre-analytics-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:07:23,118 [INFO] kafka.conn: <BrokerConnection client_id=monaco-clock-monaco2026-wsl-recovery-04, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:23,119 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:07:23,119 [INFO] kafka.conn: <BrokerConnection client_id=monaco-clock-monaco2026-wsl-recovery-04, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:23,221 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:07:23,221 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:07:23,224 [INFO] calibre.kafka_bus: CalibreProducer connected to Kafka at 127.0.0.1:9092
+2026-11-01 21:07:23,226 [INFO] kafka.conn: <BrokerConnection client_id=monaco-clock-monaco2026-wsl-recovery-04, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:23,227 [INFO] kafka.conn: <BrokerConnection client_id=monaco-clock-monaco2026-wsl-recovery-04, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:23,227 [INFO] kafka.conn: <BrokerConnection client_id=monaco-clock-monaco2026-wsl-recovery-04, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:07:23,479 [INFO] calibre.persistence: PersistenceService started
+2026-11-01 21:07:23,479 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:23,481 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:07:23,481 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:23,585 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:07:23,586 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:07:23,586 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.out.database',)
+2026-11-01 21:07:23,587 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-persistence-sink-group-monaco2026-wsl-recovery-04) connected to 127.0.0.1:9092 on topics: ['calibre.out.database']
+2026-11-01 21:07:23,587 [INFO] calibre.persistence: Persistence service consuming from calibre.out.database
+2026-11-01 21:07:23,588 [INFO] kafka.cluster: Group coordinator for calibre-persistence-sink-group-monaco2026-wsl-recovery-04 is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:07:23,589 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:07:23,589 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:07:23,589 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:07:23,591 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:23,592 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:23,593 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:07:23,694 [INFO] kafka.coordinator: (Re-)joining group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:07:23,696 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:07:23,697 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:07:23,698 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:07:23,699 [INFO] kafka.coordinator: Successfully joined group calibre-persistence-sink-group-monaco2026-wsl-recovery-04 with generation 3
+2026-11-01 21:07:23,699 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.out.database', partition=0)]
+2026-11-01 21:07:23,699 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.out.database', partition=0)} for group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:08:01,170 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:08:01,171 [INFO] kafka.coordinator: Leaving consumer group (calibre-persistence-sink-group-monaco2026-wsl-recovery-04).
+2026-11-01 21:08:01,172 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:01,172 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:01,173 [INFO] calibre.persistence: PersistenceService stopped
+2026-11-01 21:08:21,470 [INFO] calibre.persistence: PersistenceService started
+2026-11-01 21:08:21,470 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:08:21,471 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:08:21,471 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:08:21,575 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:08:21,576 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:08:21,577 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.out.database',)
+2026-11-01 21:08:21,578 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-persistence-sink-group-monaco2026-wsl-recovery-04) connected to 127.0.0.1:9092 on topics: ['calibre.out.database']
+2026-11-01 21:08:21,579 [INFO] calibre.persistence: Persistence service consuming from calibre.out.database
+2026-11-01 21:08:21,581 [INFO] kafka.cluster: Group coordinator for calibre-persistence-sink-group-monaco2026-wsl-recovery-04 is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-01 21:08:21,582 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:08:21,583 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-01 21:08:21,584 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:08:21,586 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:08:21,586 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:08:21,586 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:21,687 [INFO] kafka.coordinator: (Re-)joining group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:08:21,690 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-01 21:08:21,691 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:08:21,692 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:08:21,693 [INFO] kafka.coordinator: Successfully joined group calibre-persistence-sink-group-monaco2026-wsl-recovery-04 with generation 5
+2026-11-01 21:08:21,694 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.out.database', partition=0)]
+2026-11-01 21:08:21,694 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.out.database', partition=0)} for group calibre-persistence-sink-group-monaco2026-wsl-recovery-04
+2026-11-01 21:08:46,813 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:08:46,814 [INFO] kafka.coordinator: Leaving consumer group (calibre-persistence-sink-group-monaco2026-wsl-recovery-04).
+2026-11-01 21:08:46,816 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:46,816 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:46,817 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-01 21:08:46,817 [INFO] calibre.persistence: PersistenceService stopped
+2026-11-01 21:08:47,289 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:08:47,290 [INFO] kafka.coordinator: Leaving consumer group (calibre-analytics-service-group).
+2026-11-01 21:08:47,292 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:47,292 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:47,293 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-01 21:08:47,293 [INFO] kafka.producer.kafka: Closing the Kafka producer with 2.0 secs timeout.
+2026-11-01 21:08:47,294 [INFO] kafka.conn: <BrokerConnection client_id=calibre-analytics-producer, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:47,295 [INFO] calibre.analytics: AnalyticsService stopped
+2026-11-01 21:08:47,991 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:08:47,992 [INFO] kafka.coordinator: Leaving consumer group (calibre-dashboard-gateway-group).
+2026-11-01 21:08:47,993 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:47,994 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:47,994 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-01 21:08:47,995 [INFO] calibre.dashboard: DashboardService stopped
+2026-11-01 21:08:47,995 [INFO] calibre.persistence: PersistenceService stopped
+2026-11-01 21:08:48,696 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:08:48,698 [INFO] kafka.coordinator: Leaving consumer group (calibre-flink-core-group-monaco2026-wsl-recovery-04).
+2026-11-01 21:08:48,699 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:48,700 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:48,701 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-01 21:08:48,701 [INFO] calibre.flink: Flink job monaco-monaco2026-wsl-recovery-04 streaming loop terminated
+2026-11-01 21:08:48,702 [INFO] kafka.conn: <BrokerConnection client_id=flink-monaco-monaco2026-wsl-recovery-04-producer, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:48,702 [INFO] calibre.flink: Flink job monaco-monaco2026-wsl-recovery-04 stopped
+2026-11-01 21:08:48,734 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:08:48,735 [INFO] kafka.coordinator: Leaving consumer group (calibre-agent-processor-system-monaco2026-wsl-recovery-04).
+2026-11-01 21:08:48,736 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:48,737 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:48,737 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-01 21:08:48,738 [INFO] calibre.processors: Processor vehicle_electronics_system_integrity_agent worker loop stopped
+2026-11-01 21:08:48,829 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:08:48,830 [INFO] kafka.coordinator: Leaving consumer group (calibre-agent-processor-timing-monaco2026-wsl-recovery-04).
+2026-11-01 21:08:48,832 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:48,832 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:48,832 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-01 21:08:48,833 [INFO] calibre.processors: Processor race_timing_session_agent worker loop stopped
+2026-11-01 21:08:48,836 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:08:48,837 [INFO] kafka.coordinator: Leaving consumer group (calibre-agent-processor-incident-monaco2026-wsl-recovery-04).
+2026-11-01 21:08:48,838 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:48,839 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:48,839 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-01 21:08:48,839 [INFO] calibre.processors: Processor incident_track_agent worker loop stopped
+2026-11-01 21:08:49,287 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:08:49,288 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-01 21:08:49,289 [INFO] kafka.coordinator: Leaving consumer group (calibre-agent-processor-environment-monaco2026-wsl-recovery-04).
+2026-11-01 21:08:49,289 [INFO] kafka.coordinator: Leaving consumer group (calibre-agent-processor-vehicle-monaco2026-wsl-recovery-04).
+2026-11-01 21:08:49,291 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:49,291 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:49,292 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:49,292 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:49,292 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-01 21:08:49,293 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-01 21:08:49,293 [INFO] calibre.processors: Processor vehicle_twin_sensor_agent worker loop stopped
+2026-11-01 21:08:49,293 [INFO] calibre.processors: Processor environmental_context_agent worker loop stopped
+2026-11-01 21:08:49,294 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-worker, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:49,295 [INFO] calibre.processors: ProcessorWorkerService stopped
+2026-11-01 21:08:49,296 [INFO] kafka.conn: <BrokerConnection client_id=calibre-ingestion-service, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:49,296 [INFO] kafka.conn: <BrokerConnection client_id=monaco-clock-monaco2026-wsl-recovery-04, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:49,546 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:08:49,547 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-01 21:08:49,547 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:08:49,649 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-01 21:08:49,650 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-01 21:08:49,653 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-01 21:08:49,653 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-01 21:08:49,653 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-01 21:08:49,756 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+{
+  "agents": [
+    {
+      "emitted_count": 0,
+      "error_count": 0,
+      "processed_count": 0,
+      "processor_id": "vehicle_twin_sensor_agent"
+    },
+    {
+      "emitted_count": 30,
+      "error_count": 0,
+      "processed_count": 30,
+      "processor_id": "incident_track_agent"
+    },
+    {
+      "emitted_count": 124,
+      "error_count": 0,
+      "processed_count": 124,
+      "processor_id": "environmental_context_agent"
+    },
+    {
+      "emitted_count": 246,
+      "error_count": 0,
+      "processed_count": 246,
+      "processor_id": "race_timing_session_agent"
+    },
+    {
+      "emitted_count": 400,
+      "error_count": 0,
+      "processed_count": 400,
+      "processor_id": "vehicle_electronics_system_integrity_agent"
+    }
+  ],
+  "agents_drained": true,
+  "database": "data/monaco_wsl_recovery_run_04.db",
+  "expected_agent_records": {
+    "environmental_context_agent": 62,
+    "incident_track_agent": 15,
+    "race_timing_session_agent": 123,
+    "vehicle_electronics_system_integrity_agent": 200,
+    "vehicle_twin_sensor_agent": 0
+  },
+  "expected_evidence_events": 400,
+  "finished_at_utc": "2026-11-01T15:38:49.757+00:00",
+  "flink_drained": true,
+  "flink_metrics": {
+    "active_decisions": 107,
+    "contracts_loaded": 11,
+    "events_malformed": 0,
+    "events_received": 800,
+    "events_routed": 800,
+    "health": {
+      "dependencies": {
+        "kafka_producer": true
+      },
+      "details": {},
+      "errors_count": 0,
+      "events_in": 800,
+      "events_out": 2400,
+      "is_live": true,
+      "is_ready": false,
+      "last_activity_utc": "2026-11-01T15:38:21.419+00:00",
+      "name": "FlinkIntegrityCore",
+      "status": "DEGRADED",
+      "updated_at_utc": "2026-11-01T15:38:21.419+00:00"
+    },
+    "job_id": "monaco-monaco2026-wsl-recovery-04",
+    "overflow_events": 114,
+    "quarantined_events": 0,
+    "run_metrics": {
+      "monaco2026-wsl-recovery-04": {
+        "clock_ticks": 2,
+        "events_received": 800,
+        "events_routed": 800,
+        "verdicts_emitted": 1598
+      }
+    },
+    "verdicts_emitted": 1598
+  },
+  "kafka_topic_offset_deltas": {
+    "calibre.core.verdict_history": 1598,
+    "calibre.evidence.environment": 124,
+    "calibre.evidence.incident": 30,
+    "calibre.evidence.system": 400,
+    "calibre.evidence.timing": 246,
+    "calibre.evidence.vehicle": 0,
+    "calibre.guard.clock": 2,
+    "calibre.out.database": 2398,
+    "calibre.raw.openf1.laps": 234,
+    "calibre.raw.openf1.pit": 12,
+    "calibre.raw.openf1.rcm": 30,
+    "calibre.raw.openf1.weather": 124
+  },
+  "persisted_evidence_rows": 400,
+  "persisted_verdict_rows": 799,
+  "recovery_first_sink_drained": true,
+  "recovery_hashes_reproducible": false,
+  "recovery_replay_records_published": 200,
+  "recovery_second_sink_drained": true,
+  "recovery_test_requested": true,
+  "replay_clock_processed": true,
+  "run_id": "monaco2026-wsl-recovery-04",
+  "sink_duplicate_event_deliveries": 400,
+  "sink_duplicate_verdict_deliveries": 799,
+  "source_accounting": {
+    "agents": [
+      {
+        "consumed_records": 62,
+        "emitted_records": 62,
+        "evidence_events": 124,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 124,
+        "processor_id": "environmental_context_agent"
+      },
+      {
+        "consumed_records": 15,
+        "emitted_records": 15,
+        "evidence_events": 30,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 30,
+        "processor_id": "incident_track_agent"
+      },
+      {
+        "consumed_records": 123,
+        "emitted_records": 123,
+        "evidence_events": 246,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 246,
+        "processor_id": "race_timing_session_agent"
+      },
+      {
+        "consumed_records": 200,
+        "emitted_records": 200,
+        "evidence_events": 400,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 400,
+        "processor_id": "vehicle_electronics_system_integrity_agent"
+      }
+    ],
+    "source_outcomes": {
+      "PERSISTED": 200
+    },
+    "source_outcomes_by_feed": [
+      {
+        "failed": 0,
+        "feed": "laps",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 117,
+        "source_records": 117,
+        "unaccounted": 0
+      },
+      {
+        "failed": 0,
+        "feed": "pit",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 6,
+        "source_records": 6,
+        "unaccounted": 0
+      },
+      {
+        "failed": 0,
+        "feed": "rcm",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 15,
+        "source_records": 15,
+        "unaccounted": 0
+      },
+      {
+        "failed": 0,
+        "feed": "weather",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 62,
+        "source_records": 62,
+        "unaccounted": 0
+      }
+    ]
+  },
+  "source_feed_counts": {
+    "laps": 117,
+    "pit": 6,
+    "rcm": 15,
+    "weather": 62
+  },
+  "source_publish_failures": 0,
+  "source_records_expected": 200,
+  "source_records_published": 200,
+  "started_at_utc": "2026-11-01T15:37:07.476+00:00",
+  "unique_decision_instances": 107,
+  "verdict_state_maturity_finality": [
+    [
+      "OPEN",
+      "OPEN",
+      "PROVISIONAL",
+      107
+    ],
+    [
+      "OPEN",
+      "OPEN",
+      "REVISED",
+      560
+    ],
+    [
+      "STATE_RESOLVED",
+      "OPEN",
+      "REVISED",
+      132
+    ]
+  ]
+}
+RUN STATUS: PARTIALLY VERIFIED
+RUN SUMMARY: data/monaco_wsl_recovery_run_04.run.json

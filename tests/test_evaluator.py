@@ -17,8 +17,10 @@ from pathlib import Path
 from typing import Any, Dict, List
 import pytest
 
-from sia_core.contracts.parser import parse_contract_dict
+from sia_core.contracts.parser import load_contract_file, parse_contract_dict
 from sia_core.evaluation.contract_evaluator import ContractEvaluator
+from sia_core.evaluation.leaf import LeafEvaluator
+from sia_core.identity.hasher import compute_verdict_hash
 from sia_core.models.states import (
     IntegrityState,
     ResolutionMaturity,
@@ -91,6 +93,23 @@ def test_pure_evaluator_golden_fixture_parity(fx_idx: int):
             previous_verdict=prev_verdict,
         )
 
+        basis = actual_v["hash_basis"]
+        assert actual_v["hash_algorithm"] == "SHA-256/JCS-8785"
+        assert actual_v["verdict_hash"] == compute_verdict_hash(
+            contract_id=actual_v["contract"]["id"],
+            contract_version=actual_v["contract"]["version"],
+            contract_epoch=actual_v["contract"]["epoch"],
+            decision_instance_id=actual_v["decision_instance_id"],
+            integrity_state=actual_v["integrity_state"],
+            resolution_maturity=actual_v["resolution_maturity"],
+            finality_status=actual_v["finality_status"],
+            canonical_frontier=actual_v["knowledge_frontier"],
+            corroboration_profile_by_role=actual_v["corroboration_profile_by_role"],
+            validity_timeline=actual_v["validity_timeline"],
+            sorted_support_atom_ids=basis["sorted_support_atom_ids"],
+            sorted_reference_atom_ids=basis["sorted_reference_atom_ids"],
+        )
+
         prev_verdict = actual_v
 
         # Assert all 9 verdict fields per CAL-DOC-007
@@ -106,6 +125,10 @@ def test_pure_evaluator_golden_fixture_parity(fx_idx: int):
             f"{fx_id} Eval {sched['eval_id']}: finality_status mismatch "
             f"actual={actual_v['finality_status']} != exp={exp_v['finality_status']}"
         )
+        if actual_v["finality_status"] == "FINAL":
+            assert actual_v["resolution_maturity"] == "TUPLE_RESOLVED", (
+                f"{fx_id} Eval {sched['eval_id']}: FINAL requires a resolved tuple"
+            )
         assert actual_v["revision_number"] == exp_v["revision_number"], (
             f"{fx_id} Eval {sched['eval_id']}: revision_number mismatch "
             f"actual={actual_v['revision_number']} != exp={exp_v['revision_number']}"
@@ -114,6 +137,9 @@ def test_pure_evaluator_golden_fixture_parity(fx_idx: int):
             f"{fx_id} Eval {sched['eval_id']}: primary_binding_witness mismatch "
             f"actual={actual_v['primary_binding_witness']} != exp={exp_v['primary_binding_witness']}"
         )
+        if "lease_metadata" in exp_v:
+            assert actual_v["lease_metadata"] == exp_v["lease_metadata"]
+            assert actual_v["primary_binding_witness"] != "REPLAY_VIRTUAL_LEASE_ASSIGNED"
         assert actual_v["lease_until"] == exp_v["lease_until"], (
             f"{fx_id} Eval {sched['eval_id']}: lease_until mismatch "
             f"actual={actual_v['lease_until']} != exp={exp_v['lease_until']}"
@@ -266,6 +292,68 @@ def test_clique_search_bounding_and_tie_breaking():
     assert exceeded is True
     assert "SEARCH_BUDGET_EXCEEDED" in witness
     assert len(selected) == 12
+
+
+def test_decision_window_bounds_historical_atoms_before_search_budget():
+    contract = load_contract_file(Path("sia_core/contracts/definitions/dec_10_vehicle_sensor_anomaly.yaml"))
+    role = contract.roles["telemetry_sample"]
+    atoms = [
+        EvidenceAtom(
+            evidence_atom_id=f"sample-{i}", role_id="telemetry_sample",
+            source_origin_set=("TRACINGINSIGHTS_TELEMETRY",),
+            processing_origin_set=("telemetry_parser_family",),
+            transport_event_time_utc=f"2026-06-07T13:00:{i:02d}Z",
+            time={"value": f"2026-06-07T13:00:{i:02d}Z", "class": "ABSOLUTE_UTC"},
+            value=10000.0,
+        )
+        for i in range(20)
+    ]
+    result = LeafEvaluator.evaluate_leaf(
+        role_name="telemetry_sample", role_spec=role, atoms=atoms,
+        reference_facts={}, t_eval="2026-06-07T13:00:20Z", guard_facts={},
+        decision_instance_id="session|1|lap1|vehicle_sensor_anomaly",
+        M_max=10, simultaneity_window_s=0.2,
+    )
+    assert "SEARCH_BUDGET_EXCEEDED" not in " ".join(result.witnesses)
+    assert result.support_atom_ids == ["sample-19"]
+
+
+def test_complete_virtual_replay_closes_resolved_tuple_without_faking_watermark():
+    fixture = load_fixture("FX-17")
+    contract = parse_contract_dict(fixture["target_contract"])
+    input_stream = list(fixture["input_stream"])
+    source_max = max(
+        item.get("transport_event_time_utc", "")
+        for item in input_stream
+        if item.get("stream_item_type") == "EVIDENCE_ATOM"
+    )
+    completion_clock = "2026-10-25T14:05:00.000Z"
+    input_stream.append({
+        "stream_item_type": "REPLAY_COMPLETION",
+        "watermark_at_arrival": source_max,
+        "data": {
+            "run_id": "replay-run-01",
+            "clock_domain": "REPLAY_VIRTUAL",
+            "clock_value": completion_clock,
+            "source_max_event_time_utc": source_max,
+            "source_set_complete": True,
+            "upstream_drained": True,
+        },
+    })
+    verdict = ContractEvaluator.evaluate(
+        contract=contract,
+        decision_instance_id="mexico-2026#replay-run-01|VER|52|lap_time_consistency",
+        input_stream=input_stream,
+        t_eval=completion_clock,
+        clock_domain="REPLAY_VIRTUAL",
+    )
+    assert verdict["resolution_maturity"] == "TUPLE_RESOLVED"
+    assert verdict["finality_status"] == "FINAL"
+    assert verdict["knowledge_frontier"]["watermark"] == source_max
+    assert verdict["knowledge_frontier"]["source_completion"] == {
+        "complete": True,
+        "source_max_event_time": source_max,
+    }
 
 
 def test_abstract_completion_envelope_bounds():

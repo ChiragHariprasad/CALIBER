@@ -24,6 +24,7 @@ from .models import (
     FinalityCondition,
     FormulaNode,
     FreshnessSpec,
+    InputSelector,
     KOfNNode,
     MetricType,
     OrNode,
@@ -288,6 +289,18 @@ def parse_contract_dict(data: Dict[str, Any]) -> DecisionEvidenceContract:
             allowed_lateness_s=float(slot_dict.get("allowed_lateness_s", 60.0)),
         )
 
+        selector_dict = r_dict.get("input_selector") or None
+        input_selector = None
+        if selector_dict is not None:
+            if not isinstance(selector_dict, dict):
+                raise ContractParseError(f"input_selector in role '{r_name}' must be a mapping")
+            input_selector = InputSelector(
+                feeds=tuple(str(value) for value in selector_dict.get("feeds", [])),
+                event_types=tuple(str(value) for value in selector_dict.get("event_types", [])),
+                value_field=str(selector_dict.get("value_field", "")),
+                unit=selector_dict.get("unit"),
+            )
+
         roles[r_name] = RoleSpec(
             name=r_name,
             required=bool(r_dict.get("required", True)),
@@ -300,6 +313,7 @@ def parse_contract_dict(data: Dict[str, Any]) -> DecisionEvidenceContract:
             corroboration=corroboration,
             fault_model=fault_model,
             slots=slots,
+            input_selector=input_selector,
         )
 
     # Finality

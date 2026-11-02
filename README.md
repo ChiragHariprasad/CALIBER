@@ -13,7 +13,7 @@ CALIBRE ingests heterogeneous motorsport telemetry from live and historical sour
 LIVE / HISTORICAL / SYNTHETIC SOURCES
                  │
                  ▼
-          SOURCE INGESTION (Pitwall Live / TracingInsights Historical / Mock)
+          SOURCE INGESTION (F1 SignalR Free Topics / FastF1 Historical Stream)
                  │
                  ▼
             KAFKA RAW TOPICS (calibre.raw.<source>.<feed>)
@@ -66,9 +66,8 @@ LIVE / HISTORICAL / SYNTHETIC SOURCES
 
 | Topic Name | Key Semantic | Producer | Consumer(s) | Purpose |
 |:---|:---|:---|:---|:---|
-| `calibre.raw.pitwall.<feed>` | `event_id` | Ingestion Service | Specialist Processors | Raw SignalR messages from public Pitwall timing |
-| `calibre.raw.tracinginsights.<feed>` | `event_id` | Ingestion Service | Specialist Processors | Historical session records from TracingInsights |
-| `calibre.raw.mock.<feed>` | `event_id` | Mock Producer | Specialist Processors | Deterministic synthetic events for test pipelines |
+| `calibre.raw.f1_signalr.<feed>` | `event_id` | Ingestion Service | Specialist Processors | Unauthenticated public live timing topics |
+| `calibre.raw.fastf1.<feed>` | `event_id` | Ingestion Service | Specialist Processors | Historical FastF1 records streamed by session time |
 | `calibre.evidence.<domain>` | `event_id` | Agent Processors | Apache Flink / SIA Core | Normalized observations, findings, and scope |
 | `calibre.guard.liveness` | `origin_id` | Supervisor Agent | Apache Flink / SIA Core | Durable liveness state facts (`STALLED` / `RESUMED`) |
 | `calibre.guard.clock` | `clock_domain` | Run Clock Generator | Apache Flink / SIA Core | Recorded `RunClockTick` facts ("Time is Data") |
@@ -127,17 +126,15 @@ python run_pipeline.py test-flink
 
 ### 3. Streaming Operations & Interactive Ingestion
 ```bash
-# Start all streaming services interactively:
-python run_pipeline.py run
+# Start all streaming services and subscribe to unauthenticated F1 SignalR topics:
+python run_pipeline.py run --source signalr
 
-# Inject deterministic synthetic events to trace through the pipeline:
-python run_pipeline.py produce-mock --type weather --corr trace-001
-python run_pipeline.py produce-mock --type telemetry --corr trace-002
-python run_pipeline.py produce-mock --type rcm --corr trace-003
-python run_pipeline.py produce-mock --type timing --corr trace-004
+# Stream Monaco historical timing/telemetry from FastF1 through the same Kafka/Flink path.
+# One session second per wall-clock second by default; set --max-session-seconds for a bounded run.
+python run_pipeline.py stream-fastf1 --year 2026 --event "Monaco Grand Prix" --session R --max-session-seconds 30
 
-# Replay historical session JSONL into Kafka:
-python run_pipeline.py replay-log --file main/source_logs/TRACINGINSIGHTS_2025_United_States_Grand_Prix_Race_rcm_20261031T180354Z.jsonl --limit 50
+# Accelerate historical streaming for a short pipeline smoke run:
+python run_pipeline.py stream-fastf1 --year 2026 --event "Monaco Grand Prix" --session R --replay-speed 30 --max-events 500
 
 # Query persisted bitemporal verdicts in SQLite:
 python run_pipeline.py query-db --limit 10
@@ -160,8 +157,8 @@ python run_pipeline.py query-db --corr trace-001
 - **Location:** `sia_core/`
 
 ### 2. `ingestion` (Source Ingestion Service)
-- **Responsibility:** Ingests live SignalR (Pitwall) or historical (TracingInsights) records, wraps them into `RawSourceEnvelope`, and publishes to `calibre.raw.*`.
-- **Entry Points:** `ingestion/service.py`, `ingestion/mock_source.py`
+- **Responsibility:** Ingests public unauthenticated F1 SignalR topics or time-ordered FastF1 historical records, wraps them into `RawSourceEnvelope`, and publishes to `calibre.raw.*`.
+- **Entry Points:** `ingestion/service.py`, `ingestion/fastf1_source.py`
 
 ### 3. `processors` (Specialist Processor Layer)
 - **Responsibility:** 5 specialist processors subscribing independently to raw topics, normalizing observations into `EvidenceEvent`s, and publishing to `calibre.evidence.<domain>`:
@@ -202,10 +199,10 @@ Preserves authentic source payload, origin provider, received timestamp, and cry
   "event_id": "fe92064856930911b4b502b1",
   "correlation_id": "trace-e2e-assert-001",
   "event_type": "raw_source_event",
-  "provider": "MOCK",
-  "feed": "weather",
-  "source_mode": "LIVE",
-  "run_id": "mock-run-01",
+  "provider": "FASTF1",
+  "feed": "weatherdata",
+  "source_mode": "HISTORICAL_REPLAY",
+  "run_id": "fastf1-2026-monaco-race",
   "received_at_utc": "2026-11-01T01:07:52.552Z",
   "source_time": {
     "value": 124.5,
@@ -213,7 +210,7 @@ Preserves authentic source payload, origin provider, received timestamp, and cry
     "unit": "seconds"
   },
   "payload_format": "JSON",
-  "payload": { "wT": 124.5, "wAT": 24.5, "wTT": 32.8, "wH": 55.0, "wP": 1013.2, "wR": false },
+  "payload": { "Time": 124.5, "AirTemp": 24.5, "TrackTemp": 32.8, "Humidity": 55.0, "Pressure": 1013.2, "Rainfall": false },
   "payload_sha256": "4b68427f7f02...",
   "session": { "season": 2026, "meeting": "Bahrain Grand Prix", "session_name": "Race" }
 }

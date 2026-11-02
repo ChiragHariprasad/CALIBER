@@ -58,6 +58,7 @@ class ContractEvaluator:
         ticks: List[RunClockTick] = []
         watermark: Optional[str] = None
         anchor_time: Optional[str] = None
+        source_replay_complete = False
 
         ref_role_names = [r for r in contract.roles if "reference" in r or "guard" in r]
         non_ref_role_names = [r for r in contract.roles if r not in ref_role_names]
@@ -164,11 +165,15 @@ class ContractEvaluator:
                     )
                     guard_facts[gfact.origin_instance_id] = gfact
 
+                elif item_type == "REPLAY_COMPLETION":
+                    source_replay_complete = source_replay_complete or bool(
+                        data.get("source_set_complete") and data.get("upstream_drained")
+                    )
                 elif item_type == "RUN_CLOCK_TICK":
                     tick = RunClockTick(
                         run_id=data.get("run_id", ""),
                         clock_domain=data.get("clock_domain", "LIVE_UTC"),
-                        clock_utc=data.get("clock_utc", ""),
+                        clock_utc=data.get("clock_value") or data.get("clock_utc", ""),
                         seq=data.get("seq", 0),
                         emitter_id=data.get("emitter_id", "supervisor"),
                     )
@@ -194,18 +199,40 @@ class ContractEvaluator:
         quarantined_atoms: List[str] = []
 
         if contract.finality_condition == FinalityCondition.ALL_SLOTS_CLOSED_AND_FRONTIER_PAST_LATENESS:
-            if anchor_time and "lap" in contract.contract_id:
+            if source_replay_complete and anchor_time and contract.roles:
+                slot_cutoffs = [
+                    add_seconds_to_iso(
+                        anchor_time,
+                        role.slots.deadline_s + role.slots.allowed_lateness_s,
+                    )
+                    for role in contract.roles.values()
+                    if role.slots and role.slots.deadline_s is not None and role.slots.allowed_lateness_s is not None
+                ]
+                slot_lateness_t = max(slot_cutoffs) if slot_cutoffs else None
+                source_frontier_closed = bool(
+                    slot_lateness_t
+                    and ((watermark and watermark >= slot_lateness_t) or source_replay_complete)
+                )
+                if slot_lateness_t and t_eval > slot_lateness_t and source_frontier_closed:
+                    is_final = True
+                    pinned_finality_frontier = slot_lateness_t
+                    for atom in atoms:
+                        if atom.transport_event_time_utc and atom.transport_event_time_utc > slot_lateness_t:
+                            quarantined_atoms.append(atom.evidence_atom_id)
+            elif anchor_time and "lap" in contract.contract_id:
+                # Preserve the established watermark-only lap contract
+                # behavior. Other contracts need explicit completed-source
+                # evidence before a replay can close their slots.
                 first_role = next(iter(contract.roles.values()))
                 if first_role.slots.deadline_s is not None:
                     slot_deadline_t = add_seconds_to_iso(anchor_time, first_role.slots.deadline_s)
                     slot_lateness_t = add_seconds_to_iso(slot_deadline_t, first_role.slots.allowed_lateness_s)
-                    # Check if watermark and t_eval have passed lateness window
                     if t_eval > slot_lateness_t and watermark and watermark >= slot_lateness_t:
                         is_final = True
                         pinned_finality_frontier = slot_lateness_t
-                        for a in atoms:
-                            if a.transport_event_time_utc and a.transport_event_time_utc > slot_lateness_t:
-                                quarantined_atoms.append(a.evidence_atom_id)
+                        for atom in atoms:
+                            if atom.transport_event_time_utc and atom.transport_event_time_utc > slot_lateness_t:
+                                quarantined_atoms.append(atom.evidence_atom_id)
 
         if previous_verdict and previous_verdict.get("finality_status") == "FINAL":
             is_final = True
@@ -232,6 +259,7 @@ class ContractEvaluator:
                 slot_number=slot_number,
                 anchor_time=anchor_time,
                 M_max=M_max,
+                simultaneity_window_s=contract.simultaneity_window_s,
             )
             leaf_results[role_name] = res
             if res.is_pending_slot:
@@ -250,6 +278,24 @@ class ContractEvaluator:
             pending_roles=pending_roles,
             C_max=C_max,
         )
+
+        # After both clocks close the evidence window, a known result for
+        # every required role resolves the tuple even if a role resolved to
+        # absence/degradation. Missing references and pending roles stay open.
+        if (
+            is_final
+            and maturity == ResolutionMaturity.STATE_RESOLVED
+            and not pending_roles
+            and not has_missing_ref
+            and not has_overflow
+        ):
+            maturity = ResolutionMaturity.TUPLE_RESOLVED
+
+        # A closed time window alone cannot turn an unresolved tuple into a
+        # final decision. Preserve the contract's tuple-resolution invariant.
+        if is_final and maturity != ResolutionMaturity.TUPLE_RESOLVED:
+            is_final = False
+            pinned_finality_frontier = None
 
         if has_missing_ref or has_overflow:
             maturity = ResolutionMaturity.OPEN
@@ -433,11 +479,6 @@ class ContractEvaluator:
             for q_id in quarantined_atoms:
                 witness_set.append(f"POST_FINALITY_QUARANTINED: atom={q_id}")
 
-        if clock_domain == "REPLAY_VIRTUAL":
-            primary_binding_witness = "REPLAY_VIRTUAL_LEASE_ASSIGNED"
-            if "REPLAY_VIRTUAL_LEASE_ASSIGNED" not in witness_set:
-                witness_set.insert(0, "REPLAY_VIRTUAL_LEASE_ASSIGNED")
-
         if final_integrity_state == IntegrityState.HEALTHY and primary_binding_witness is None:
             active_roles_list = list(contract.roles.keys())
             roles_str = ", ".join(active_roles_list)
@@ -563,8 +604,14 @@ class ContractEvaluator:
         if is_final:
             canonical_frontier = {
                 "run_clock": pinned_finality_frontier,
-                "watermark": pinned_finality_frontier,
+                "watermark": watermark if source_replay_complete else pinned_finality_frontier,
             }
+            if source_replay_complete:
+                canonical_frontier["finality_frontier"] = pinned_finality_frontier
+                canonical_frontier["source_completion"] = {
+                    "complete": True,
+                    "source_max_event_time": watermark,
+                }
         else:
             canonical_frontier = {
                 "run_clock": t_eval,
@@ -585,7 +632,11 @@ class ContractEvaluator:
             validity_timeline=validity_timeline_list,
             sorted_support_atom_ids=all_support_atom_ids,
             sorted_reference_atom_ids=all_reference_atom_ids,
-            pinned_finality_frontier=pinned_finality_frontier if is_final else None,
+            pinned_finality_frontier=(
+                pinned_finality_frontier
+                if is_final and not source_replay_complete
+                else None
+            ),
         )
 
         res_dict = {
@@ -603,11 +654,22 @@ class ContractEvaluator:
             "next_transition_at": next_trans,
             "lease_until": lease_until,
             "lease_clock_domain": clock_domain,
+            "lease_metadata": {
+                "clock_domain": clock_domain,
+                "timestamp_semantics": "REPLAY_VIRTUAL" if clock_domain == "REPLAY_VIRTUAL" else "UTC",
+                "lease_until": lease_until,
+            },
+            "run_clock_domain": clock_domain,
             "resolution_maturity": maturity.value,
             "finality_status": finality_status,
             "revision_number": revision_number,
             "previous_verdict_hash": previous_verdict_hash,
             "knowledge_frontier": canonical_frontier,
+            "source_watermark_observed": watermark,
+            "source_completion": {
+                "complete": source_replay_complete,
+                "source_max_event_time": watermark if source_replay_complete else None,
+            },
             "primary_binding_witness": primary_binding_witness or "",
             "witness_set": witness_set,
             "limiting_children": limiting_children,
@@ -615,6 +677,13 @@ class ContractEvaluator:
             "diagnosis_result": diagnosis_result,
             "limitations": limitations,
             "decision_maturity": decision_maturity,
+            # Persist the exact content-hash inputs so any consumer can
+            # independently reproduce this verdict hash from the record.
+            "hash_algorithm": "SHA-256/JCS-8785",
+            "hash_basis": {
+                "sorted_support_atom_ids": all_support_atom_ids,
+                "sorted_reference_atom_ids": all_reference_atom_ids,
+            },
             "verdict_hash": v_hash,
         }
         if eval_id is not None:

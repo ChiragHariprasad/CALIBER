@@ -48,6 +48,7 @@ class LeafEvaluator:
         slot_number: Optional[Any] = None,
         anchor_time: Optional[str] = None,
         M_max: int = 10,
+        simultaneity_window_s: Optional[float] = None,
     ) -> LeafEvaluationResult:
         # Check if this role is satisfied by a reference fact directly
         if "reference" in role_name or role_name in reference_facts:
@@ -135,6 +136,27 @@ class LeafEvaluator:
             if a.supersedes_atom_id:
                 superseded_wit = f"SUPERSEDED_ATOM: original={a.supersedes_atom_id}, superseded_by={a.evidence_atom_id}"
         active_atoms = OriginManager.apply_supersession(role_atoms)
+
+        # Keep the full input history for audit and revision, but bound support
+        # search to simultaneous observations. Periodic roles also obey hard
+        # freshness. These semantic windows do not alter M_max.
+        if active_atoms and (simultaneity_window_s is not None or role_spec.slots.trigger == "periodic"):
+            def semantic_time(atom: EvidenceAtom) -> str:
+                if isinstance(atom.time, dict):
+                    value = atom.time.get("value")
+                    if isinstance(value, str) and "T" in value:
+                        return value
+                return atom.transport_event_time_utc or t_eval
+
+            latest_search_time = max(semantic_time(atom) for atom in active_atoms)
+            horizons = [float(value) for value in (
+                simultaneity_window_s,
+                role_spec.freshness.hard_age_s if role_spec.slots.trigger == "periodic" else None,
+            ) if value is not None and float(value) >= 0]
+            if horizons:
+                search_floor = add_seconds_to_iso(latest_search_time, -min(horizons))
+                search_floor_dt = parse_iso_utc(search_floor)
+                active_atoms = [atom for atom in active_atoms if parse_iso_utc(semantic_time(atom)) >= search_floor_dt]
 
         # Check origin STALLED in guard facts
         stalled_origin = None

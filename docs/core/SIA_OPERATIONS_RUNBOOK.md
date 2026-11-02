@@ -10,7 +10,7 @@
 CALIBRE SIA operates as an event-driven streaming kernel embedded in Apache Flink:
 
 ```text
-[Providers: Pitwall / TracingInsights / MOCK]
+[Providers: F1 SignalR free topics (live) / FastF1 (historical stream)]
                       |
                       v
             [Kafka Ingestion Layer]

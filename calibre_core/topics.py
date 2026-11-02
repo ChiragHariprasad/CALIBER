@@ -49,9 +49,8 @@ def sanitize_topic_part(value: str) -> str:
 def raw_topic(provider: str, feed: str) -> str:
     """Build canonical topic for raw incoming messages.
     
-    Example: raw_topic('pitwall', 'weatherdata') -> 'calibre.raw.pitwall.weatherdata'
-             raw_topic('tracinginsights', 'laptimes') -> 'calibre.raw.tracinginsights.laptimes'
-             raw_topic('mock', 'telemetry') -> 'calibre.raw.mock.telemetry'
+    Example: raw_topic('f1_signalr', 'weatherdata') -> 'calibre.raw.f1_signalr.weatherdata'
+             raw_topic('fastf1', 'telemetry') -> 'calibre.raw.fastf1.telemetry'
     """
     clean_provider = sanitize_topic_part(provider)
     clean_feed = sanitize_topic_part(feed)
@@ -74,14 +73,19 @@ def evidence_topic(domain: str) -> str:
 def all_standard_topics() -> list[str]:
     """List of all base topics to ensure pre-creation on broker startup."""
     return [
-        f"{TOPIC_RAW_PREFIX}.pitwall.all",
-        f"{TOPIC_RAW_PREFIX}.tracinginsights.all",
-        f"{TOPIC_RAW_PREFIX}.tracinginsights.rcm",
-        f"{TOPIC_RAW_PREFIX}.mock.telemetry",
-        f"{TOPIC_RAW_PREFIX}.mock.rcm",
-        f"{TOPIC_RAW_PREFIX}.mock.weather",
-        f"{TOPIC_RAW_PREFIX}.mock.timing",
-        f"{TOPIC_RAW_PREFIX}.mock.system",
+        *[
+            f"{TOPIC_RAW_PREFIX}.f1_signalr.{feed}"
+            for feed in (
+                "heartbeat", "sessioninfo", "sessionstatus", "sessiondata", "trackstatus",
+                "driverlist", "timingdata", "timingappdata", "timingstats", "weatherdata",
+                "racecontrolmessages", "extrapolatedclock", "topthree", "lapcount",
+                "teamradio", "audiostreams", "contentstreams", "rcmseries",
+            )
+        ],
+        *[
+            f"{TOPIC_RAW_PREFIX}.fastf1.{feed}"
+            for feed in ("telemetry", "laps", "weatherdata", "racecontrolmessages", "trackstatus")
+        ],
         f"{TOPIC_EVIDENCE_PREFIX}.vehicle",
         f"{TOPIC_EVIDENCE_PREFIX}.incident",
         f"{TOPIC_EVIDENCE_PREFIX}.environment",

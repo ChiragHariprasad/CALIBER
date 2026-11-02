@@ -220,12 +220,11 @@
       "revision_number": 1,
       "previous_verdict_hash": null,
       "knowledge_frontier": {
-        "watermark": "2026-10-25T14:00:05.000Z",
-        "run_clock": "2026-10-25T14:00:05.000Z"
+        "run_clock": "2026-10-25T14:00:05.000Z",
+        "watermark": "2026-10-25T14:00:05.000Z"
       },
-      "primary_binding_witness": "REPLAY_VIRTUAL_LEASE_ASSIGNED",
+      "primary_binding_witness": "MUTUAL_AGREEMENT_VALIDATED: roles=[lap_record, lap_start_reference]",
       "witness_set": [
-        "REPLAY_VIRTUAL_LEASE_ASSIGNED",
         "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream",
         "HISTORICAL_ARCHIVE_UNCALIBRATED_LATENCY"
       ],
@@ -237,7 +236,12 @@
         "HISTORICAL_ARCHIVE_UNCALIBRATED_LATENCY"
       ],
       "decision_maturity": "PROVISIONAL",
-      "verdict_hash": "2e9ddfee6b07ec9bc317f479fc80b53c6c2fa968acacef5476321c5b1d034532"
+      "verdict_hash": "2e9ddfee6b07ec9bc317f479fc80b53c6c2fa968acacef5476321c5b1d034532",
+      "lease_metadata": {
+        "clock_domain": "REPLAY_VIRTUAL",
+        "timestamp_semantics": "REPLAY_VIRTUAL",
+        "lease_until": "2026-10-25T14:00:35.000Z"
+      }
     }
   ]
 }

@@ -1,0 +1,697 @@
+ Container calibre-zookeeper Running 
+ Container calibre-kafka Running 
+ Container calibre-flink-jobmanager Running 
+ Container calibre-flink-taskmanager Running 
+ Container calibre-zookeeper Waiting 
+ Container calibre-zookeeper Healthy 
+ Container calibre-kafka Waiting 
+ Container calibre-kafka Healthy 
+ Container calibre-init-kafka Starting 
+ Container calibre-init-kafka Started 
+2026-11-02 00:47:09,012 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-worker, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,013 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,017 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-worker, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,119 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,120 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,121 [INFO] calibre.kafka_bus: CalibreProducer connected to Kafka at 127.0.0.1:9092
+2026-11-02 00:47:09,122 [INFO] kafka.conn: <BrokerConnection client_id=flink-calibre-fastf1-monaco-stream-20261102b-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,122 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,123 [INFO] kafka.conn: <BrokerConnection client_id=flink-calibre-fastf1-monaco-stream-20261102b-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,225 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,225 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,226 [INFO] calibre.kafka_bus: CalibreProducer connected to Kafka at 127.0.0.1:9092
+2026-11-02 00:47:09,334 [INFO] calibre.flink: Flink job calibre-fastf1-monaco-stream-20261102b loaded 11 DEC contracts from sia_core/contracts/definitions
+2026-11-02 00:47:09,349 [INFO] calibre.persistence: Initialized persistence database at /mnt/e/CALIBER/data/calibre_persistence.db
+2026-11-02 00:47:09,361 [INFO] kafka.conn: <BrokerConnection client_id=calibre-analytics-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,362 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,362 [INFO] kafka.conn: <BrokerConnection client_id=calibre-analytics-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,464 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,464 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,465 [INFO] calibre.kafka_bus: CalibreProducer connected to Kafka at 127.0.0.1:9092
+2026-11-02 00:47:09,466 [INFO] kafka.conn: <BrokerConnection client_id=calibre-ingestion-service, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,466 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,466 [INFO] kafka.conn: <BrokerConnection client_id=calibre-ingestion-service, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,568 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,568 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,569 [INFO] calibre.kafka_bus: CalibreProducer connected to Kafka at 127.0.0.1:9092
+2026-11-02 00:47:09,574 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,574 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,574 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,574 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,575 [INFO] calibre.processors: Started 5 processor consumer threads
+2026-11-02 00:47:09,575 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,575 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,575 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,575 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,576 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,576 [INFO] calibre.flink: Flink job calibre-fastf1-monaco-stream-20261102b successfully started
+2026-11-02 00:47:09,576 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,576 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,577 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,577 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,577 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,578 [INFO] calibre.persistence: PersistenceService started
+2026-11-02 00:47:09,578 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,578 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,578 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,579 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,580 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,580 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,580 [INFO] calibre.dashboard: DashboardService started
+2026-11-02 00:47:09,581 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,581 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,582 [INFO] calibre.analytics: AnalyticsService started
+2026-11-02 00:47:09,582 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,582 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,582 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,583 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,583 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,679 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,679 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,680 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,680 [INFO] kafka.consumer.subscription_state: Subscribing to pattern: /^calibre\.raw\..+$/
+2026-11-02 00:47:09,682 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,684 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,685 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,686 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,689 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,686 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,687 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,687 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,688 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-agent-processor-incident-fastf1-monaco-stream-20261102b) connected to 127.0.0.1:9092 on topics: []
+2026-11-02 00:47:09,690 [INFO] calibre.processors: Processor incident_track_agent worker loop started (group=calibre-agent-processor-incident-fastf1-monaco-stream-20261102b) on raw topic pattern ^calibre\.raw\..+$
+2026-11-02 00:47:09,688 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,688 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,686 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,689 [INFO] kafka.consumer.subscription_state: Subscribing to pattern: /^calibre\.raw\..+$/
+2026-11-02 00:47:09,689 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,689 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,689 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,688 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,691 [INFO] kafka.cluster: Group coordinator for calibre-agent-processor-incident-fastf1-monaco-stream-20261102b is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-02 00:47:09,695 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-agent-processor-incident-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,692 [INFO] kafka.consumer.subscription_state: Subscribing to pattern: /^calibre\.raw\..+$/
+2026-11-02 00:47:09,693 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,693 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-agent-processor-timing-fastf1-monaco-stream-20261102b) connected to 127.0.0.1:9092 on topics: []
+2026-11-02 00:47:09,693 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.out.database', 'calibre.side.overflow')
+2026-11-02 00:47:09,696 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-persistence-sink-group-fastf1-monaco-stream-20261102b) connected to 127.0.0.1:9092 on topics: ['calibre.out.database', 'calibre.side.overflow']
+2026-11-02 00:47:09,694 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.out.analytics',)
+2026-11-02 00:47:09,697 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-analytics-service-group-fastf1-monaco-stream-20261102b) connected to 127.0.0.1:9092 on topics: ['calibre.out.analytics']
+2026-11-02 00:47:09,697 [INFO] calibre.analytics: Analytics service consuming from calibre.out.analytics
+2026-11-02 00:47:09,695 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,695 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-agent-processor-vehicle-fastf1-monaco-stream-20261102b) connected to 127.0.0.1:9092 on topics: []
+2026-11-02 00:47:09,698 [INFO] calibre.processors: Processor vehicle_twin_sensor_agent worker loop started (group=calibre-agent-processor-vehicle-fastf1-monaco-stream-20261102b) on raw topic pattern ^calibre\.raw\..+$
+2026-11-02 00:47:09,696 [INFO] calibre.processors: Processor race_timing_session_agent worker loop started (group=calibre-agent-processor-timing-fastf1-monaco-stream-20261102b) on raw topic pattern ^calibre\.raw\..+$
+2026-11-02 00:47:09,694 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.out.dashboard',)
+2026-11-02 00:47:09,697 [INFO] calibre.persistence: Persistence service consuming from calibre.out.database
+2026-11-02 00:47:09,694 [INFO] kafka.consumer.subscription_state: Subscribing to pattern: /^calibre\.raw\..+$/
+2026-11-02 00:47:09,691 [INFO] kafka.consumer.subscription_state: Subscribing to pattern: /^calibre\.raw\..+$/
+2026-11-02 00:47:09,701 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-agent-processor-system-fastf1-monaco-stream-20261102b) connected to 127.0.0.1:9092 on topics: []
+2026-11-02 00:47:09,698 [INFO] kafka.cluster: Group coordinator for calibre-analytics-service-group-fastf1-monaco-stream-20261102b is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-02 00:47:09,696 [INFO] kafka.conn: Probing node 1 broker version
+2026-11-02 00:47:09,699 [INFO] kafka.cluster: Group coordinator for calibre-agent-processor-vehicle-fastf1-monaco-stream-20261102b is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-02 00:47:09,699 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-dashboard-gateway-group-fastf1-monaco-stream-20261102b) connected to 127.0.0.1:9092 on topics: ['calibre.out.dashboard']
+2026-11-02 00:47:09,700 [INFO] kafka.cluster: Group coordinator for calibre-agent-processor-timing-fastf1-monaco-stream-20261102b is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-02 00:47:09,700 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-agent-processor-environment-fastf1-monaco-stream-20261102b) connected to 127.0.0.1:9092 on topics: []
+2026-11-02 00:47:09,703 [INFO] calibre.processors: Processor environmental_context_agent worker loop started (group=calibre-agent-processor-environment-fastf1-monaco-stream-20261102b) on raw topic pattern ^calibre\.raw\..+$
+2026-11-02 00:47:09,698 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,701 [INFO] calibre.processors: Processor vehicle_electronics_system_integrity_agent worker loop started (group=calibre-agent-processor-system-fastf1-monaco-stream-20261102b) on raw topic pattern ^calibre\.raw\..+$
+2026-11-02 00:47:09,701 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-analytics-service-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,702 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,702 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-agent-processor-vehicle-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,702 [INFO] calibre.dashboard: Dashboard gateway consuming from calibre.out.dashboard
+2026-11-02 00:47:09,702 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-agent-processor-timing-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,701 [INFO] kafka.cluster: Group coordinator for calibre-persistence-sink-group-fastf1-monaco-stream-20261102b is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-02 00:47:09,703 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:09,704 [INFO] kafka.cluster: Group coordinator for calibre-agent-processor-environment-fastf1-monaco-stream-20261102b is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-02 00:47:09,707 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-agent-processor-environment-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,705 [INFO] kafka.cluster: Group coordinator for calibre-agent-processor-system-fastf1-monaco-stream-20261102b is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-02 00:47:09,705 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:09,706 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ['calibre.raw.openf1.car_data', 'calibre.raw.mock.telemetry', 'calibre.raw.pitwall.all', 'calibre.raw.mock.rcm', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.openf1.laps', 'calibre.raw.mock.system', 'calibre.raw.mock.timing', 'calibre.raw.tracinginsights.unknown_feed', 'calibre.raw.mock.weather', 'calibre.raw.tracinginsights.all', 'calibre.raw.openf1.pit']
+2026-11-02 00:47:09,707 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ['calibre.raw.openf1.car_data', 'calibre.raw.mock.telemetry', 'calibre.raw.pitwall.all', 'calibre.raw.mock.rcm', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.openf1.laps', 'calibre.raw.mock.system', 'calibre.raw.mock.timing', 'calibre.raw.tracinginsights.unknown_feed', 'calibre.raw.mock.weather', 'calibre.raw.tracinginsights.all', 'calibre.raw.openf1.pit']
+2026-11-02 00:47:09,707 [INFO] kafka.cluster: Group coordinator for calibre-dashboard-gateway-group-fastf1-monaco-stream-20261102b is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-02 00:47:09,709 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-dashboard-gateway-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,707 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ['calibre.raw.openf1.car_data', 'calibre.raw.mock.telemetry', 'calibre.raw.pitwall.all', 'calibre.raw.mock.rcm', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.openf1.laps', 'calibre.raw.mock.system', 'calibre.raw.mock.timing', 'calibre.raw.tracinginsights.unknown_feed', 'calibre.raw.mock.weather', 'calibre.raw.tracinginsights.all', 'calibre.raw.openf1.pit']
+2026-11-02 00:47:09,704 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-02 00:47:09,708 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,708 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-agent-processor-system-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,709 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,709 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,707 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-persistence-sink-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,709 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-02 00:47:09,710 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-02 00:47:09,710 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-analytics-service-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,711 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,711 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ['calibre.raw.openf1.car_data', 'calibre.raw.mock.telemetry', 'calibre.raw.pitwall.all', 'calibre.raw.mock.rcm', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.openf1.laps', 'calibre.raw.mock.system', 'calibre.raw.mock.timing', 'calibre.raw.tracinginsights.unknown_feed', 'calibre.raw.mock.weather', 'calibre.raw.tracinginsights.all', 'calibre.raw.openf1.pit']
+2026-11-02 00:47:09,711 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,711 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,711 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-02 00:47:09,712 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-dashboard-gateway-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,712 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-agent-processor-incident-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,712 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,712 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:09,713 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,713 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:09,713 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:09,714 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-persistence-sink-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,714 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,714 [INFO] kafka.coordinator: (Re-)joining group calibre-agent-processor-incident-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,714 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,715 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ['calibre.raw.openf1.car_data', 'calibre.raw.mock.telemetry', 'calibre.raw.pitwall.all', 'calibre.raw.mock.rcm', 'calibre.raw.openf1.rcm', 'calibre.raw.openf1.weather', 'calibre.raw.tracinginsights.rcm', 'calibre.raw.openf1.laps', 'calibre.raw.mock.system', 'calibre.raw.mock.timing', 'calibre.raw.tracinginsights.unknown_feed', 'calibre.raw.mock.weather', 'calibre.raw.tracinginsights.all', 'calibre.raw.openf1.pit']
+2026-11-02 00:47:09,715 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,716 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,716 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,717 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:09,717 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-02 00:47:09,717 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-02 00:47:09,717 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:09,718 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,718 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:09,719 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-agent-processor-environment-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,720 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:09,720 [INFO] kafka.coordinator: Successfully joined group calibre-agent-processor-incident-fastf1-monaco-stream-20261102b with generation 1
+2026-11-02 00:47:09,720 [INFO] kafka.coordinator: (Re-)joining group calibre-agent-processor-environment-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,721 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.car_data', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0)]
+2026-11-02 00:47:09,722 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.raw.openf1.car_data', partition=0), TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0)} for group calibre-agent-processor-incident-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,722 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-02 00:47:09,723 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,723 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,724 [INFO] kafka.coordinator: Successfully joined group calibre-agent-processor-environment-fastf1-monaco-stream-20261102b with generation 1
+2026-11-02 00:47:09,724 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.car_data', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0)]
+2026-11-02 00:47:09,724 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.raw.openf1.car_data', partition=0), TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0)} for group calibre-agent-processor-environment-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,725 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,726 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,807 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,807 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,808 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,809 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,810 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,810 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-02 00:47:09,811 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,812 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-02 00:47:09,813 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,813 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-agent-processor-vehicle-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,814 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-agent-processor-timing-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,814 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,814 [INFO] kafka.coordinator: (Re-)joining group calibre-agent-processor-vehicle-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,815 [INFO] kafka.conn: <BrokerConnection client_id=calibre-flink-discovery, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:09,815 [INFO] kafka.coordinator: (Re-)joining group calibre-agent-processor-timing-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,816 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-02 00:47:09,817 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-02 00:47:09,817 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,817 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-agent-processor-system-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,818 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-02 00:47:09,818 [INFO] kafka.conn: Probing node bootstrap-0 broker version
+2026-11-02 00:47:09,818 [INFO] kafka.coordinator: (Re-)joining group calibre-agent-processor-system-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,818 [INFO] kafka.coordinator: (Re-)joining group calibre-analytics-service-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,819 [INFO] kafka.coordinator: Successfully joined group calibre-agent-processor-vehicle-fastf1-monaco-stream-20261102b with generation 1
+2026-11-02 00:47:09,820 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,820 [INFO] kafka.coordinator: Successfully joined group calibre-agent-processor-timing-fastf1-monaco-stream-20261102b with generation 1
+2026-11-02 00:47:09,820 [INFO] kafka.coordinator: (Re-)joining group calibre-dashboard-gateway-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,821 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.car_data', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0)]
+2026-11-02 00:47:09,821 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-02 00:47:09,821 [INFO] kafka.coordinator: (Re-)joining group calibre-persistence-sink-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,821 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-02 00:47:09,822 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.car_data', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0)]
+2026-11-02 00:47:09,825 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.raw.openf1.car_data', partition=0), TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0)} for group calibre-agent-processor-vehicle-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,826 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-02 00:47:09,828 [INFO] kafka.coordinator: Successfully joined group calibre-agent-processor-system-fastf1-monaco-stream-20261102b with generation 1
+2026-11-02 00:47:09,829 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-02 00:47:09,830 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,830 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.raw.openf1.car_data', partition=0), TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0)} for group calibre-agent-processor-timing-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,832 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,833 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.car_data', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0)]
+2026-11-02 00:47:09,836 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,836 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.raw.openf1.car_data', partition=0), TopicPartition(topic='calibre.raw.mock.rcm', partition=0), TopicPartition(topic='calibre.raw.openf1.weather', partition=0), TopicPartition(topic='calibre.raw.openf1.laps', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.all', partition=0), TopicPartition(topic='calibre.raw.mock.system', partition=0), TopicPartition(topic='calibre.raw.openf1.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.rcm', partition=0), TopicPartition(topic='calibre.raw.tracinginsights.unknown_feed', partition=0), TopicPartition(topic='calibre.raw.pitwall.all', partition=0), TopicPartition(topic='calibre.raw.mock.weather', partition=0), TopicPartition(topic='calibre.raw.mock.telemetry', partition=0), TopicPartition(topic='calibre.raw.openf1.pit', partition=0), TopicPartition(topic='calibre.raw.mock.timing', partition=0)} for group calibre-agent-processor-system-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,837 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,838 [INFO] kafka.coordinator: Successfully joined group calibre-analytics-service-group-fastf1-monaco-stream-20261102b with generation 1
+2026-11-02 00:47:09,841 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.out.analytics', partition=0)]
+2026-11-02 00:47:09,842 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.out.analytics', partition=0)} for group calibre-analytics-service-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,843 [INFO] kafka.coordinator: Successfully joined group calibre-dashboard-gateway-group-fastf1-monaco-stream-20261102b with generation 1
+2026-11-02 00:47:09,845 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.out.dashboard', partition=0)]
+2026-11-02 00:47:09,846 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.out.dashboard', partition=0)} for group calibre-dashboard-gateway-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,864 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,865 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,866 [INFO] kafka.coordinator: Successfully joined group calibre-persistence-sink-group-fastf1-monaco-stream-20261102b with generation 1
+2026-11-02 00:47:09,866 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.out.database', partition=0), TopicPartition(topic='calibre.side.overflow', partition=0)]
+2026-11-02 00:47:09,866 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.out.database', partition=0), TopicPartition(topic='calibre.side.overflow', partition=0)} for group calibre-persistence-sink-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,923 [INFO] kafka.conn: Broker version identified as 2.6.0
+2026-11-02 00:47:09,923 [INFO] kafka.conn: Set configuration api_version=(2, 6, 0) to skip auto check_version requests on startup
+2026-11-02 00:47:09,924 [INFO] kafka.consumer.subscription_state: Updating subscribed topics to: ('calibre.config.contracts', 'calibre.evidence.environment', 'calibre.evidence.incident', 'calibre.evidence.system', 'calibre.evidence.timing', 'calibre.evidence.vehicle', 'calibre.guard.clock', 'calibre.guard.liveness')
+2026-11-02 00:47:09,924 [INFO] calibre.kafka_bus: CalibreConsumer (group=calibre-flink-core-group-fastf1-monaco-stream-20261102b) connected to 127.0.0.1:9092 on topics: ['calibre.config.contracts', 'calibre.evidence.environment', 'calibre.evidence.incident', 'calibre.evidence.system', 'calibre.evidence.timing', 'calibre.evidence.vehicle', 'calibre.guard.clock', 'calibre.guard.liveness']
+2026-11-02 00:47:09,924 [INFO] calibre.flink: Flink job calibre-fastf1-monaco-stream-20261102b streaming loop active on 8 topics
+2026-11-02 00:47:09,925 [INFO] kafka.cluster: Group coordinator for calibre-flink-core-group-fastf1-monaco-stream-20261102b is BrokerMetadata(nodeId='coordinator-1', host='127.0.0.1', port=9092, rack=None)
+2026-11-02 00:47:09,925 [INFO] kafka.coordinator: Discovered coordinator coordinator-1 for group calibre-flink-core-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,926 [INFO] kafka.coordinator: Starting new heartbeat thread
+2026-11-02 00:47:09,926 [INFO] kafka.coordinator.consumer: Revoking previously assigned partitions set() for group calibre-flink-core-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:09,927 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:09,927 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:09,928 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:10,028 [INFO] kafka.coordinator: (Re-)joining group calibre-flink-core-group-fastf1-monaco-stream-20261102b
+2026-11-02 00:47:10,030 [INFO] kafka.coordinator: Elected group leader -- performing partition assignments using range
+2026-11-02 00:47:10,030 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: connecting to 127.0.0.1:9092 [('127.0.0.1', 9092) IPv4]
+2026-11-02 00:47:10,031 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connecting> [IPv4 ('127.0.0.1', 9092)]>: Connection complete.
+2026-11-02 00:47:10,031 [INFO] kafka.coordinator: Successfully joined group calibre-flink-core-group-fastf1-monaco-stream-20261102b with generation 1
+2026-11-02 00:47:10,032 [INFO] kafka.consumer.subscription_state: Updated partition assignment: [TopicPartition(topic='calibre.config.contracts', partition=0), TopicPartition(topic='calibre.evidence.environment', partition=0), TopicPartition(topic='calibre.evidence.incident', partition=0), TopicPartition(topic='calibre.evidence.system', partition=0), TopicPartition(topic='calibre.evidence.timing', partition=0), TopicPartition(topic='calibre.evidence.vehicle', partition=0), TopicPartition(topic='calibre.guard.clock', partition=0), TopicPartition(topic='calibre.guard.liveness', partition=0)]
+2026-11-02 00:47:10,032 [INFO] kafka.coordinator.consumer: Setting newly assigned partitions {TopicPartition(topic='calibre.guard.clock', partition=0), TopicPartition(topic='calibre.evidence.incident', partition=0), TopicPartition(topic='calibre.config.contracts', partition=0), TopicPartition(topic='calibre.evidence.timing', partition=0), TopicPartition(topic='calibre.guard.liveness', partition=0), TopicPartition(topic='calibre.evidence.vehicle', partition=0), TopicPartition(topic='calibre.evidence.system', partition=0), TopicPartition(topic='calibre.evidence.environment', partition=0)} for group calibre-flink-core-group-fastf1-monaco-stream-20261102b
+
+[CALIBRE] Starting Docker infrastructure (Kafka, Zookeeper, Flink)...
+[CALIBRE] Waiting for Kafka broker to become ready...
+[CALIBRE] Loading FastF1 session 2026 / Monaco Grand Prix / R; run=fastf1-monaco-stream-20261102b
+/home/chirag/.local/lib/python3.13/site-packages/fastf1/req.py:251: FutureWarning: `.enable_cache` is deprecated and will be removed in a future version. Use `.configure` instead.
+  warnings.warn("`.enable_cache` is deprecated and will be removed in a "
+core           INFO 	Loading data for Monaco Grand Prix - Race [v3.9.0]
+2026-11-02 00:47:12,511 [INFO] fastf1.fastf1.core: Loading data for Monaco Grand Prix - Race [v3.9.0]
+req            INFO 	No cached data found for session_info. Loading data...
+2026-11-02 00:47:12,519 [INFO] fastf1.fastf1.req: No cached data found for session_info. Loading data...
+_api           INFO 	Fetching session info data...
+2026-11-02 00:47:12,520 [INFO] fastf1.api: Fetching session info data...
+tokens         INFO 	Signing in to Formula 1 account...
+2026-11-02 00:47:12,525 [INFO] fastf1.f1account: Signing in to Formula 1 account...
+transport    WARNING 	Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:12,525 [WARNING] fastf1.fastf1.internals.f1account.transport: Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:13,020 [DEBUG] fastf1.fastf1.req: Falling back to https://livetiming-mirror.fastf1.dev/static/2026/2026-06-07_Monaco_Grand_Prix/2026-06-07_Race/SessionInfo.jsonStream
+logger      WARNING 	Failed to load session info data!
+2026-11-02 00:47:13,556 [WARNING] fastf1.fastf1.core: Failed to load session info data!
+2026-11-02 00:47:13,557 [DEBUG] fastf1.fastf1.core: Traceback for failure in session info data
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/logger.py", line 112, in __wrapped
+    return func(*args, **kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 1457, in _load_session_info
+    self._session_info = api.session_info(self.api_path,
+                         ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+                                          livedata=livedata)
+                                          ^^^^^^^^^^^^^^^^^^
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/req.py", line 611, in _cached_api_request
+    data = func(api_path, **func_kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/_api.py", line 1751, in session_info
+    raise SessionNotAvailableError(
+    ...<2 lines>...
+    )
+fastf1._api.SessionNotAvailableError: No data for this session! If this session only finished recently, please try again in a few minutes.
+req            INFO 	No cached data found for driver_info. Loading data...
+2026-11-02 00:47:13,562 [INFO] fastf1.fastf1.req: No cached data found for driver_info. Loading data...
+_api           INFO 	Fetching driver list...
+2026-11-02 00:47:13,562 [INFO] fastf1.api: Fetching driver list...
+tokens         INFO 	Signing in to Formula 1 account...
+2026-11-02 00:47:13,567 [INFO] fastf1.f1account: Signing in to Formula 1 account...
+transport    WARNING 	Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:13,567 [WARNING] fastf1.fastf1.internals.f1account.transport: Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:13,733 [DEBUG] fastf1.fastf1.req: Falling back to https://livetiming-mirror.fastf1.dev/static/2026/2026-06-07_Monaco_Grand_Prix/2026-06-07_Race/DriverList.jsonStream
+core        WARNING 	Failed to load extended driver information!
+2026-11-02 00:47:14,520 [WARNING] fastf1.fastf1.core: Failed to load extended driver information!
+2026-11-02 00:47:14,521 [DEBUG] fastf1.fastf1.core: Exception while loading driver list
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2533, in _drivers_from_f1_api
+    f1di = api.driver_info(self.api_path, livedata=livedata)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/req.py", line 611, in _cached_api_request
+    data = func(api_path, **func_kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/_api.py", line 1585, in driver_info
+    raise SessionNotAvailableError(
+    ...<2 lines>...
+    )
+fastf1._api.SessionNotAvailableError: No data for this session! If this session only finished recently, please try again in a few minutes.
+req            INFO 	No cached data found for session_status_data. Loading data...
+2026-11-02 00:47:15,623 [INFO] fastf1.fastf1.req: No cached data found for session_status_data. Loading data...
+_api           INFO 	Fetching session status data...
+2026-11-02 00:47:15,623 [INFO] fastf1.api: Fetching session status data...
+tokens         INFO 	Signing in to Formula 1 account...
+2026-11-02 00:47:15,628 [INFO] fastf1.f1account: Signing in to Formula 1 account...
+transport    WARNING 	Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:15,628 [WARNING] fastf1.fastf1.internals.f1account.transport: Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:15,961 [DEBUG] fastf1.fastf1.req: Falling back to https://livetiming-mirror.fastf1.dev/static/2026/2026-06-07_Monaco_Grand_Prix/2026-06-07_Race/SessionStatus.jsonStream
+logger      WARNING 	Failed to load session status data!
+2026-11-02 00:47:16,695 [WARNING] fastf1.fastf1.core: Failed to load session status data!
+2026-11-02 00:47:16,696 [DEBUG] fastf1.fastf1.core: Traceback for failure in session status data
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/logger.py", line 112, in __wrapped
+    return func(*args, **kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2200, in _load_session_status_data
+    session_status = api.session_status_data(self.api_path,
+                                             livedata=livedata)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/req.py", line 611, in _cached_api_request
+    data = func(api_path, **func_kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/_api.py", line 1383, in session_status_data
+    raise SessionNotAvailableError(
+    ...<2 lines>...
+    )
+fastf1._api.SessionNotAvailableError: No data for this session! If this session only finished recently, please try again in a few minutes.
+req            INFO 	No cached data found for lap_count. Loading data...
+2026-11-02 00:47:16,702 [INFO] fastf1.fastf1.req: No cached data found for lap_count. Loading data...
+_api           INFO 	Fetching lap count data...
+2026-11-02 00:47:16,703 [INFO] fastf1.api: Fetching lap count data...
+tokens         INFO 	Signing in to Formula 1 account...
+2026-11-02 00:47:16,708 [INFO] fastf1.f1account: Signing in to Formula 1 account...
+transport    WARNING 	Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:16,708 [WARNING] fastf1.fastf1.internals.f1account.transport: Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:16,856 [DEBUG] fastf1.fastf1.req: Falling back to https://livetiming-mirror.fastf1.dev/static/2026/2026-06-07_Monaco_Grand_Prix/2026-06-07_Race/LapCount.jsonStream
+logger      WARNING 	Failed to load total lap count!
+2026-11-02 00:47:17,574 [WARNING] fastf1.fastf1.core: Failed to load total lap count!
+2026-11-02 00:47:17,575 [DEBUG] fastf1.fastf1.core: Traceback for failure in total lap count
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/logger.py", line 112, in __wrapped
+    return func(*args, **kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2182, in _load_total_lap_count
+    lap_count = api.lap_count(self.api_path, livedata=livedata)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/req.py", line 611, in _cached_api_request
+    data = func(api_path, **func_kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/_api.py", line 1526, in lap_count
+    raise SessionNotAvailableError(
+    ...<2 lines>...
+    )
+fastf1._api.SessionNotAvailableError: No data for this session! If this session only finished recently, please try again in a few minutes.
+req            INFO 	No cached data found for track_status_data. Loading data...
+2026-11-02 00:47:17,581 [INFO] fastf1.fastf1.req: No cached data found for track_status_data. Loading data...
+_api           INFO 	Fetching track status data...
+2026-11-02 00:47:17,581 [INFO] fastf1.api: Fetching track status data...
+tokens         INFO 	Signing in to Formula 1 account...
+2026-11-02 00:47:17,587 [INFO] fastf1.f1account: Signing in to Formula 1 account...
+transport    WARNING 	Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:17,588 [WARNING] fastf1.fastf1.internals.f1account.transport: Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:17,770 [DEBUG] fastf1.fastf1.req: Falling back to https://livetiming-mirror.fastf1.dev/static/2026/2026-06-07_Monaco_Grand_Prix/2026-06-07_Race/TrackStatus.jsonStream
+logger      WARNING 	Failed to load track status data!
+2026-11-02 00:47:18,458 [WARNING] fastf1.fastf1.core: Failed to load track status data!
+2026-11-02 00:47:18,459 [DEBUG] fastf1.fastf1.core: Traceback for failure in track status data
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/logger.py", line 112, in __wrapped
+    return func(*args, **kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2169, in _load_track_status_data
+    track_status = api.track_status_data(self.api_path, livedata=livedata)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/req.py", line 611, in _cached_api_request
+    data = func(api_path, **func_kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/_api.py", line 1327, in track_status_data
+    raise SessionNotAvailableError(
+    ...<2 lines>...
+    )
+fastf1._api.SessionNotAvailableError: No data for this session! If this session only finished recently, please try again in a few minutes.
+req            INFO 	No cached data found for _extended_timing_data. Loading data...
+2026-11-02 00:47:18,464 [INFO] fastf1.fastf1.req: No cached data found for _extended_timing_data. Loading data...
+_api           INFO 	Fetching timing data...
+2026-11-02 00:47:18,464 [INFO] fastf1.api: Fetching timing data...
+tokens         INFO 	Signing in to Formula 1 account...
+2026-11-02 00:47:18,468 [INFO] fastf1.f1account: Signing in to Formula 1 account...
+transport    WARNING 	Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:18,468 [WARNING] fastf1.fastf1.internals.f1account.transport: Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:18,620 [DEBUG] fastf1.fastf1.req: Falling back to https://livetiming-mirror.fastf1.dev/static/2026/2026-06-07_Monaco_Grand_Prix/2026-06-07_Race/TimingData.jsonStream
+logger      WARNING 	Failed to load timing data!
+2026-11-02 00:47:19,222 [WARNING] fastf1.fastf1.core: Failed to load timing data!
+2026-11-02 00:47:19,223 [DEBUG] fastf1.fastf1.core: Traceback for failure in lap timing data
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/logger.py", line 112, in __wrapped
+    return func(*args, **kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 1463, in _load_laps_data
+    = api._extended_timing_data(self.api_path, livedata=livedata)
+      ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/req.py", line 611, in _cached_api_request
+    data = func(api_path, **func_kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/_api.py", line 199, in _extended_timing_data
+    raise SessionNotAvailableError(
+    ...<2 lines>...
+    )
+fastf1._api.SessionNotAvailableError: No data for this session! If this session only finished recently, please try again in a few minutes.
+2026-11-02 00:47:19,892 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '12'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,893 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '44'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,894 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '16'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,895 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '6'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,895 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '63'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,896 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '81'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,897 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '10'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,897 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '1'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,898 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '30'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,899 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '23'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,900 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '55'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,900 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '27'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,901 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '43'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,902 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '11'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,902 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '41'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,903 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '31'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,904 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '14'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,905 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '18'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,905 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '77'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,906 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '5'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+2026-11-02 00:47:19,908 [DEBUG] fastf1.fastf1.core: Failed to add first lap time for driver '87'
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2152, in _add_first_lap_time_from_ergast
+    self._laps.loc[
+    ^^^^^^^^^^
+AttributeError: 'Session' object has no attribute '_laps'. Did you mean: 'laps'?
+core        WARNING 	Failed to add first lap time from Ergast for drivers: ['12', '44', '16', '6', '63', '81', '10', '1', '30', '23', '55', '27', '43', '11', '41', '31', '14', '18', '77', '5', '87']
+2026-11-02 00:47:19,909 [WARNING] fastf1.fastf1.core: Failed to add first lap time from Ergast for drivers: ['12', '44', '16', '6', '63', '81', '10', '1', '30', '23', '55', '27', '43', '11', '41', '31', '14', '18', '77', '5', '87']
+req            INFO 	No cached data found for car_data. Loading data...
+2026-11-02 00:47:19,913 [INFO] fastf1.fastf1.req: No cached data found for car_data. Loading data...
+_api           INFO 	Fetching car data...
+2026-11-02 00:47:19,914 [INFO] fastf1.api: Fetching car data...
+tokens         INFO 	Signing in to Formula 1 account...
+2026-11-02 00:47:19,919 [INFO] fastf1.f1account: Signing in to Formula 1 account...
+transport    WARNING 	Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:19,919 [WARNING] fastf1.fastf1.internals.f1account.transport: Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:20,111 [DEBUG] fastf1.fastf1.req: Falling back to https://livetiming-mirror.fastf1.dev/static/2026/2026-06-07_Monaco_Grand_Prix/2026-06-07_Race/CarData.z.jsonStream
+core        WARNING 	Car telemetry data is unavailable!
+2026-11-02 00:47:20,730 [WARNING] fastf1.fastf1.core: Car telemetry data is unavailable!
+req            INFO 	No cached data found for position_data. Loading data...
+2026-11-02 00:47:20,737 [INFO] fastf1.fastf1.req: No cached data found for position_data. Loading data...
+_api           INFO 	Fetching position data...
+2026-11-02 00:47:20,738 [INFO] fastf1.api: Fetching position data...
+tokens         INFO 	Signing in to Formula 1 account...
+2026-11-02 00:47:20,744 [INFO] fastf1.f1account: Signing in to Formula 1 account...
+transport    WARNING 	Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:20,745 [WARNING] fastf1.fastf1.internals.f1account.transport: Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:20,919 [DEBUG] fastf1.fastf1.req: Falling back to https://livetiming-mirror.fastf1.dev/static/2026/2026-06-07_Monaco_Grand_Prix/2026-06-07_Race/Position.z.jsonStream
+core        WARNING 	Car position data is unavailable!
+2026-11-02 00:47:21,589 [WARNING] fastf1.fastf1.core: Car position data is unavailable!
+core        WARNING 	Failed to determine `Session.t0_date`!
+2026-11-02 00:47:21,590 [WARNING] fastf1.fastf1.core: Failed to determine `Session.t0_date`!
+req            INFO 	No cached data found for weather_data. Loading data...
+2026-11-02 00:47:21,597 [INFO] fastf1.fastf1.req: No cached data found for weather_data. Loading data...
+_api           INFO 	Fetching weather data...
+2026-11-02 00:47:21,597 [INFO] fastf1.api: Fetching weather data...
+tokens         INFO 	Signing in to Formula 1 account...
+2026-11-02 00:47:21,603 [INFO] fastf1.f1account: Signing in to Formula 1 account...
+transport    WARNING 	Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:21,604 [WARNING] fastf1.fastf1.internals.f1account.transport: Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:21,819 [DEBUG] fastf1.fastf1.req: Falling back to https://livetiming-mirror.fastf1.dev/static/2026/2026-06-07_Monaco_Grand_Prix/2026-06-07_Race/WeatherData.jsonStream
+logger      WARNING 	Failed to load weather data!
+2026-11-02 00:47:22,536 [WARNING] fastf1.fastf1.core: Failed to load weather data!
+2026-11-02 00:47:22,537 [DEBUG] fastf1.fastf1.core: Traceback for failure in weather data
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/logger.py", line 112, in __wrapped
+    return func(*args, **kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2683, in _load_weather_data
+    weather_data = api.weather_data(self.api_path, livedata=livedata)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/req.py", line 611, in _cached_api_request
+    data = func(api_path, **func_kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/_api.py", line 1677, in weather_data
+    raise SessionNotAvailableError(
+    ...<2 lines>...
+    )
+fastf1._api.SessionNotAvailableError: No data for this session! If this session only finished recently, please try again in a few minutes.
+req            INFO 	No cached data found for race_control_messages. Loading data...
+2026-11-02 00:47:22,544 [INFO] fastf1.fastf1.req: No cached data found for race_control_messages. Loading data...
+_api           INFO 	Fetching race control messages...
+2026-11-02 00:47:22,544 [INFO] fastf1.api: Fetching race control messages...
+tokens         INFO 	Signing in to Formula 1 account...
+2026-11-02 00:47:22,550 [INFO] fastf1.f1account: Signing in to Formula 1 account...
+transport    WARNING 	Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:22,551 [WARNING] fastf1.fastf1.internals.f1account.transport: Failed to authenticate with Formula 1 account, continuing without authentication: No F1 account credentials available. Set the environment variables F1_USERNAME and F1_PASSWORD.
+2026-11-02 00:47:22,705 [DEBUG] fastf1.fastf1.req: Falling back to https://livetiming-mirror.fastf1.dev/static/2026/2026-06-07_Monaco_Grand_Prix/2026-06-07_Race/RaceControlMessages.jsonStream
+logger      WARNING 	Failed to load race control messages!
+2026-11-02 00:47:23,306 [WARNING] fastf1.fastf1.core: Failed to load race control messages!
+2026-11-02 00:47:23,307 [DEBUG] fastf1.fastf1.core: Traceback for failure in race control messages
+Traceback (most recent call last):
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/logger.py", line 112, in __wrapped
+    return func(*args, **kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 2690, in _load_race_control_messages
+    race_control_messages = api.race_control_messages(self.api_path,
+                                                      livedata=livedata)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/req.py", line 611, in _cached_api_request
+    data = func(api_path, **func_kwargs)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/_api.py", line 1454, in race_control_messages
+    raise SessionNotAvailableError(
+    ...<2 lines>...
+    )
+fastf1._api.SessionNotAvailableError: No data for this session! If this session only finished recently, please try again in a few minutes.
+core           INFO 	Finished loading data for 22 drivers: ['12', '44', '6', '81', '30', '41', '10', '23', '31', '14', '5', '63', '27', '43', '11', '55', '16', '18', '1', '87', '77', '3']
+2026-11-02 00:47:23,311 [INFO] fastf1.fastf1.core: Finished loading data for 22 drivers: ['12', '44', '6', '81', '30', '41', '10', '23', '31', '14', '5', '63', '27', '43', '11', '55', '16', '18', '1', '87', '77', '3']
+[CALIBRE] Streaming session-time ordered rows into calibre.raw.fastf1.*
+2026-11-02 00:47:23,312 [ERROR] calibre.cli: FastF1 stream failed
+Traceback (most recent call last):
+  File "/mnt/e/CALIBER/run_pipeline.py", line 328, in cmd_stream_fastf1
+    result = source.stream(
+        session,
+    ...<5 lines>...
+        max_events=max_events,
+    )
+  File "/mnt/e/CALIBER/ingestion/fastf1_source.py", line 238, in stream
+    for row in self.records(session):
+               ~~~~~~~~~~~~^^^^^^^^^
+  File "/mnt/e/CALIBER/ingestion/fastf1_source.py", line 164, in records
+    laps = getattr(session, "laps", None)
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 1276, in laps
+    return self._get_property_warn_not_loaded("_laps")
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/chirag/.local/lib/python3.13/site-packages/fastf1/core.py", line 1235, in _get_property_warn_not_loaded
+    raise exceptions.DataNotLoadedError(
+    ...<2 lines>...
+    )
+fastf1.exceptions.DataNotLoadedError: The data you are trying to access has not been loaded yet. See `Session.load`
+[ERROR] FastF1 streaming failed: The data you are trying to access has not been loaded yet. See `Session.load`
+2026-11-02 00:47:23,319 [INFO] kafka.producer.kafka: Closing the Kafka producer with 2.0 secs timeout.
+2026-11-02 00:47:23,320 [INFO] kafka.conn: <BrokerConnection client_id=calibre-ingestion-service, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:23,664 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-02 00:47:23,664 [INFO] kafka.coordinator: Leaving consumer group (calibre-analytics-service-group-fastf1-monaco-stream-20261102b).
+2026-11-02 00:47:23,666 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:23,666 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:23,667 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-02 00:47:23,667 [INFO] kafka.conn: <BrokerConnection client_id=calibre-analytics-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:23,668 [INFO] calibre.analytics: AnalyticsService stopped
+2026-11-02 00:47:24,367 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-02 00:47:24,368 [INFO] kafka.coordinator: Leaving consumer group (calibre-dashboard-gateway-group-fastf1-monaco-stream-20261102b).
+2026-11-02 00:47:24,370 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:24,371 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:24,371 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-02 00:47:24,372 [INFO] calibre.dashboard: DashboardService stopped
+2026-11-02 00:47:24,416 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-02 00:47:24,417 [INFO] kafka.coordinator: Leaving consumer group (calibre-persistence-sink-group-fastf1-monaco-stream-20261102b).
+2026-11-02 00:47:24,418 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:24,419 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:24,419 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-02 00:47:24,420 [INFO] calibre.persistence: PersistenceService stopped
+2026-11-02 00:47:24,800 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-02 00:47:24,801 [INFO] kafka.coordinator: Leaving consumer group (calibre-flink-core-group-fastf1-monaco-stream-20261102b).
+2026-11-02 00:47:24,802 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:24,802 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:24,803 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-02 00:47:24,804 [INFO] calibre.flink: Flink job calibre-fastf1-monaco-stream-20261102b streaming loop terminated
+2026-11-02 00:47:24,805 [INFO] kafka.conn: <BrokerConnection client_id=flink-calibre-fastf1-monaco-stream-20261102b-producer, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:24,805 [INFO] calibre.flink: Flink job calibre-fastf1-monaco-stream-20261102b stopped
+2026-11-02 00:47:24,988 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-02 00:47:24,989 [INFO] kafka.coordinator: Leaving consumer group (calibre-agent-processor-incident-fastf1-monaco-stream-20261102b).
+2026-11-02 00:47:24,990 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:24,991 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:24,991 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-02 00:47:24,992 [INFO] calibre.processors: Processor incident_track_agent worker loop stopped
+2026-11-02 00:47:25,164 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-02 00:47:25,165 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-02 00:47:25,166 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-02 00:47:25,166 [INFO] kafka.coordinator: Leaving consumer group (calibre-agent-processor-timing-fastf1-monaco-stream-20261102b).
+2026-11-02 00:47:25,166 [INFO] kafka.coordinator: Leaving consumer group (calibre-agent-processor-vehicle-fastf1-monaco-stream-20261102b).
+2026-11-02 00:47:25,167 [INFO] kafka.coordinator: Leaving consumer group (calibre-agent-processor-system-fastf1-monaco-stream-20261102b).
+2026-11-02 00:47:25,169 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:25,169 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:25,169 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:25,170 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:25,170 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:25,170 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-02 00:47:25,171 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:25,171 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-02 00:47:25,171 [INFO] calibre.processors: Processor race_timing_session_agent worker loop stopped
+2026-11-02 00:47:25,172 [INFO] kafka.consumer.fetcher: Fetch to node 1 failed: Cancelled: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>
+2026-11-02 00:47:25,172 [INFO] calibre.processors: Processor vehicle_twin_sensor_agent worker loop stopped
+2026-11-02 00:47:25,173 [INFO] calibre.processors: Processor vehicle_electronics_system_integrity_agent worker loop stopped
+2026-11-02 00:47:25,339 [INFO] kafka.coordinator: Stopping heartbeat thread
+2026-11-02 00:47:25,340 [INFO] kafka.coordinator: Leaving consumer group (calibre-agent-processor-environment-fastf1-monaco-stream-20261102b).
+2026-11-02 00:47:25,342 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=coordinator-1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:25,342 [INFO] kafka.conn: <BrokerConnection client_id=kafka-python-2.0.6, node_id=1 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:25,343 [INFO] calibre.processors: Processor environmental_context_agent worker loop stopped
+2026-11-02 00:47:25,344 [INFO] kafka.conn: <BrokerConnection client_id=calibre-processor-worker, node_id=bootstrap-0 host=127.0.0.1:9092 <connected> [IPv4 ('127.0.0.1', 9092)]>: Closing connection. 
+2026-11-02 00:47:25,344 [INFO] calibre.processors: ProcessorWorkerService stopped

@@ -11,6 +11,10 @@ roles:
   telemetry_speed:
     required: true
     description: "Car wheel speed telemetry sample recorded at pit entry crossing"
+    input_selector:
+      feeds: [pit]
+      value_field: pit_entry_speed_kmh
+      unit: kph
     time_class_required: LAP_RELATIVE
     admissible_source_origins:
       - TRACINGINSIGHTS_TELEMETRY

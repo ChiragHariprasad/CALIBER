@@ -11,11 +11,16 @@ roles:
   telemetry_sample:
     required: true
     description: "Raw or interpolated throttle, RPM, and brake sensor telemetry sample"
-    time_class_required: LAP_RELATIVE
+    input_selector:
+      value_field: rpm
+      unit: rpm
+    time_class_required: ABSOLUTE_UTC
     admissible_source_origins:
       - TRACINGINSIGHTS_TELEMETRY
+      - OPENF1
     admissible_processing_origins:
       - telemetry_parser_family
+      - vehicle_twin_sensor_agent
     agreement:
       metric: abs_diff
       unit: rpm
@@ -79,3 +84,4 @@ explanation:
 limitations:
   - "UNMODELLED_COMMON_CAUSE: shared F1 timing upstream"
   - "DERIVED_INTERPOLATED_SENSOR_LIMITATION"
+  - "THROTTLE_BRAKE_OVERLAP_IS_AGENT_SCREENING_ONLY_NOT_A_DEC_CROSS_CORRELATION_VERDICT"

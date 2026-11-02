@@ -1,0 +1,288 @@
+{
+  "agents": [
+    {
+      "emitted_count": 0,
+      "error_count": 0,
+      "processed_count": 0,
+      "processor_id": "vehicle_twin_sensor_agent"
+    },
+    {
+      "emitted_count": 30,
+      "error_count": 0,
+      "processed_count": 30,
+      "processor_id": "incident_track_agent"
+    },
+    {
+      "emitted_count": 124,
+      "error_count": 0,
+      "processed_count": 124,
+      "processor_id": "environmental_context_agent"
+    },
+    {
+      "emitted_count": 246,
+      "error_count": 0,
+      "processed_count": 246,
+      "processor_id": "race_timing_session_agent"
+    },
+    {
+      "emitted_count": 400,
+      "error_count": 0,
+      "processed_count": 400,
+      "processor_id": "vehicle_electronics_system_integrity_agent"
+    }
+  ],
+  "agents_drained": true,
+  "apache_flink_rest": {
+    "jobs": [],
+    "overview": {
+      "flink-commit": "4105f8d",
+      "flink-version": "1.19.3",
+      "jobs-cancelled": 0,
+      "jobs-failed": 0,
+      "jobs-finished": 0,
+      "jobs-running": 0,
+      "slots-available": 2,
+      "slots-total": 2,
+      "taskmanagers": 1
+    },
+    "status": "CONNECTED"
+  },
+  "database": "data/monaco_wsl_recovery_run_07.db",
+  "dec_evaluation_invocations": 692,
+  "downstream_consumers": {
+    "analytics_findings": 6,
+    "analytics_health": {
+      "dependencies": {
+        "kafka_producer": true
+      },
+      "details": {},
+      "errors_count": 0,
+      "events_in": 1500,
+      "events_out": 1500,
+      "is_live": true,
+      "is_ready": false,
+      "last_activity_utc": "2026-11-01T16:01:35.443+00:00",
+      "name": "AnalyticsService",
+      "status": "DEGRADED",
+      "updated_at_utc": "2026-11-01T16:01:35.443+00:00"
+    },
+    "analytics_received": 1500,
+    "dashboard_received": 1500
+  },
+  "expected_agent_records": {
+    "environmental_context_agent": 62,
+    "incident_track_agent": 15,
+    "race_timing_session_agent": 123,
+    "vehicle_electronics_system_integrity_agent": 200,
+    "vehicle_twin_sensor_agent": 0
+  },
+  "expected_evidence_events": 400,
+  "finished_at_utc": "2026-11-01T16:01:48.944+00:00",
+  "flink_drained": true,
+  "flink_metrics": {
+    "active_decisions": 107,
+    "contracts_loaded": 11,
+    "dedupe_cache_entries": 400,
+    "events_malformed": 0,
+    "events_received": 800,
+    "events_routed": 594,
+    "health": {
+      "dependencies": {
+        "kafka_producer": true
+      },
+      "details": {},
+      "errors_count": 206,
+      "events_in": 594,
+      "events_out": 1782,
+      "is_live": true,
+      "is_ready": false,
+      "last_activity_utc": "2026-11-01T15:59:34.710+00:00",
+      "name": "FlinkIntegrityCore",
+      "status": "DEGRADED",
+      "updated_at_utc": "2026-11-01T15:59:34.710+00:00"
+    },
+    "identity_conflicts": 206,
+    "job_id": "monaco-monaco2026-wsl-recovery-07",
+    "overflow_events": 52,
+    "quarantined_events": 206,
+    "run_metrics": {
+      "monaco2026-wsl-recovery-07": {
+        "clock_ticks": 2,
+        "dec_evaluation_invocations": 692,
+        "duplicate_evidence_events": 194,
+        "events_received": 800,
+        "events_routed": 594,
+        "identity_conflicts": 206,
+        "verdicts_emitted": 906
+      }
+    },
+    "verdicts_emitted": 906
+  },
+  "kafka_topic_offset_deltas": {
+    "calibre.alerts": 0,
+    "calibre.analytics.metrics": 300,
+    "calibre.core.verdict_history": 906,
+    "calibre.evidence.environment": 124,
+    "calibre.evidence.incident": 30,
+    "calibre.evidence.system": 400,
+    "calibre.evidence.timing": 246,
+    "calibre.evidence.vehicle": 0,
+    "calibre.guard.clock": 2,
+    "calibre.out.analytics": 1500,
+    "calibre.out.dashboard": 1500,
+    "calibre.out.database": 1500,
+    "calibre.raw.openf1.laps": 234,
+    "calibre.raw.openf1.pit": 12,
+    "calibre.raw.openf1.rcm": 30,
+    "calibre.raw.openf1.weather": 124,
+    "calibre.side.overflow": 52,
+    "calibre.side.quarantine": 206
+  },
+  "overall_verification": "PARTIALLY VERIFIED",
+  "persisted_evidence_rows": 400,
+  "persisted_revision_rows_after_initial": 585,
+  "persisted_verdict_rows": 692,
+  "recovery_first_output_messages": 1199,
+  "recovery_first_sink_drained": true,
+  "recovery_first_snapshot": {
+    "persisted_evidence_rows": 400,
+    "persisted_verdict_hashes": 692
+  },
+  "recovery_hashes_reproducible": false,
+  "recovery_replay_records_published": 200,
+  "recovery_second_output_messages": 301,
+  "recovery_second_pass_verdict_emissions": 107,
+  "recovery_second_sink_drained": true,
+  "recovery_second_snapshot": {
+    "persisted_evidence_rows": 400,
+    "persisted_verdict_hashes": 692
+  },
+  "recovery_test_requested": true,
+  "replay_clock_processed": true,
+  "run_id": "monaco2026-wsl-recovery-07",
+  "sink_duplicate_event_deliveries": 194,
+  "sink_duplicate_verdict_deliveries": 107,
+  "source_accounting": {
+    "agents": [
+      {
+        "consumed_records": 62,
+        "emitted_records": 62,
+        "evidence_events": 124,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 124,
+        "processor_id": "environmental_context_agent"
+      },
+      {
+        "consumed_records": 15,
+        "emitted_records": 15,
+        "evidence_events": 30,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 30,
+        "processor_id": "incident_track_agent"
+      },
+      {
+        "consumed_records": 123,
+        "emitted_records": 123,
+        "evidence_events": 246,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 246,
+        "processor_id": "race_timing_session_agent"
+      },
+      {
+        "consumed_records": 200,
+        "emitted_records": 200,
+        "evidence_events": 400,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 400,
+        "processor_id": "vehicle_electronics_system_integrity_agent"
+      }
+    ],
+    "source_outcomes": {
+      "PERSISTED": 200
+    },
+    "source_outcomes_by_feed": [
+      {
+        "failed": 0,
+        "feed": "laps",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 117,
+        "source_records": 117,
+        "unaccounted": 0
+      },
+      {
+        "failed": 0,
+        "feed": "pit",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 6,
+        "source_records": 6,
+        "unaccounted": 0
+      },
+      {
+        "failed": 0,
+        "feed": "rcm",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 15,
+        "source_records": 15,
+        "unaccounted": 0
+      },
+      {
+        "failed": 0,
+        "feed": "weather",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 62,
+        "source_records": 62,
+        "unaccounted": 0
+      }
+    ]
+  },
+  "source_feed_counts": {
+    "laps": 117,
+    "pit": 6,
+    "rcm": 15,
+    "weather": 62
+  },
+  "source_publish_failures": 0,
+  "source_records_expected": 200,
+  "source_records_published": 200,
+  "started_at_utc": "2026-11-01T15:58:07.219+00:00",
+  "unique_decision_instances": 107,
+  "verdict_state_maturity_finality": [
+    [
+      "OPEN",
+      "OPEN",
+      "PROVISIONAL",
+      107
+    ],
+    [
+      "OPEN",
+      "OPEN",
+      "REVISED",
+      474
+    ],
+    [
+      "STATE_RESOLVED",
+      "OPEN",
+      "REVISED",
+      111
+    ]
+  ],
+  "verification": {
+    "apache_flink_job": "NOT VERIFIED",
+    "evidence_routing": "VERIFIED",
+    "overflow_events": 52,
+    "persistence": "VERIFIED",
+    "recovery": "NOT VERIFIED",
+    "replay_clock": "VERIFIED",
+    "source_accounting": "VERIFIED",
+    "specialist_coverage": "PARTIALLY VERIFIED",
+    "verdict_finality": "NOT VERIFIED"
+  }
+}

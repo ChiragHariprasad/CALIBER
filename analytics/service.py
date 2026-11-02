@@ -19,6 +19,7 @@ from typing import Any, Optional
 from calibre_core.contracts import FlinkOutputEnvelope, utc_now, generate_uuid
 from calibre_core.health import ComponentHealth, HealthStatus
 from calibre_core.kafka_bus import CalibreProducer, CalibreConsumer
+from calibre_core.run_scope import belongs_to_run
 from calibre_core.topics import (
     TOPIC_OUT_ANALYTICS,
     TOPIC_ANALYTICS_METRICS,
@@ -35,8 +36,10 @@ class AnalyticsService:
     def __init__(
         self,
         bootstrap_servers: Optional[str] = None,
+        run_id: Optional[str] = None,
     ) -> None:
         self.bootstrap_servers = bootstrap_servers
+        self.run_id = run_id
         self.producer = CalibreProducer(bootstrap_servers=bootstrap_servers, client_id="calibre-analytics-producer")
         self.health = ComponentHealth(name="AnalyticsService")
         self.health.set_dependency("kafka_producer", self.producer.is_connected)
@@ -54,6 +57,8 @@ class AnalyticsService:
 
     def process_analytics_envelope(self, data: dict[str, Any]) -> None:
         """Process incoming Flink-validated output event."""
+        if not belongs_to_run(data, self.run_id):
+            return
         self.total_received += 1
         now = time.time()
         self._timestamps.append(now)
@@ -134,9 +139,9 @@ class AnalyticsService:
         """Continuous consumer loop for calibre.out.analytics."""
         consumer = CalibreConsumer(
             TOPIC_OUT_ANALYTICS,
-            group_id=GROUP_ANALYTICS,
+            group_id=f"{GROUP_ANALYTICS}-{self.run_id}" if self.run_id else GROUP_ANALYTICS,
             bootstrap_servers=self.bootstrap_servers,
-            auto_offset_reset="earliest",
+            auto_offset_reset="latest" if self.run_id else "earliest",
             consumer_timeout_ms=500,
         )
 

@@ -6,6 +6,9 @@ Preserves correlation IDs, provenance, original payload, and produces versioned 
 from __future__ import annotations
 
 import logging
+from collections import OrderedDict
+import hashlib
+import json
 import sys
 from pathlib import Path
 from typing import Any, Optional
@@ -49,11 +52,23 @@ class AgentProcessorAdapter:
         self.domain = domain
         self.agent = agent_instance
         self.version = version
-        self.subscribed_feeds = subscribed_feeds or getattr(agent_instance, "handled_feeds", set())
+        # An explicit empty set means catch-all. Only None asks the wrapped
+        # agent for its own default feed list.
+        self.subscribed_feeds = (
+            set(subscribed_feeds)
+            if subscribed_feeds is not None
+            else set(getattr(agent_instance, "handled_feeds", set()))
+        )
         self.output_topic = evidence_topic(domain)
         self.processed_count = 0
         self.emitted_count = 0
         self.error_count = 0
+        self.duplicate_count = 0
+        self.identity_conflict_count = 0
+        self.agent_error_count = 0
+        self.fallback_count = 0
+        self._output_cache: OrderedDict[str, tuple[str, list[EvidenceEvent]]] = OrderedDict()
+        self._output_cache_limit = 100_000
 
     def accepts(self, envelope: RawSourceEnvelope) -> bool:
         """Determine if this processor handles the raw feed."""
@@ -71,6 +86,18 @@ class AgentProcessorAdapter:
         results: list[EvidenceEvent] = []
 
         try:
+            payload_json = json.dumps(envelope.payload, sort_keys=True, ensure_ascii=False, default=str)
+            payload_digest = envelope.payload_sha256 or hashlib.sha256(payload_json.encode("utf-8")).hexdigest()
+            cached = self._output_cache.get(envelope.event_id)
+            if cached:
+                if cached[0] != payload_digest:
+                    self.identity_conflict_count += 1
+                    raise ValueError("raw event ID was reused with a different payload hash")
+                self.duplicate_count += 1
+                self._output_cache.move_to_end(envelope.event_id)
+                self.emitted_count += len(cached[1])
+                return list(cached[1])
+
             # Map RawSourceEnvelope to existing SourceRecord
             payload_dict = envelope.payload if isinstance(envelope.payload, dict) else {"data": envelope.payload}
             source_rec = SourceRecord(
@@ -82,6 +109,13 @@ class AgentProcessorAdapter:
                 source_timestamp=envelope.source_time.get("value"),
                 session_time_s=envelope.session_time_s,
                 time_semantics=envelope.source_time.get("semantics", "unknown"),
+                driver_number=str((envelope.scope or {}).get("driver_number") or payload_dict.get("driver_number") or "") or None,
+                driver_code=str(payload_dict.get("driver_code") or payload_dict.get("name_acronym") or "") or None,
+                lap_number=(
+                    int((envelope.scope or {}).get("lap_number") or payload_dict.get("lap_number") or payload_dict.get("lap"))
+                    if (envelope.scope or {}).get("lap_number") or payload_dict.get("lap_number") or payload_dict.get("lap") is not None
+                    else None
+                ),
                 received_at=envelope.received_at_utc,
                 provenance={
                     "run_id": envelope.run_id,
@@ -97,14 +131,35 @@ class AgentProcessorAdapter:
                 try:
                     agent_output = self.agent.process(source_rec)
                 except Exception as exc:
-                    logger.warning("Underlying agent %s raised exception: %s. Using pass-through.", self.processor_id, exc)
+                    self.agent_error_count += 1
+                    raise RuntimeError(f"underlying agent {self.processor_id} failed") from exc
 
             if agent_output and agent_output.events:
                 # Transform each agent event to standard contract EvidenceEvent
-                for ev in agent_output.events:
+                for output_index, ev in enumerate(agent_output.events):
                     ev_dict = ev.to_dict() if hasattr(ev, "to_dict") else ev
+                    # A single source message can yield several driver scoped
+                    # findings of the same event type. Include a stable digest
+                    # and output position so those siblings do not reuse one
+                    # evidence identity. The same ordered output on replay keeps
+                    # the same IDs.
+                    output_fingerprint = hashlib.sha256(
+                        json.dumps(
+                            ev_dict,
+                            sort_keys=True,
+                            ensure_ascii=False,
+                            separators=(",", ":"),
+                            default=str,
+                        ).encode("utf-8")
+                    ).hexdigest()
                     evidence_event = EvidenceEvent(
-                        event_id=stable_id(self.processor_id, envelope.event_id, ev_dict.get("event_type")),
+                        event_id=stable_id(
+                            self.processor_id,
+                            envelope.event_id,
+                            ev_dict.get("event_type"),
+                            output_index,
+                            output_fingerprint,
+                        ),
                         correlation_id=envelope.correlation_id,
                         event_type=ev_dict.get("event_type", f"{self.domain}_evidence"),
                         domain=self.domain,
@@ -131,6 +186,8 @@ class AgentProcessorAdapter:
                             "provider": envelope.provider,
                             "feed": envelope.feed,
                             "raw_event_id": envelope.event_id,
+                            "run_id": envelope.run_id,
+                            "source_mode": envelope.source_mode,
                             "correlation_id": envelope.correlation_id,
                             "processor": self.processor_id,
                         },
@@ -166,6 +223,8 @@ class AgentProcessorAdapter:
                         "provider": envelope.provider,
                         "feed": envelope.feed,
                         "raw_event_id": envelope.event_id,
+                        "run_id": envelope.run_id,
+                        "source_mode": envelope.source_mode,
                         "correlation_id": envelope.correlation_id,
                         "processor": self.processor_id,
                     },
@@ -173,6 +232,9 @@ class AgentProcessorAdapter:
                 results.append(evidence_event)
 
             self.emitted_count += len(results)
+            self._output_cache[envelope.event_id] = (payload_digest, list(results))
+            if len(self._output_cache) > self._output_cache_limit:
+                self._output_cache.popitem(last=False)
             return results
 
         except Exception as exc:

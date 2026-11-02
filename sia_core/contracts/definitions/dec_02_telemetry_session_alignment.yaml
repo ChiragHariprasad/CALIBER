@@ -11,6 +11,9 @@ roles:
   telemetry_sample:
     required: true
     description: "Car high-frequency telemetry sample containing lap-relative elapsed time"
+    input_selector:
+      value_field: time
+      unit: s
     time_class_required: LAP_RELATIVE
     admissible_source_origins:
       - TRACINGINSIGHTS_TELEMETRY

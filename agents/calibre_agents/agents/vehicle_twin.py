@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any
+from datetime import datetime
 
 from ..models import AgentOutput, SourceRecord
 from .base import BaseAgent
@@ -25,7 +26,7 @@ class VehicleTwinSensorAgent(BaseAgent):
 
     agent_id = "vehicle_twin_sensor_assurance"
     agent_version = "0.1.0"
-    handled_feeds = {"tel", "_tel", "telemetry"}
+    handled_feeds = {"tel", "_tel", "telemetry", "car_data"}
 
     def accepts(self, record: SourceRecord) -> bool:
         return record.feed in self.handled_feeds or record.feed.endswith("_tel")
@@ -44,7 +45,7 @@ class VehicleTwinSensorAgent(BaseAgent):
             record.context.get("year"),
             record.context.get("meeting"),
             record.context.get("session"),
-            record.driver_code,
+            record.driver_number or record.driver_code,
             record.lap_number,
         )
         findings = []
@@ -53,12 +54,19 @@ class VehicleTwinSensorAgent(BaseAgent):
         fields = {
             "speed_kmh": number(row.get("speed")),
             "rpm": number(row.get("rpm")),
-            "gear": number(row.get("gear")),
+            "gear": number(row.get("n_gear", row.get("gear"))),
             "throttle": number(row.get("throttle")),
             "brake": number(row.get("brake")),
+            "brake_signal_semantics": row.get("brake_signal_semantics", "SOURCE_REPORTED_BRAKE_VALUE"),
             "drs": number(row.get("drs")),
+            "drs_signal_semantics": row.get("drs_signal_semantics", "SOURCE_REPORTED_DRS_VALUE"),
             "distance_m": number(row.get("distance")),
-            "lap_relative_time_s": number(row.get("time")),
+            # FastF1 reports both set-relative `Time` and session-wide `SessionTime`.
+            # Prefer the session clock for cross-sample checks and preserve the
+            # original set-relative coordinate separately.
+            "lap_relative_time_s": number(row.get("lap_relative_time_s", row.get("time"))),
+            "session_time_s": number(row.get("SessionTime", row.get("session_time_s"))),
+            "source_timestamp": row.get("date"),
             "x_interpolated_m": number(row.get("x")),
             "y_interpolated_m": number(row.get("y")),
             "z_interpolated_m": number(row.get("z")),
@@ -67,14 +75,15 @@ class VehicleTwinSensorAgent(BaseAgent):
             "acc_z_derived_mps2": number(row.get("acc_z")),
         }
 
-        for field, lower, upper in (
+        range_checks = [
             ("speed_kmh", 0, self.max_speed_kmh),
             ("rpm", 0, 20000),
             ("gear", 0, 8),
             ("throttle", 0, 100),
-            ("brake", 0, 1),
-            ("drs", 0, 1),
-        ):
+            ("brake", 0, 100),
+            ("drs", 0, 14 if fields["drs_signal_semantics"] == "F1_DRS_STATUS_CODE" else 1),
+        ]
+        for field, lower, upper in range_checks:
             value = fields[field]
             if value is not None and not (lower <= value <= upper):
                 findings.append(self.finding(
@@ -86,8 +95,38 @@ class VehicleTwinSensorAgent(BaseAgent):
                     limitations=["Configured bounds are screening thresholds, not FIA homologation limits."],
                 ))
 
-        sample_time = fields["lap_relative_time_s"]
+        sample_time = fields["session_time_s"] if fields["session_time_s"] is not None else fields["lap_relative_time_s"]
+        if sample_time is None and fields["source_timestamp"]:
+            try:
+                sample_time = datetime.fromisoformat(str(fields["source_timestamp"]).replace("Z", "+00:00")).timestamp()
+            except ValueError:
+                sample_time = None
         previous = self._last.get(key)
+        if (
+            fields["throttle"] is not None
+            and fields["brake"] is not None
+            and 0 <= fields["throttle"] <= 100
+            and 0 <= fields["brake"] <= 100
+        ):
+            brake_applied = (
+                bool(fields["brake"])
+                if fields["brake_signal_semantics"] == "BOOLEAN_BRAKE_APPLIED"
+                else fields["brake"] >= 20
+            )
+            if fields["throttle"] >= 20 and brake_applied:
+                findings.append(self.finding(
+                    record,
+                    code="THROTTLE_BRAKE_OVERLAP_SCREEN",
+                    severity="WARN",
+                    message="Throttle and brake are simultaneously reported above the configured screening thresholds.",
+                    details={
+                        "throttle_percent": fields["throttle"],
+                        "brake_value": fields["brake"],
+                        "brake_semantics": fields["brake_signal_semantics"],
+                        "threshold_percent": 20,
+                    },
+                    limitations=["This is a cross-channel screening signal; it does not establish a sensor fault or driver input error."],
+                ))
         if sample_time is not None and previous is not None:
             delta_t = sample_time - previous["time"]
             if delta_t <= 0:

@@ -1,0 +1,198 @@
+{
+  "agents": [
+    {
+      "emitted_count": 0,
+      "error_count": 0,
+      "processed_count": 0,
+      "processor_id": "vehicle_twin_sensor_agent"
+    },
+    {
+      "emitted_count": 538,
+      "error_count": 0,
+      "processed_count": 538,
+      "processor_id": "incident_track_agent"
+    },
+    {
+      "emitted_count": 416,
+      "error_count": 0,
+      "processed_count": 416,
+      "processor_id": "environmental_context_agent"
+    },
+    {
+      "emitted_count": 3076,
+      "error_count": 0,
+      "processed_count": 3076,
+      "processor_id": "race_timing_session_agent"
+    },
+    {
+      "emitted_count": 4030,
+      "error_count": 0,
+      "processed_count": 4030,
+      "processor_id": "vehicle_electronics_system_integrity_agent"
+    }
+  ],
+  "agents_drained": true,
+  "database": "data/monaco_wsl_recovery_run_02.db",
+  "expected_agent_records": {
+    "environmental_context_agent": 208,
+    "incident_track_agent": 269,
+    "race_timing_session_agent": 1538,
+    "vehicle_electronics_system_integrity_agent": 2015,
+    "vehicle_twin_sensor_agent": 0
+  },
+  "expected_evidence_events": 4030,
+  "finished_at_utc": "2026-11-01T15:31:43.714+00:00",
+  "flink_drained": true,
+  "flink_metrics": {
+    "active_decisions": 112,
+    "contracts_loaded": 11,
+    "events_malformed": 0,
+    "events_received": 8060,
+    "events_routed": 8060,
+    "health": {
+      "dependencies": {
+        "kafka_producer": true
+      },
+      "details": {},
+      "errors_count": 0,
+      "events_in": 8060,
+      "events_out": 24180,
+      "is_live": true,
+      "is_ready": false,
+      "last_activity_utc": "2026-11-01T15:29:33.004+00:00",
+      "name": "FlinkIntegrityCore",
+      "status": "DEGRADED",
+      "updated_at_utc": "2026-11-01T15:29:33.004+00:00"
+    },
+    "job_id": "monaco-monaco2026-wsl-recovery-02",
+    "overflow_events": 3270,
+    "quarantined_events": 0,
+    "run_metrics": {
+      "monaco2026-wsl-recovery-02": {
+        "clock_ticks": 2,
+        "events_received": 8060,
+        "events_routed": 8060,
+        "verdicts_emitted": 16558
+      }
+    },
+    "verdicts_emitted": 16558
+  },
+  "kafka_topic_offset_deltas": {
+    "calibre.core.verdict_history": 16558,
+    "calibre.evidence.environment": 416,
+    "calibre.evidence.incident": 538,
+    "calibre.evidence.system": 4030,
+    "calibre.evidence.timing": 3076,
+    "calibre.evidence.vehicle": 0,
+    "calibre.guard.clock": 2,
+    "calibre.out.database": 24618,
+    "calibre.raw.openf1.laps": 2904,
+    "calibre.raw.openf1.pit": 172,
+    "calibre.raw.openf1.rcm": 538,
+    "calibre.raw.openf1.weather": 416
+  },
+  "persisted_evidence_rows": 0,
+  "persisted_verdict_rows": 0,
+  "recovery_first_sink_drained": false,
+  "recovery_hashes_reproducible": true,
+  "recovery_replay_records_published": 2015,
+  "recovery_second_sink_drained": false,
+  "recovery_test_requested": true,
+  "replay_clock_processed": true,
+  "run_id": "monaco2026-wsl-recovery-02",
+  "sink_duplicate_event_deliveries": 0,
+  "sink_duplicate_verdict_deliveries": 0,
+  "source_accounting": {
+    "agents": [
+      {
+        "consumed_records": 208,
+        "emitted_records": 208,
+        "evidence_events": 416,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 416,
+        "processor_id": "environmental_context_agent"
+      },
+      {
+        "consumed_records": 269,
+        "emitted_records": 269,
+        "evidence_events": 538,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 538,
+        "processor_id": "incident_track_agent"
+      },
+      {
+        "consumed_records": 1538,
+        "emitted_records": 1538,
+        "evidence_events": 3076,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 3076,
+        "processor_id": "race_timing_session_agent"
+      },
+      {
+        "consumed_records": 2015,
+        "emitted_records": 2015,
+        "evidence_events": 4030,
+        "failed_records": 0,
+        "filtered_records": 0,
+        "processing_attempts": 4030,
+        "processor_id": "vehicle_electronics_system_integrity_agent"
+      }
+    ],
+    "source_outcomes": {
+      "UNACCOUNTED": 2015
+    },
+    "source_outcomes_by_feed": [
+      {
+        "failed": 0,
+        "feed": "laps",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 0,
+        "source_records": 1452,
+        "unaccounted": 1452
+      },
+      {
+        "failed": 0,
+        "feed": "pit",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 0,
+        "source_records": 86,
+        "unaccounted": 86
+      },
+      {
+        "failed": 0,
+        "feed": "rcm",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 0,
+        "source_records": 269,
+        "unaccounted": 269
+      },
+      {
+        "failed": 0,
+        "feed": "weather",
+        "filtered": 0,
+        "pending": 0,
+        "persisted": 0,
+        "source_records": 208,
+        "unaccounted": 208
+      }
+    ]
+  },
+  "source_feed_counts": {
+    "laps": 1452,
+    "pit": 86,
+    "rcm": 269,
+    "weather": 208
+  },
+  "source_publish_failures": 0,
+  "source_records_expected": 2015,
+  "source_records_published": 2015,
+  "started_at_utc": "2026-11-01T15:18:18.056+00:00",
+  "unique_decision_instances": 0,
+  "verdict_state_maturity_finality": []
+}

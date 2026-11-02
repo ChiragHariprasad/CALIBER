@@ -5,6 +5,7 @@ Consumes from calibre.out.database and stores events idempotently with audit his
 from __future__ import annotations
 
 import json
+import hashlib
 import logging
 import sqlite3
 import threading
@@ -15,7 +16,8 @@ from typing import Any, Optional
 from calibre_core.contracts import FlinkOutputEnvelope, utc_now, generate_uuid
 from calibre_core.health import ComponentHealth, HealthStatus
 from calibre_core.kafka_bus import CalibreConsumer
-from calibre_core.topics import TOPIC_OUT_DATABASE, GROUP_PERSISTENCE
+from calibre_core.run_scope import belongs_to_run
+from calibre_core.topics import TOPIC_OUT_DATABASE, TOPIC_SIDE_OVERFLOW, GROUP_PERSISTENCE
 
 logger = logging.getLogger("calibre.persistence")
 
@@ -29,14 +31,22 @@ class PersistenceService:
         self,
         db_path: Optional[Path] = None,
         bootstrap_servers: Optional[str] = None,
+        run_id: Optional[str] = None,
     ) -> None:
         self.db_path = db_path or DEFAULT_DB_PATH
         self.bootstrap_servers = bootstrap_servers
+        self.run_id = run_id
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.health = ComponentHealth(name="PersistenceService")
         self.is_running = False
         self._worker_thread: Optional[threading.Thread] = None
         self.persisted_count = 0
+        self.duplicate_event_deliveries = 0
+        self.duplicate_verdict_deliveries = 0
+        self.scope_filtered_count = 0
+        self.persisted_overflow_count = 0
+        self.persisted_overflow_deliveries = 0
+        self.duplicate_overflow_deliveries = 0
         self._init_db()
 
     def _get_connection(self) -> sqlite3.Connection:
@@ -94,6 +104,24 @@ class PersistenceService:
                 )
             """)
             cursor.execute("""
+                CREATE TABLE IF NOT EXISTS persisted_overflows (
+                    overflow_id TEXT PRIMARY KEY,
+                    run_id TEXT,
+                    decision_instance_id TEXT NOT NULL,
+                    reason_code TEXT NOT NULL,
+                    source_topic TEXT,
+                    source_partition INTEGER,
+                    source_offset INTEGER,
+                    kafka_topic TEXT NOT NULL,
+                    kafka_partition INTEGER NOT NULL,
+                    kafka_offset INTEGER NOT NULL,
+                    payload_json TEXT NOT NULL,
+                    persisted_at_utc TEXT NOT NULL,
+                    UNIQUE(kafka_topic, kafka_partition, kafka_offset)
+                )
+            """)
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_overflow_run_reason ON persisted_overflows(run_id, reason_code)")
+            cursor.execute("""
                 CREATE INDEX IF NOT EXISTS idx_verdict_decision 
                 ON persisted_verdicts (decision_instance_id, revision_number)
             """)
@@ -109,8 +137,46 @@ class PersistenceService:
         self.health.set_dependency("database", True)
         logger.info("Initialized persistence database at %s", self.db_path)
 
+    def persist_overflow(self, data: dict[str, Any], metadata: dict[str, Any]) -> bool:
+        """Store structured SIA bounded-search records idempotently."""
+        if not belongs_to_run(data, self.run_id):
+            self.scope_filtered_count += 1
+            return True
+        identity = "|".join(str(data.get(key, "")) for key in (
+            "run_id", "decision_instance_id", "correlation_id", "reason_code", "verdict_hash"
+        ))
+        overflow_id = hashlib.sha256(identity.encode("utf-8")).hexdigest()
+        try:
+            with self._get_connection() as conn:
+                cursor = conn.execute("""
+                    INSERT OR IGNORE INTO persisted_overflows
+                    (overflow_id, run_id, decision_instance_id, reason_code, source_topic,
+                     source_partition, source_offset, kafka_topic, kafka_partition, kafka_offset,
+                     payload_json, persisted_at_utc)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    overflow_id, data.get("run_id"), data.get("decision_instance_id"),
+                    data.get("reason_code", "UNKNOWN"), data.get("source_topic"),
+                    data.get("source_partition"), data.get("source_offset"),
+                    metadata.get("topic", TOPIC_SIDE_OVERFLOW), int(metadata.get("partition", 0)),
+                    int(metadata.get("offset", -1)), json.dumps(data, sort_keys=True, separators=(",", ":")), utc_now(),
+                ))
+                inserted = cursor.rowcount > 0
+            if inserted:
+                self.persisted_overflow_count += 1
+            else:
+                self.duplicate_overflow_deliveries += 1
+            self.persisted_overflow_deliveries += 1
+            return True
+        except Exception as exc:
+            logger.error("Failed to persist SIA overflow record: %s", exc)
+            return False
+
     def persist_envelope(self, data: dict[str, Any]) -> bool:
         """Store a single FlinkOutputEnvelope or IntegrityAssessmentVerdict idempotently."""
+        if not belongs_to_run(data, self.run_id):
+            self.scope_filtered_count += 1
+            return True
         if isinstance(data, dict) and "verdict_hash" in data:
             return self.persist_verdict(data)
 
@@ -122,6 +188,10 @@ class PersistenceService:
 
             with self._get_connection() as conn:
                 cursor = conn.cursor()
+                already_seen = cursor.execute(
+                    "SELECT 1 FROM persisted_events WHERE envelope_id = ?",
+                    (envelope.envelope_id,),
+                ).fetchone() is not None
                 cursor.execute("""
                     INSERT INTO persisted_events (
                         envelope_id, correlation_id, event_id, event_type, domain,
@@ -146,6 +216,9 @@ class PersistenceService:
                     utc_now(),
                 ))
                 conn.commit()
+
+            if already_seen:
+                self.duplicate_event_deliveries += 1
 
             self.persisted_count += 1
             self.health.record_activity(events_in=1, events_out=1)
@@ -184,6 +257,10 @@ class PersistenceService:
 
             with self._get_connection() as conn:
                 cursor = conn.cursor()
+                already_seen = cursor.execute(
+                    "SELECT 1 FROM persisted_verdicts WHERE verdict_hash = ?",
+                    (verdict_hash,),
+                ).fetchone() is not None
                 cursor.execute("""
                     INSERT INTO persisted_verdicts (
                         verdict_hash, decision_instance_id, contract_id, contract_version,
@@ -201,6 +278,9 @@ class PersistenceService:
                     json.dumps(verdict, default=str), now_str
                 ))
                 conn.commit()
+
+            if already_seen:
+                self.duplicate_verdict_deliveries += 1
 
             self.persisted_count += 1
             self.health.record_activity(events_in=1, events_out=1)
@@ -243,6 +323,30 @@ class PersistenceService:
             if row:
                 return json.loads(row["verdict_json"])
             return None
+
+    def query_verdict_bitemporal(
+        self,
+        decision_instance_id: str,
+        valid_as_of: str,
+        knowledge_as_of: str,
+        clock_domain: str,
+    ) -> Optional[dict[str, Any]]:
+        """Return the latest revision valid at one time and known at another."""
+        with self._get_connection() as conn:
+            row = conn.execute(
+                """
+                SELECT verdict_json
+                FROM persisted_verdicts
+                WHERE decision_instance_id = ?
+                  AND valid_time_utc <= ?
+                  AND knowledge_time_utc <= ?
+                  AND lease_clock_domain = ?
+                ORDER BY knowledge_time_utc DESC, revision_number DESC
+                LIMIT 1
+                """,
+                (decision_instance_id, valid_as_of, knowledge_as_of, clock_domain),
+            ).fetchone()
+            return json.loads(row["verdict_json"]) if row else None
 
     def query_revision_chain(self, leaf_verdict_hash: str) -> list[dict[str, Any]]:
         """Traverse previous_verdict_hash pointers from leaf back to initial revision."""
@@ -304,19 +408,22 @@ class PersistenceService:
     def _stream_loop(self) -> None:
         """Background consumer loop for calibre.out.database."""
         consumer = CalibreConsumer(
-            TOPIC_OUT_DATABASE,
-            group_id=GROUP_PERSISTENCE,
+            TOPIC_OUT_DATABASE, TOPIC_SIDE_OVERFLOW,
+            group_id=f"{GROUP_PERSISTENCE}-{self.run_id}" if self.run_id else GROUP_PERSISTENCE,
             bootstrap_servers=self.bootstrap_servers,
-            auto_offset_reset="earliest",
+            auto_offset_reset="latest" if self.run_id else "earliest",
             consumer_timeout_ms=500,
         )
 
         logger.info("Persistence service consuming from %s", TOPIC_OUT_DATABASE)
         while self.is_running:
             try:
-                messages = consumer.poll_messages(timeout_ms=500, max_records=20)
-                for msg in messages:
-                    self.persist_envelope(msg)
+                records = consumer.poll_records(timeout_ms=500, max_records=20)
+                for msg, metadata in records:
+                    if metadata.get("topic") == TOPIC_SIDE_OVERFLOW:
+                        self.persist_overflow(msg, metadata)
+                    else:
+                        self.persist_envelope(msg)
             except Exception as exc:
                 logger.error("Persistence consumer loop error: %s", exc)
                 time.sleep(1.0)

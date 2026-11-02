@@ -93,6 +93,35 @@ class NormalizationTests(unittest.TestCase):
 
 
 class AgentTests(unittest.TestCase):
+    def test_vehicle_agent_reads_openf1_channel_names_and_documented_percent_units(self):
+        agent = VehicleTwinSensorAgent()
+        record = SourceRecord(
+            record_id="openf1-1", provider="OPENF1", feed="car_data",
+            payload={"date": "2026-06-07T13:00:00Z", "speed": 280, "rpm": 12000,
+                     "n_gear": 8, "throttle": 70, "brake": 100},
+            driver_number="1", lap_number=1,
+        )
+        output = agent.process(record)
+        ev = output.events[0].to_dict()
+        codes = {finding["code"] for finding in ev["findings"]}
+        self.assertNotIn("TELEMETRY_VALUE_OUT_OF_CONFIGURED_RANGE", codes)
+        self.assertIn("THROTTLE_BRAKE_OVERLAP_SCREEN", codes)
+        self.assertEqual(ev["evidence"]["gear"], 8)
+        self.assertEqual(ev["evidence"]["source_timestamp"], "2026-06-07T13:00:00Z")
+
+    def test_vehicle_agent_flags_openf1_out_of_range_raw_value_without_clamping(self):
+        agent = VehicleTwinSensorAgent()
+        record = SourceRecord(
+            record_id="openf1-2", provider="OPENF1", feed="car_data",
+            payload={"date": "2026-06-07T13:00:00Z", "throttle": 104, "brake": 104, "n_gear": 8},
+            driver_number="1", lap_number=1,
+        )
+        event = agent.process(record).events[0].to_dict()
+        self.assertEqual(event["evidence"]["throttle"], 104)
+        self.assertEqual(event["evidence"]["brake"], 104)
+        self.assertEqual(sum(f["code"] == "TELEMETRY_VALUE_OUT_OF_CONFIGURED_RANGE" for f in event["findings"]), 2)
+        self.assertNotIn("THROTTLE_BRAKE_OVERLAP_SCREEN", {f["code"] for f in event["findings"]})
+
     def test_vehicle_agent_maps_sample_and_labels_derived_fields(self):
         agent = VehicleTwinSensorAgent()
         record = SourceRecord(

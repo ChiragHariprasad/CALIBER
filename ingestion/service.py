@@ -1,18 +1,19 @@
 """CALIBRE Source Ingestion Service.
 
 Integrates:
-1. Pitwall F1 Live SignalR client (unauthenticated live timing feeds)
-2. TracingInsights historical session files
-3. Local source log replay fixtures
-4. Deterministic Mock Producer
+1. Unauthenticated F1 SignalR live topics
+2. FastF1 historical session records streamed through Kafka
+3. Local JSONL diagnostic replay fixtures
 """
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import logging
 import os
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Optional
 
@@ -35,7 +36,7 @@ class IngestionService:
     def __init__(
         self,
         bootstrap_servers: Optional[str] = None,
-        source_mode: str = "REPLAY",  # LIVE, REPLAY, MOCK
+        source_mode: str = "LIVE",
         run_id: Optional[str] = None,
     ) -> None:
         self.source_mode = source_mode
@@ -44,6 +45,24 @@ class IngestionService:
         self.health = ComponentHealth(name="IngestionService")
         self.health.set_dependency("kafka", self.producer.is_connected)
         self.is_running = False
+        self.published_count = 0
+        self.publish_failed_count = 0
+        self.live_topic_counts: dict[str, int] = {}
+        self.live_last_message_utc: Optional[str] = None
+        self._live_client = None
+        self._live_loop: Optional[asyncio.AbstractEventLoop] = None
+
+    @staticmethod
+    def _normalize_absolute_utc(value: Any) -> Optional[str]:
+        if not isinstance(value, str):
+            return None
+        try:
+            parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError:
+            return None
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
     def publish_raw_event(
         self,
@@ -59,7 +78,13 @@ class IngestionService:
         """Standard pipeline method: ingest, wrap, validate, and publish to Kafka raw topic."""
         corr_id = correlation_id or generate_uuid()
         now_str = utc_now()
-        event_id = stable_id(provider, feed, corr_id, now_str)
+        # Keep the identity stable across a retry of the same run/correlation.
+        # The source payload hash prevents accidental ID reuse if a caller
+        # incorrectly reuses a correlation ID for different content.
+        payload_hash = hashlib.sha256(
+            json.dumps(payload, sort_keys=True, ensure_ascii=False, default=str).encode("utf-8")
+        ).hexdigest()
+        event_id = stable_id(provider, feed, corr_id, payload_hash)
 
         envelope = RawSourceEnvelope(
             event_id=event_id,
@@ -78,6 +103,13 @@ class IngestionService:
             payload=payload,
             session=session_info or {},
             scope=scope or {},
+            event_time_utc=self._normalize_absolute_utc(source_timestamp)
+            if time_semantics == "ABSOLUTE_UTC" else None,
+            session_time_s=(
+                float(source_timestamp)
+                if time_semantics == "SESSION_ELAPSED_SECONDS" and isinstance(source_timestamp, (int, float))
+                else None
+            ),
         )
 
         topic = raw_topic(provider, feed)
@@ -85,8 +117,10 @@ class IngestionService:
         
         self.health.record_activity(events_in=1, events_out=1 if success else 0, error=not success)
         if success:
+            self.published_count += 1
             logger.debug("Ingested & published to %s: %s (corr=%s)", topic, event_id, corr_id)
         else:
+            self.publish_failed_count += 1
             logger.error("Failed to publish raw event %s to %s", event_id, topic)
 
         return envelope
@@ -140,13 +174,23 @@ class IngestionService:
             from signalr_client import F1LiveClient
             from topics import FREE_TOPICS
         except ImportError as exc:
-            logger.error("Pitwall SignalR client not importable: %s", exc)
-            self.health.set_dependency("pitwall", False)
+            logger.error("Bundled F1 SignalR client not importable: %s", exc)
+            self.health.set_dependency("f1_signalr", False)
             return
 
-        selected_topics = topics or list(FREE_TOPICS)
-        logger.info("Starting Pitwall live ingestion for %d topics", len(selected_topics))
-        self.health.set_dependency("pitwall", True)
+        requested_topics = topics or list(FREE_TOPICS)
+        selected_topics = [topic for topic in requested_topics if topic in FREE_TOPICS]
+        excluded_topics = sorted(set(requested_topics) - set(selected_topics))
+        if excluded_topics:
+            logger.warning("Skipping auth-gated or unknown SignalR topics (no F1 TV token configured): %s", excluded_topics)
+        if not selected_topics:
+            logger.error("No unauthenticated F1 SignalR topics remain after topic validation.")
+            self.health.set_dependency("f1_signalr", False)
+            return
+        logger.info("Starting unauthenticated F1 SignalR ingestion for %d topics", len(selected_topics))
+        logger.info("Auth-gated CarData.z and Position.z are excluded; live vehicle telemetry is unavailable without an allowed public feed.")
+        # A loaded client module is not evidence that the upstream is connected.
+        self.health.set_dependency("f1_signalr", False)
         self.is_running = True
 
         client = F1LiveClient(
@@ -155,15 +199,23 @@ class IngestionService:
             auto_decompress=True,
             auto_merge=True,
         )
+        self._live_client = client
+        self._live_loop = asyncio.get_running_loop()
 
         def on_signalr_event(topic: str, data: Any, timestamp: str) -> None:
+            semantics = "ABSOLUTE_UTC" if self._normalize_absolute_utc(timestamp) else "UNKNOWN"
+            before_failed = self.publish_failed_count
             self.publish_raw_event(
-                provider="PITWALL",
+                provider="F1_SIGNALR",
                 feed=topic.lower(),
                 payload=data,
                 source_timestamp=timestamp,
-                time_semantics="PROVIDER_TIMESTAMP",
+                time_semantics=semantics,
             )
+            if self.publish_failed_count == before_failed:
+                self.live_topic_counts[topic] = self.live_topic_counts.get(topic, 0) + 1
+                self.live_last_message_utc = utc_now()
+                self.health.set_dependency("f1_signalr", True)
 
         client.on_all(on_signalr_event)
         try:
@@ -172,7 +224,20 @@ class IngestionService:
             pass
         finally:
             await client.stop()
+            self._live_client = None
+            self._live_loop = None
             self.is_running = False
+            self.health.set_dependency("f1_signalr", False)
+
+    def stop_live(self, timeout: float = 5.0) -> None:
+        """Request a graceful SignalR stop from another thread."""
+        if self._live_client is None or self._live_loop is None:
+            return
+        future = asyncio.run_coroutine_threadsafe(self._live_client.stop(), self._live_loop)
+        try:
+            future.result(timeout=timeout)
+        except Exception:
+            logger.exception("Timed out stopping F1 SignalR client")
 
     def close(self) -> None:
         self.producer.close()

@@ -11,6 +11,10 @@ roles:
   lap_record:
     required: true
     description: "Official lap duration and completion event from TracingInsights session laptimes"
+    input_selector:
+      feeds: [laps, laptimes, session_laptimes]
+      value_field: lap_duration
+      unit: s
     time_class_required: SESSION_ELAPSED
     admissible_source_origins:
       - TRACINGINSIGHTS_LAPS

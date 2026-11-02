@@ -147,6 +147,7 @@ class CalibreConsumer:
         auto_offset_reset: str = "latest",
         enable_auto_commit: bool = True,
         consumer_timeout_ms: int = 1000,
+        topic_pattern: Optional[str] = None,
     ) -> None:
         self.topics = list(topics)
         self.group_id = group_id
@@ -154,6 +155,7 @@ class CalibreConsumer:
         self.auto_offset_reset = auto_offset_reset
         self.enable_auto_commit = enable_auto_commit
         self.consumer_timeout_ms = consumer_timeout_ms
+        self.topic_pattern = topic_pattern
         self._consumer: Optional[RealKafkaConsumer] = None
         self.messages_received = 0
         self.errors_count = 0
@@ -175,10 +177,13 @@ class CalibreConsumer:
             if self.group_id:
                 kwargs["group_id"] = self.group_id
 
+            consumer_topics = () if self.topic_pattern else tuple(self.topics)
             self._consumer = RealKafkaConsumer(
-                *self.topics,
+                *consumer_topics,
                 **kwargs,
             )
+            if self.topic_pattern:
+                self._consumer.subscribe(pattern=self.topic_pattern)
             logger.info(
                 "CalibreConsumer (group=%s) connected to %s on topics: %s",
                 self.group_id, self.bootstrap_servers, self.topics
@@ -193,12 +198,24 @@ class CalibreConsumer:
 
     def poll_messages(self, timeout_ms: int = 2000, max_records: int = 100) -> list[dict[str, Any]]:
         """Poll for next batch of decoded message payloads with retry until timeout."""
+        return [message for message, _metadata in self.poll_records(timeout_ms, max_records)]
+
+    def poll_records(
+        self,
+        timeout_ms: int = 2000,
+        max_records: int = 100,
+    ) -> list[tuple[dict[str, Any], dict[str, Any]]]:
+        """Poll decoded payloads with Kafka topic, partition, offset, and headers.
+
+        The ordinary ``poll_messages`` interface stays payload-only. Audit sinks
+        can retain transport coordinates without injecting them into evidence.
+        """
         if self._consumer is None:
             self._connect()
             if self._consumer is None:
                 return []
 
-        results: list[dict[str, Any]] = []
+        results: list[tuple[dict[str, Any], dict[str, Any]]] = []
         deadline = time.time() + (timeout_ms / 1000.0)
 
         while time.time() < deadline:
@@ -209,17 +226,22 @@ class CalibreConsumer:
                         for record in records:
                             self.messages_received += 1
                             msg_val = record.value
+                            headers_dict = {}
+                            if record.headers:
+                                for k, v in record.headers:
+                                    headers_dict[k] = v.decode("utf-8", errors="replace") if v else None
                             if isinstance(msg_val, dict):
-                                # Extract headers if present
-                                headers_dict = {}
-                                if record.headers:
-                                    for k, v in record.headers:
-                                        headers_dict[k] = v.decode("utf-8", errors="replace") if v else None
                                 if "correlation_id" in headers_dict and "correlation_id" not in msg_val:
                                     msg_val["correlation_id"] = headers_dict["correlation_id"]
-                                results.append(msg_val)
+                                message = msg_val
                             else:
-                                results.append({"raw_value": msg_val})
+                                message = {"raw_value": msg_val}
+                            results.append((message, {
+                                "topic": record.topic,
+                                "partition": record.partition,
+                                "offset": record.offset,
+                                "headers": headers_dict,
+                            }))
                     if results:
                         break
             except Exception as exc:

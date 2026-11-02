@@ -74,7 +74,11 @@ def poll_matching_message(
     )
     tp = TopicPartition(topic, 0)
     consumer.assign([tp])
-    consumer.seek_to_beginning(tp)
+    beginning = consumer.beginning_offsets([tp])[tp]
+    end = consumer.end_offsets([tp])[tp]
+    # Keep integration probes bounded on brokers containing many historical
+    # replays; the producer publishes the sought correlation at the topic tail.
+    consumer.seek(tp, max(beginning, end - 100))
 
     deadline = time.time() + timeout_sec
     while time.time() < deadline:
@@ -95,7 +99,11 @@ class FlinkStreamingIntegrationTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.producer = CalibreProducer(bootstrap_servers=BOOTSTRAP_SERVERS, client_id="test-flink-producer")
-        cls.flink_job = CalibreFlinkJob(bootstrap_servers=BOOTSTRAP_SERVERS, job_id="test-flink-suite")
+        cls.flink_job = CalibreFlinkJob(
+            bootstrap_servers=BOOTSTRAP_SERVERS,
+            job_id="test-flink-suite",
+            consumer_group_id=f"test-flink-suite-{uuid.uuid4().hex[:8]}",
+        )
         cls.flink_job.start()
         time.sleep(1.5)
 
@@ -305,7 +313,7 @@ class FlinkStreamingIntegrationTest(unittest.TestCase):
             },
             produced_at_utc=now_str,
             source_refs=[f"raw-{corr_id}"],
-            scope={"season": 2026, "session_type": "Race", "driver_number": 44},
+            scope={"season": 2026, "session_id": "Race", "session_type": "Race", "driver_number": 44, "lap_number": 1},
             time={
                 "source_value": now_str,
                 "source_semantics": "ABSOLUTE_UTC",
@@ -336,6 +344,38 @@ class FlinkStreamingIntegrationTest(unittest.TestCase):
         self.assertIn("resolution_maturity", v_msg)
         self.assertIn("finality_status", v_msg)
         logger.info("Test 05 PASSED: SIA streaming verdict successfully emitted (hash=%s, state=%s).", v_msg.get("verdict_hash")[:8], v_msg.get("integrity_state"))
+
+    def test_05b_replayed_evidence_is_routed_without_re_evaluation(self) -> None:
+        """Duplicate evidence must reach sinks without creating new DEC revisions."""
+        run_id = f"trace-dedupe-{uuid.uuid4().hex[:8]}"
+        corr_id = f"{run_id}:source:1"
+        now_str = utc_now()
+        evidence = {
+            "event_id": stable_id("EV-REPLAY", corr_id),
+            "correlation_id": corr_id,
+            "event_type": "vehicle_telemetry_sample_assessed",
+            "domain": "vehicle",
+            "producer": {"processor_id": "vehicle_twin_agent", "version": "1.0.0"},
+            "produced_at_utc": now_str,
+            "source_refs": [f"raw-{corr_id}"],
+            "scope": {"session_id": "replay-test", "session_instance_id": f"replay-test#{run_id}", "run_id": run_id, "driver_number": 44, "lap_number": 1},
+            "time": {"source_value": now_str, "source_semantics": "ABSOLUTE_UTC", "event_time_utc": now_str},
+            "value_origin": "SOURCE_REPORTED",
+            "evidence": {"observations": {"speed": 320.5, "rpm": 12000}},
+            "findings": [],
+            "limitations": [],
+            "session": {},
+            "provenance": {"provider": "MOCK", "feed": "vehicle", "raw_event_id": f"raw-{corr_id}", "run_id": run_id},
+        }
+        self.flink_job.process_evidence_envelope(evidence)
+        emitted_after_first = self.flink_job.run_metrics[run_id]["verdicts_emitted"]
+        self.flink_job.process_evidence_envelope({**evidence, "produced_at_utc": utc_now()})
+        self.assertEqual(self.flink_job.run_metrics[run_id]["duplicate_evidence_events"], 1)
+        self.assertEqual(self.flink_job.run_metrics[run_id]["verdicts_emitted"], emitted_after_first)
+
+        conflicting = {**evidence, "evidence": {"observations": {"speed": 321.0, "rpm": 12000}}}
+        self.assertIsNone(self.flink_job.process_evidence_envelope(conflicting))
+        self.assertEqual(self.flink_job.run_metrics[run_id]["identity_conflicts"], 1)
 
     def test_06_sia_guard_fact_driven_degradation(self) -> None:
         """Verify supervisor GuardFact triggers decision integrity re-evaluation and degradation."""
@@ -388,7 +428,7 @@ class FlinkStreamingIntegrationTest(unittest.TestCase):
         corr_id = f"trace-quarantine-{uuid.uuid4().hex[:8]}"
         now_str = utc_now()
         # Create an artificial final state in decision_states
-        key = "Race|99|lap_time_consistency"
+        key = "Race|Race|99|lap1|lap_time_consistency"
         self.flink_job.decision_states[key] = {
             "input_stream": [],
             "latest_verdict": {
@@ -412,7 +452,7 @@ class FlinkStreamingIntegrationTest(unittest.TestCase):
             },
             produced_at_utc=now_str,
             source_refs=[f"raw-{corr_id}"],
-            scope={"season": 2026, "session_type": "Race", "driver_number": 99},
+            scope={"season": 2026, "session_id": "Race", "session_type": "Race", "driver_number": 99, "lap_number": 1},
             time={"source_value": 100.0, "source_semantics": "SESSION_ELAPSED_SECONDS", "source_unit": "seconds"},
             value_origin="SOURCE_REPORTED",
             evidence={"observations": {"speed": 300.0}},

@@ -11,6 +11,9 @@ roles:
   pit_entry:
     required: true
     description: "Pit lane entry beam crossing detection and timestamp"
+    input_selector:
+      value_field: pit_entry_timestamp
+      unit: s
     time_class_required: SESSION_ELAPSED
     admissible_source_origins:
       - PITWALL_TIMINGDATA
@@ -42,6 +45,9 @@ roles:
   pit_exit:
     required: true
     description: "Pit lane exit beam crossing detection and timestamp"
+    input_selector:
+      value_field: pit_exit_timestamp
+      unit: s
     time_class_required: SESSION_ELAPSED
     admissible_source_origins:
       - PITWALL_TIMINGDATA

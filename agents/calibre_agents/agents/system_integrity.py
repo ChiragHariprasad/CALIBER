@@ -101,7 +101,6 @@ class VehicleElectronicsSystemIntegrityAgent(BaseAgent):
 
         evidence = {
             "feed": feed,
-            "record_count_seen": count,
             "payload_sha256": digest,
             "payload_size_bytes_estimate": len(payload_text.encode("utf-8")),
             "source_timestamp_present": record.source_timestamp is not None,
